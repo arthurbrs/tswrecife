@@ -102,27 +102,22 @@ function boostCard(teamId) {
   window.setTimeout(() => card.classList.remove("is-boosted"), 900);
 }
 
-function progressTemplate(team) {
-  return STAGES.map((label, index) => {
-    const status = index < team.stage ? "is-done" : index === team.stage ? "is-current" : "";
-    return `<li class="${status}"><span>${index + 1}</span>${sanitizeText(label)}</li>`;
-  }).join("");
+function teamTokenTemplate(team) {
+  return `<article class="team-token" data-team-id="${team.id}">${sanitizeText(team.name)}</article>`;
 }
 
-function teamCardTemplate(team) {
-  const safeName = sanitizeText(team.name);
+function stageColumnTemplate(label, index, teams) {
+  const stageTeams = teams.filter((team) => team.stage === index);
 
   return `
-    <article class="team-card" data-team-id="${team.id}">
-      <p class="stage-count">Etapa ${team.stage + 1} de ${STAGES.length}</p>
-      <h2 class="team-name">${safeName}</h2>
-      <div class="team-level">
-        <span>Agora</span>
-        <strong data-stage-for="${team.id}">${sanitizeText(stageLabel(team.stage))}</strong>
+    <article class="stage-column">
+      <header class="stage-header">
+        <span>${index + 1}</span>
+        <h2>${sanitizeText(label)}</h2>
+      </header>
+      <div class="stage-lane">
+        ${stageTeams.length ? stageTeams.map(teamTokenTemplate).join("") : '<p class="stage-empty">Aguardando equipe</p>'}
       </div>
-      <ol class="stage-track" data-track-for="${team.id}">
-        ${progressTemplate(team)}
-      </ol>
     </article>
   `;
 }
@@ -132,38 +127,23 @@ function renderDisplay(teams) {
   const empty = document.getElementById("empty-display");
   if (!grid) return;
 
-  grid.innerHTML = teams.map(teamCardTemplate).join("");
+  grid.innerHTML = STAGES.map((label, index) => stageColumnTemplate(label, index, teams)).join("");
   empty?.classList.toggle("is-visible", teams.length === 0);
-}
-
-function updateDisplayStage(team) {
-  const current = state.teams.get(team.id);
-  const stageNode = document.querySelector(`[data-stage-for="${CSS.escape(team.id)}"]`);
-  const trackNode = document.querySelector(`[data-track-for="${CSS.escape(team.id)}"]`);
-
-  if (!stageNode || !trackNode) {
-    return false;
-  }
-
-  if (current && team.stage > current.stage) {
-    fireLevelConfetti();
-    boostCard(team.id);
-  }
-
-  stageNode.textContent = stageLabel(team.stage);
-  trackNode.innerHTML = progressTemplate(team);
-  return true;
 }
 
 async function syncDisplay() {
   const teams = (await fetchTeams()).map(normalizeTeam);
   let needsRender = teams.length !== state.teams.size;
+  const boostedTeamIds = [];
 
   for (const team of teams) {
     const current = state.teams.get(team.id);
-    if (!current || current.name !== team.name) {
+    if (!current || current.name !== team.name || current.stage !== team.stage) {
       needsRender = true;
-      break;
+    }
+
+    if (current && team.stage > current.stage) {
+      boostedTeamIds.push(team.id);
     }
   }
 
@@ -172,8 +152,18 @@ async function syncDisplay() {
   }
 
   for (const team of teams) {
-    updateDisplayStage(team);
     state.teams.set(team.id, team);
+  }
+
+  for (const knownTeamId of Array.from(state.teams.keys())) {
+    if (!teams.some((team) => team.id === knownTeamId)) {
+      state.teams.delete(knownTeamId);
+    }
+  }
+
+  if (boostedTeamIds.length) {
+    fireLevelConfetti();
+    boostedTeamIds.forEach(boostCard);
   }
 }
 
@@ -192,10 +182,7 @@ function initializePusher() {
     const stage = Number(payload.stage ?? payload.newLevel ?? payload.level ?? 0);
     if (!teamId) return;
 
-    const previous = state.teams.get(teamId);
-    const next = { ...(previous || { id: teamId, name: "Equipe" }), stage };
-    updateDisplayStage(next);
-    state.teams.set(teamId, next);
+    syncDisplay();
   });
 }
 
@@ -234,6 +221,7 @@ function adminItemTemplate(team) {
         </select>
       </label>
       <button class="ghost-button" type="button" data-edit-name="${team.id}">Editar nome</button>
+      <button class="danger-button" type="button" data-remove-team="${team.id}">Remover</button>
     </li>
   `;
 }
@@ -326,6 +314,26 @@ async function editTeamName(teamId) {
   }
 }
 
+async function removeTeam(teamId) {
+  const teams = (await fetchTeams()).map(normalizeTeam);
+  const team = teams.find((item) => item.id === teamId);
+  const confirmed = window.confirm(`Remover a equipe "${team?.name || "selecionada"}"?`);
+
+  if (!confirmed) return;
+
+  try {
+    await requestJson("/api/team-delete", {
+      method: "POST",
+      body: JSON.stringify({ teamId }),
+    });
+
+    setAdminMessage("Equipe removida.");
+    await renderAdmin();
+  } catch (error) {
+    setAdminMessage(error.message, true);
+  }
+}
+
 async function bootAdmin() {
   const form = document.getElementById("team-form");
   const refresh = document.getElementById("refresh-admin");
@@ -339,9 +347,16 @@ async function bootAdmin() {
     updateStage(select.dataset.stageSelect, select.value, select);
   });
   list?.addEventListener("click", (event) => {
-    const button = event.target.closest("[data-edit-name]");
-    if (!button) return;
-    editTeamName(button.dataset.editName);
+    const editButton = event.target.closest("[data-edit-name]");
+    const removeButton = event.target.closest("[data-remove-team]");
+
+    if (editButton) {
+      editTeamName(editButton.dataset.editName);
+    }
+
+    if (removeButton) {
+      removeTeam(removeButton.dataset.removeTeam);
+    }
   });
 
   try {

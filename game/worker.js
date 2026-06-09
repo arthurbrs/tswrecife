@@ -11,6 +11,7 @@ Rotas principais:
 - POST /api/teams      cadastra uma equipe.
 - POST /api/stage      move a equipe para uma etapa especifica.
 - POST /api/team-name  edita o nome da equipe.
+- POST /api/team-delete remove uma equipe.
 */
 
 const TEAMS_KEY = "placar-game:teams";
@@ -139,6 +140,26 @@ async function handleApi(request, env) {
     await writeTeams(env, teams);
 
     return json({ success: true, team, teams });
+  }
+
+  if (path === "/api/team-delete" && request.method === "POST") {
+    const body = await request.json().catch(() => null);
+    const teamId = String(body?.teamId || body?.id || "").trim();
+
+    if (!teamId) {
+      return json({ error: "Informe o teamId." }, 400);
+    }
+
+    const teams = await readTeams(env);
+    const nextTeams = teams.filter((item) => String(item.id) !== teamId);
+
+    if (nextTeams.length === teams.length) {
+      return json({ error: "Equipe nao encontrada." }, 404);
+    }
+
+    await writeTeams(env, nextTeams);
+
+    return json({ success: true, teams: nextTeams });
   }
 
   if ((path === "/api/level-up" || path === "/api/trigger-levelup") && request.method === "POST") {
