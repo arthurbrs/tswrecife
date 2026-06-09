@@ -99,7 +99,7 @@ function fireConfettiBurst(origin, particleCount = 80) {
 function fireLevelFireworks() {
   if (typeof confetti !== "function") return;
 
-  const duration = 3600;
+  const duration = 5600;
   const end = Date.now() + duration;
 
   fireConfettiBurst({ x: 0.12, y: 0.72 }, 110);
@@ -143,7 +143,7 @@ function showLevelCelebration(team) {
   window.setTimeout(() => {
     overlay.classList.remove("is-active");
     overlay.setAttribute("aria-hidden", "true");
-  }, 3300);
+  }, 5600);
 }
 
 function celebrateLevelUp(team) {

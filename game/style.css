@@ -239,11 +239,11 @@ h2 {
 }
 
 .level-celebration.is-active {
-  animation: celebration-layer 3300ms ease both;
+  animation: celebration-layer 5600ms ease both;
 }
 
 .level-celebration.is-active::before {
-  animation: celebration-glow 3300ms ease both;
+  animation: celebration-glow 5600ms ease both;
 }
 
 .celebration-panel {
@@ -309,7 +309,7 @@ h2 {
     opacity: 1;
     transform: scale(1);
   }
-  78% {
+  84% {
     opacity: 1;
     transform: scale(1);
   }
@@ -325,7 +325,7 @@ h2 {
     opacity: 0;
   }
   20%,
-  76% {
+  84% {
     opacity: 1;
   }
 }
