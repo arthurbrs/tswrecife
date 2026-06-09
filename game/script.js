@@ -66,7 +66,8 @@ function createParticles() {
   const container = document.getElementById("particles-container");
   if (!container) return;
 
-  const colors = ["#00e5ff", "#ff2d7a", "#4dff88", "#ffd166"];
+  // Nova paleta de cores para as partículas de fundo
+  const colors = ["#F36F21", "#00B2A9", "#FFC72C", "#E21836"];
 
   for (let index = 0; index < 46; index += 1) {
     const particle = document.createElement("span");
@@ -94,7 +95,8 @@ function fireConfettiBurst(origin, particleCount = 80) {
     decay: 0.91,
     scalar: 1.08,
     origin,
-    colors: ["#00e5ff", "#ff2d7a", "#4dff88", "#ffd166", "#ffffff"],
+    // Nova paleta de cores para os confetes de level up
+    colors: ["#F36F21", "#00B2A9", "#FFC72C", "#E21836", "#ffffff"],
   });
 }
 
