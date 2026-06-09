@@ -3,13 +3,13 @@
 // ==========================================
 const PUSHER_APP_KEY = '715f24c522c36b942eee';
 const PUSHER_CLUSTER = 'sa1';
-const WORKER_URL = 'https://tswrecife.arthursec.workers.dev'; // SEM BARRA NO FINAL
 
-// Função utilitária para buscar equipes da API (Worker)
+// MUDANÇA VITAL: Usando caminho relativo. 
+// O site sempre vai achar a API, não importa o domínio.
 async function fetchTeamsFromAPI() {
     try {
-        const response = await fetch(`${WORKER_URL}/api/teams`);
-        if (!response.ok) throw new Error('Falha ao buscar equipes');
+        const response = await fetch('/api/teams');
+        if (!response.ok) throw new Error('Falha na resposta da API');
         return await response.json();
     } catch (e) {
         console.error("Erro ao carregar equipes:", e);
@@ -21,14 +21,13 @@ async function fetchTeamsFromAPI() {
 // TELA DE EXIBIÇÃO (INDEX.HTML)
 // ==========================================
 if (document.getElementById('display-page')) {
-    
     function createParticles() {
         const container = document.getElementById('particles-container');
         for (let i = 0; i < 30; i++) {
             const particle = document.createElement('div');
             particle.classList.add('particle');
             const size = Math.random() * 5 + 2;
-            particle.style.width = `px`;
+            particle.style.width = `${size}px`;
             particle.style.height = `px`;
             particle.style.left = `${Math.random() * 100}vw`;
             particle.style.animationDuration = `${Math.random() * 10 + 5}s`;
@@ -62,7 +61,7 @@ if (document.getElementById('display-page')) {
             const levelSpan = document.getElementById(`level-${data.teamId}`);
             if (levelSpan) {
                 levelSpan.innerText = data.newLevel;
-                triggerConfetti();
+                confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 }, colors: ['#00f0ff', '#ff0055', '#ffffff'] });
 
                 const card = document.getElementById(`card-${data.teamId}`);
                 card.style.transform = "scale(1.1)";
@@ -77,15 +76,6 @@ if (document.getElementById('display-page')) {
         });
     }
 
-    function triggerConfetti() {
-        confetti({
-            particleCount: 150,
-            spread: 90,
-            origin: { y: 0.6 },
-            colors: ['#00f0ff', '#ff0055', '#ffffff']
-        });
-    }
-
     createParticles();
     renderScoreboard();
     initializePusher();
@@ -95,7 +85,6 @@ if (document.getElementById('display-page')) {
 // TELA DE ADMIN (ADMIN.HTML)
 // ==========================================
 if (document.getElementById('admin-page')) {
-
     async function renderAdminList() {
         const teams = await fetchTeamsFromAPI();
         const list = document.getElementById('admin-teams-list');
@@ -114,56 +103,46 @@ if (document.getElementById('admin-page')) {
     }
 
     const addTeamForm = document.getElementById('add-team-form');
-    addTeamForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const name = document.getElementById('team-name').value;
-        const newTeam = {
-            id: 'team_' + Date.now(),
-            name: name,
-            level: 1
-        };
+    if (addTeamForm) {
+        addTeamForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('team-name').value;
+            const newTeam = { id: 'team_' + Date.now(), name: name, level: 1 };
 
-        try {
-            const response = await fetch(`/api/teams`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newTeam)
-            });
-
-            if (!response.ok) {
-                const err = await response.json();
-                console.error("Erro da API:", err);
-                alert("Erro ao cadastrar equipe. Verifique o console.");
-                return;
+            try {
+                // Requisição sem domínio fixo
+                await fetch('/api/teams', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newTeam)
+                });
+                addTeamForm.reset();
+                await renderAdminList();
+            } catch (error) {
+                console.error("Erro ao salvar:", error);
+                alert("Erro de conexão com a API.");
             }
-            
-            addTeamForm.reset();
-            await renderAdminList();
-        } catch (error) {
-            console.error("Falha de rede ao tentar cadastrar:", error);
-            alert("Erro de conexão com o banco de dados.");
-        }
-    });
+        });
+    }
 
     async function triggerLevelUp(teamId, teamName) {
         const spanLvl = document.getElementById(`admin-lvl-`);
         if(spanLvl) spanLvl.innerText = parseInt(spanLvl.innerText) + 1;
 
         try {
-            const response = await fetch(`/api/trigger-levelup`, {
+            // Requisição sem domínio fixo
+            const response = await fetch('/api/trigger-levelup', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ teamId, teamName })
             });
 
             if (!response.ok) {
-                console.error('Falha na API:', await response.text());
                 if(spanLvl) spanLvl.innerText = parseInt(spanLvl.innerText) - 1;
-                alert('Erro ao processar o Level UP.');
+                alert('Erro ao processar o Level UP no servidor.');
             }
         } catch (error) {
-            console.error('Erro de conexão:', error);
+            console.error('Erro:', error);
             if(spanLvl) spanLvl.innerText = parseInt(spanLvl.innerText) - 1;
         }
     }

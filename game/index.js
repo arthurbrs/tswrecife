@@ -3,12 +3,6 @@ const PUSHER_KEY = "715f24c522c36b942eee";
 const PUSHER_SECRET = "baa039ebd06abdfc0587";
 const PUSHER_CLUSTER = "sa1";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
-};
-
 async function getMD5(message) {
   const encoder = new TextEncoder();
   const data = encoder.encode(message);
@@ -29,20 +23,29 @@ async function getHMAC(secret, message) {
 
 export default {
   async fetch(request, env) {
-    if (request.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
-    
     const url = new URL(request.url);
-    const path = url.pathname.endsWith('/') && url.pathname.length > 1 
-      ? url.pathname.slice(0, -1) 
-      : url.pathname;
+    
+    // Tratamento de CORS para evitar bloqueios do navegador
+    if (request.method === "OPTIONS") {
+      return new Response(null, {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type",
+        }
+      });
+    }
 
     // ==========================================
-    // LÓGICA DE BACKEND (Rotas da API)
+    // BACKEND (API)
+    // Se a URL contém /api/, roda o código do banco de dados
     // ==========================================
-    if (path.startsWith("/api/")) {
+    if (url.pathname.startsWith('/api/')) {
+      const path = url.pathname.endsWith('/') ? url.pathname.slice(0, -1) : url.pathname;
+
       if (path === "/api/teams" && request.method === "GET") {
         const teamsData = await env.KV.get("placar_teams");
-        return new Response(teamsData || "[]", { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+        return new Response(teamsData || "[]", { headers: { "Content-Type": "application/json" } });
       }
 
       if (path === "/api/teams" && request.method === "POST") {
@@ -52,9 +55,9 @@ export default {
           const teams = currentData ? JSON.parse(currentData) : [];
           teams.push(newTeam);
           await env.KV.put("placar_teams", JSON.stringify(teams));
-          return new Response(JSON.stringify({ success: true, teams }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+          return new Response(JSON.stringify({ success: true, teams }), { headers: { "Content-Type": "application/json" } });
         } catch (error) {
-          return new Response(JSON.stringify({ error: error.message }), { status: 500, headers: corsHeaders });
+          return new Response(JSON.stringify({ error: error.message }), { status: 500 });
         }
       }
 
@@ -72,7 +75,7 @@ export default {
             updatedLevel = teams[teamIndex].level;
             await env.KV.put("placar_teams", JSON.stringify(teams));
           } else {
-            return new Response(JSON.stringify({ error: "Equipe não encontrada." }), { status: 404, headers: corsHeaders });
+            return new Response(JSON.stringify({ error: "Equipe não encontrada." }), { status: 404 });
           }
 
           const pusherData = JSON.stringify({ teamId, teamName, newLevel: updatedLevel });
@@ -88,24 +91,18 @@ export default {
           const pusherResponse = await fetch(pusherEndpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: pusherPayload });
           if (!pusherResponse.ok) throw new Error(`Pusher erro: ${await pusherResponse.text()}`);
 
-          return new Response(JSON.stringify({ success: true, newLevel: updatedLevel }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+          return new Response(JSON.stringify({ success: true, newLevel: updatedLevel }), { status: 200, headers: { "Content-Type": "application/json" } });
         } catch (error) {
-          return new Response(JSON.stringify({ success: false, error: error.message }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+          return new Response(JSON.stringify({ success: false, error: error.message }), { status: 500, headers: { "Content-Type": "application/json" } });
         }
       }
-      
-      // Se for /api/ mas a rota não existir
-      return new Response(JSON.stringify({ error: "Not Found API", rota: path }), { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: "Rota API invalida" }), { status: 404 });
     }
 
     // ==========================================
-    // LÓGICA DE FRONTEND (Servir o Site)
+    // FRONTEND (HTML/CSS/JS)
+    // Se a URL não for /api/, ele entrega os arquivos da pasta public
     // ==========================================
-    // Se a rota não começar com /api/, o Worker entrega o site direto da pasta public
-    try {
-      return await env.ASSETS.fetch(request);
-    } catch (e) {
-      return new Response("Arquivo do site nao encontrado", { status: 404 });
-    }
+    return env.ASSETS.fetch(request);
   }
 };
