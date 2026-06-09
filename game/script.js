@@ -45,11 +45,9 @@ if (document.getElementById('display-page')) {
             const card = document.createElement('div');
             card.className = 'team-card';
             card.id = `card-${team.id}`;
+            // Renderização sem a logo
             card.innerHTML = `
-                <div class="logo-container">
-                    <img src="${team.logo}" alt="Logo ${team.name}">
-                </div>
-                <h2 class="team-name">${team.name}</h2>
+                <h2 class="team-name" style="font-size: 2rem; margin-top: 1rem;">${team.name}</h2>
                 <div class="team-level">LVL <span id="level-${team.id}">${team.level}</span></div>
             `;
             grid.appendChild(card);
@@ -58,7 +56,7 @@ if (document.getElementById('display-page')) {
 
     function initializePusher() {
         const pusher = new Pusher(PUSHER_APP_KEY, { cluster: PUSHER_CLUSTER });
-        const channel = pusher.subscribe('placar-game'); // Corrigido para o mesmo canal do Worker
+        const channel = pusher.subscribe('placar-game');
 
         channel.bind('update-level', function(data) {
             const levelSpan = document.getElementById(`level-${data.teamId}`);
@@ -74,7 +72,6 @@ if (document.getElementById('display-page')) {
                     card.style.borderColor = "#2a2d3e";
                 }, 1000);
             } else {
-                // Se o time for novo e não estava renderizado, atualiza o placar inteiro
                 renderScoreboard();
             }
         });
@@ -106,9 +103,9 @@ if (document.getElementById('admin-page')) {
 
         teams.forEach(team => {
             const li = document.createElement('li');
+            // Renderização sem a logo
             li.innerHTML = `
                 <div class="team-info">
-                    <img src="${team.logo}" alt="Logo">
                     <span><strong>${team.name}</strong> - Lvl: <span id="admin-lvl-${team.id}">${team.level}</span></span>
                 </div>
                 <button class="btn-level-up" onclick="triggerLevelUp('${team.id}', '${team.name}')">UP LEVEL 🚀</button>
@@ -122,16 +119,14 @@ if (document.getElementById('admin-page')) {
         e.preventDefault();
         
         const name = document.getElementById('team-name').value;
-        const logo = document.getElementById('team-logo').value;
         
+        // Objeto simplificado sem a propriedade "logo"
         const newTeam = {
             id: 'team_' + Date.now(),
             name: name,
-            logo: logo,
             level: 1
         };
 
-        // Envia o novo time para ser salvo no KV do Worker
         await fetch(`/api/teams`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -143,7 +138,6 @@ if (document.getElementById('admin-page')) {
     });
 
     async function triggerLevelUp(teamId, teamName) {
-        // UI Otimista: Atualiza o nível no Admin na mesma hora
         const spanLvl = document.getElementById(`admin-lvl-`);
         if(spanLvl) spanLvl.innerText = parseInt(spanLvl.innerText) + 1;
 
@@ -156,7 +150,6 @@ if (document.getElementById('admin-page')) {
 
             if (!response.ok) {
                 console.error('Falha na API:', await response.text());
-                // Reverte se houver erro
                 if(spanLvl) spanLvl.innerText = parseInt(spanLvl.innerText) - 1;
                 alert('Erro ao processar o Level UP no banco de dados.');
             }
