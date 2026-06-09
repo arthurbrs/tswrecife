@@ -1,5 +1,5 @@
-const app_key = "COLE_SUA_PUSHER_APP_KEY_AQUI";
-const cluster = "COLE_SEU_PUSHER_CLUSTER_AQUI";
+const app_key = "715f24c522c36b942eee";
+const cluster = "sa1";
 const WORKER_URL = "";
 const POLL_INTERVAL_MS = 1500;
 
