@@ -67,7 +67,7 @@ function createParticles() {
   if (!container) return;
 
   // Nova paleta de cores para as partículas de fundo
-  const colors = ["#F36F21", "#00B2A9", "#FFC72C", "#E21836"];
+  const colors = ["#00a8ff", "#ff6b00", "#ffb833", "#4dabf7"];
 
   for (let index = 0; index < 46; index += 1) {
     const particle = document.createElement("span");
@@ -96,7 +96,7 @@ function fireConfettiBurst(origin, particleCount = 80) {
     scalar: 1.08,
     origin,
     // Nova paleta de cores para os confetes de level up
-    colors: ["#F36F21", "#00B2A9", "#FFC72C", "#E21836", "#ffffff"],
+    colors: ["#00a8ff", "#ff6b00", "#ffb833", "#4dabf7", "#ffffff"],
   });
 }
 
@@ -389,14 +389,14 @@ function setAdminMessage(message, isError = false) {
   const node = document.getElementById("admin-message");
   if (!node) return;
   node.textContent = message;
-  node.style.color = isError ? "var(--pink)" : "var(--green)";
+  node.style.color = isError ? "var(--orange)" : "var(--light-blue)";
 }
 
 function setAuthMessage(message, isError = false) {
   const node = document.getElementById("auth-message");
   if (!node) return;
   node.textContent = message;
-  node.style.color = isError ? "var(--pink)" : "var(--green)";
+  node.style.color = isError ? "var(--orange)" : "var(--light-blue)";
 }
 
 function showAdminContent(isAuthenticated) {

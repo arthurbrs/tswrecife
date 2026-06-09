@@ -5,10 +5,10 @@
   --line: #2b3045;
   --text: #f6f8ff;
   --muted: #9ca6c8;
-  --cyan: #00e5ff;
-  --green: #4dff88;
-  --pink: #ff2d7a;
-  --yellow: #ffd166;
+  --blue: #00a8ff;
+  --light-blue: #4dabf7;
+  --orange: #ff6b00;
+  --gold: #ffb833;
   --shadow: 0 24px 80px rgba(0, 0, 0, 0.48);
 }
 
@@ -28,8 +28,8 @@ body {
   font-family: Inter, "Segoe UI", Arial, sans-serif;
   letter-spacing: 0;
   background:
-    radial-gradient(circle at 16% 12%, rgba(0, 229, 255, 0.18), transparent 30%),
-    radial-gradient(circle at 82% 18%, rgba(255, 45, 122, 0.16), transparent 28%),
+    radial-gradient(circle at 16% 12%, rgba(0, 168, 255, 0.18), transparent 30%),
+    radial-gradient(circle at 82% 18%, rgba(255, 107, 0, 0.16), transparent 28%),
     linear-gradient(135deg, #07080d 0%, #101321 52%, #080910 100%);
   overflow-x: hidden;
 }
@@ -78,7 +78,7 @@ button {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 0 18px rgba(255, 122, 24, 0.28));
+  filter: drop-shadow(0 0 18px rgba(255, 107, 0, 0.28));
 }
 
 .site-footer {
@@ -89,7 +89,7 @@ button {
 
 .eyebrow {
   margin: 0 0 10px;
-  color: var(--green);
+  color: var(--light-blue);
   font-size: 0.82rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -106,17 +106,17 @@ h1 {
   font-size: clamp(2.5rem, 7vw, 6rem);
   line-height: 0.95;
   text-transform: uppercase;
-  text-shadow: 0 0 26px rgba(0, 229, 255, 0.42);
+  text-shadow: 0 0 26px rgba(0, 168, 255, 0.42);
 }
 
 h1 span {
-  color: var(--pink);
-  text-shadow: 0 0 28px rgba(255, 45, 122, 0.55);
+  color: var(--orange);
+  text-shadow: 0 0 28px rgba(255, 107, 0, 0.55);
 }
 
 h2 {
   margin-bottom: 18px;
-  color: var(--cyan);
+  color: var(--blue);
   font-size: 1.05rem;
   text-transform: uppercase;
 }
@@ -131,7 +131,7 @@ h2 {
 .stage-column {
   min-height: 420px;
   padding: 12px;
-  border: 1px solid rgba(0, 229, 255, 0.22);
+  border: 1px solid rgba(0, 168, 255, 0.22);
   border-radius: 8px;
   background: linear-gradient(180deg, rgba(23, 26, 40, 0.92), rgba(12, 14, 23, 0.94));
   box-shadow: var(--shadow);
@@ -150,9 +150,9 @@ h2 {
   height: 34px;
   color: var(--bg);
   border-radius: 999px;
-  background: var(--cyan);
+  background: var(--blue);
   font-weight: 950;
-  box-shadow: 0 0 18px rgba(0, 229, 255, 0.34);
+  box-shadow: 0 0 18px rgba(0, 168, 255, 0.34);
 }
 
 .stage-header h2 {
@@ -182,10 +182,10 @@ h2 {
   display: grid;
   place-items: center;
   color: var(--text);
-  border: 1px solid rgba(255, 209, 102, 0.28);
+  border: 1px solid rgba(255, 184, 51, 0.28);
   border-radius: 8px;
-  background: rgba(255, 209, 102, 0.12);
-  box-shadow: 0 0 18px rgba(255, 209, 102, 0.1);
+  background: rgba(255, 184, 51, 0.12);
+  box-shadow: 0 0 18px rgba(255, 184, 51, 0.1);
   font-weight: 950;
   text-align: center;
   overflow-wrap: anywhere;
@@ -194,8 +194,8 @@ h2 {
 
 .team-token.is-boosted {
   animation: token-level-up 2400ms ease both;
-  border-color: var(--pink);
-  box-shadow: 0 0 30px rgba(255, 45, 122, 0.28);
+  border-color: var(--orange);
+  box-shadow: 0 0 30px rgba(255, 107, 0, 0.28);
 }
 
 @keyframes token-level-up {
@@ -204,11 +204,11 @@ h2 {
   }
   18% {
     transform: translateY(-10px) scale(1.08);
-    background: rgba(255, 45, 122, 0.22);
+    background: rgba(255, 107, 0, 0.22);
   }
   42% {
     transform: translateY(-4px) scale(1.04);
-    background: rgba(255, 209, 102, 0.18);
+    background: rgba(255, 184, 51, 0.18);
   }
   100% {
     transform: translateY(0) scale(1);
@@ -232,9 +232,9 @@ h2 {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 50% 45%, rgba(255, 209, 102, 0.28), transparent 26%),
-    radial-gradient(circle at 24% 34%, rgba(0, 229, 255, 0.18), transparent 22%),
-    radial-gradient(circle at 78% 38%, rgba(255, 45, 122, 0.18), transparent 24%);
+    radial-gradient(circle at 50% 45%, rgba(255, 184, 51, 0.28), transparent 26%),
+    radial-gradient(circle at 24% 34%, rgba(0, 168, 255, 0.18), transparent 22%),
+    radial-gradient(circle at 78% 38%, rgba(255, 107, 0, 0.18), transparent 24%);
   opacity: 0;
 }
 
@@ -250,10 +250,10 @@ h2 {
   position: relative;
   width: min(860px, 92vw);
   padding: clamp(24px, 5vw, 48px);
-  border: 1px solid rgba(255, 209, 102, 0.44);
+  border: 1px solid rgba(255, 184, 51, 0.44);
   border-radius: 8px;
   background: linear-gradient(135deg, rgba(7, 8, 13, 0.94), rgba(23, 26, 40, 0.96));
-  box-shadow: 0 0 60px rgba(255, 209, 102, 0.22), 0 30px 110px rgba(0, 0, 0, 0.62);
+  box-shadow: 0 0 60px rgba(255, 184, 51, 0.22), 0 30px 110px rgba(0, 0, 0, 0.62);
   text-align: center;
   overflow: hidden;
 }
@@ -272,7 +272,7 @@ h2 {
 
 .celebration-panel p {
   margin: 0 0 12px;
-  color: var(--green);
+  color: var(--light-blue);
   font-size: clamp(0.82rem, 2vw, 1rem);
   font-weight: 950;
   text-transform: uppercase;
@@ -280,11 +280,11 @@ h2 {
 
 .celebration-panel strong {
   display: block;
-  color: var(--yellow);
+  color: var(--gold);
   font-size: clamp(3.2rem, 12vw, 8.8rem);
   line-height: 0.9;
   text-transform: uppercase;
-  text-shadow: 0 0 20px rgba(255, 209, 102, 0.45), 0 0 54px rgba(255, 45, 122, 0.22);
+  text-shadow: 0 0 20px rgba(255, 184, 51, 0.45), 0 0 54px rgba(255, 107, 0, 0.22);
   overflow-wrap: anywhere;
 }
 
@@ -294,8 +294,8 @@ h2 {
   padding: 10px 16px;
   color: var(--bg);
   border-radius: 8px;
-  background: var(--cyan);
-  box-shadow: 0 0 24px rgba(0, 229, 255, 0.34);
+  background: var(--blue);
+  box-shadow: 0 0 24px rgba(0, 168, 255, 0.34);
   font-weight: 950;
   text-transform: uppercase;
 }
@@ -415,7 +415,7 @@ h2 {
 
 .panel {
   padding: 24px;
-  border: 1px solid rgba(0, 229, 255, 0.2);
+  border: 1px solid rgba(0, 168, 255, 0.2);
   border-radius: 8px;
   background: rgba(17, 19, 29, 0.92);
   box-shadow: var(--shadow);
@@ -469,8 +469,8 @@ h2 {
 
 .field input:focus,
 .stage-select-label select:focus {
-  border-color: var(--cyan);
-  box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.14);
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(0, 168, 255, 0.14);
 }
 
 .primary-button,
@@ -486,28 +486,28 @@ h2 {
 .primary-button {
   width: 100%;
   color: #041014;
-  background: var(--cyan);
-  box-shadow: 0 0 22px rgba(0, 229, 255, 0.22);
+  background: var(--blue);
+  box-shadow: 0 0 22px rgba(0, 168, 255, 0.22);
 }
 
 .ghost-button {
   padding: 0 14px;
-  color: var(--cyan);
-  border: 1px solid rgba(0, 229, 255, 0.34);
+  color: var(--blue);
+  border: 1px solid rgba(0, 168, 255, 0.34);
   background: transparent;
 }
 
 .danger-button {
   padding: 0 14px;
   color: #fff;
-  border: 1px solid rgba(255, 45, 122, 0.42);
-  background: rgba(255, 45, 122, 0.16);
+  border: 1px solid rgba(255, 107, 0, 0.42);
+  background: rgba(255, 107, 0, 0.16);
 }
 
 .admin-message {
   min-height: 20px;
   margin: 14px 0 0;
-  color: var(--green);
+  color: var(--light-blue);
   font-size: 0.92rem;
 }
 
