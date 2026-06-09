@@ -349,7 +349,14 @@ async function handleApi(request, env) {
 
   if (path === "/api/login" && request.method === "POST") {
     if (!env.ADMIN_PASSWORD || !env.SESSION_SECRET) {
-      return json(request, { error: "ADMIN_PASSWORD ou SESSION_SECRET nao configurado." }, 500);
+      const missing = [
+        !env.ADMIN_PASSWORD ? "ADMIN_PASSWORD" : "",
+        !env.SESSION_SECRET ? "SESSION_SECRET" : "",
+      ].filter(Boolean);
+
+      return json(request, {
+        error: `Secret ausente no Worker: ${missing.join(", ")}.`,
+      }, 500);
     }
 
     const body = await request.json().catch(() => null);
