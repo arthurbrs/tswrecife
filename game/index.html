@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Placar Game</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body id="display-page">
+  <div id="particles-container" aria-hidden="true"></div>
+
+  <main class="scoreboard-shell">
+    <header class="scoreboard-header">
+      <p class="eyebrow">Live Scoreboard</p>
+      <h1>Placar <span>Game</span></h1>
+    </header>
+
+    <section id="teams-grid" class="teams-grid" aria-live="polite"></section>
+
+    <p id="empty-display" class="empty-state">
+      Nenhuma equipe cadastrada ainda.
+    </p>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

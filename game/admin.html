@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Placar Game</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body id="admin-page">
+  <main class="admin-shell">
+    <header class="admin-header">
+      <p class="eyebrow">Control Room</p>
+      <h1>Painel <span>Admin</span></h1>
+    </header>
+
+    <section class="admin-layout">
+      <form id="team-form" class="panel">
+        <h2>Cadastrar equipe</h2>
+
+        <label class="field">
+          <span>Nome</span>
+          <input id="team-name" type="text" maxlength="36" placeholder="Ex: Neon Wolves" required>
+        </label>
+
+        <label class="field">
+          <span>URL da logo</span>
+          <input id="team-logo" type="url" placeholder="https://exemplo.com/logo.png" required>
+        </label>
+
+        <button class="primary-button" type="submit">Adicionar equipe</button>
+        <p id="admin-message" class="admin-message" role="status"></p>
+      </form>
+
+      <section class="panel">
+        <div class="panel-heading">
+          <h2>Equipes</h2>
+          <button id="refresh-admin" class="ghost-button" type="button">Atualizar</button>
+        </div>
+
+        <ul id="admin-teams-list" class="admin-list"></ul>
+      </section>
+    </section>
+  </main>
+
+  <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

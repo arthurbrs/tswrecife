@@ -1,9 +1,9 @@
 {
   "name": "tswrecife",
-  "main": "index.js",
+  "main": "worker.js",
   "compatibility_date": "2025-02-04",
   "assets": {
-    "directory": "./public",
+    "directory": "./",
     "binding": "ASSETS"
   },
   "observability": {
@@ -23,7 +23,7 @@
   },
   "kv_namespaces": [
     {
-      "binding": "KV",
+      "binding": "PLACAR_KV",
       "id": "fe4d874300d148d6a359364b8ad6ebdf"
     }
   ]
