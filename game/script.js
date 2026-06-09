@@ -3,12 +3,13 @@
 // ==========================================
 const PUSHER_APP_KEY = '715f24c522c36b942eee';
 const PUSHER_CLUSTER = 'sa1';
-const WORKER_URL = 'https://tswrecife.arthursec.workers.dev';
+const WORKER_URL = 'https://tswrecife.arthursec.workers.dev'; // SEM BARRA NO FINAL
 
 // Função utilitária para buscar equipes da API (Worker)
 async function fetchTeamsFromAPI() {
     try {
         const response = await fetch(`${WORKER_URL}/api/teams`);
+        if (!response.ok) throw new Error('Falha ao buscar equipes');
         return await response.json();
     } catch (e) {
         console.error("Erro ao carregar equipes:", e);
@@ -45,7 +46,6 @@ if (document.getElementById('display-page')) {
             const card = document.createElement('div');
             card.className = 'team-card';
             card.id = `card-${team.id}`;
-            // Renderização sem a logo
             card.innerHTML = `
                 <h2 class="team-name" style="font-size: 2rem; margin-top: 1rem;">${team.name}</h2>
                 <div class="team-level">LVL <span id="level-${team.id}">${team.level}</span></div>
@@ -103,7 +103,6 @@ if (document.getElementById('admin-page')) {
 
         teams.forEach(team => {
             const li = document.createElement('li');
-            // Renderização sem a logo
             li.innerHTML = `
                 <div class="team-info">
                     <span><strong>${team.name}</strong> - Lvl: <span id="admin-lvl-${team.id}">${team.level}</span></span>
@@ -118,12 +117,7 @@ if (document.getElementById('admin-page')) {
     addTeamForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-            const addTeamForm = document.getElementById('add-team-form');
-    addTeamForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
         const name = document.getElementById('team-name').value;
-        
         const newTeam = {
             id: 'team_' + Date.now(),
             name: name,
@@ -131,46 +125,25 @@ if (document.getElementById('admin-page')) {
         };
 
         try {
-            const response = await fetch(`${WORKER_URL}/api/teams`, {
+            const response = await fetch(`/api/teams`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(newTeam)
             });
 
             if (!response.ok) {
-                // Captura o erro retornado pelo Worker
-                const errorData = await response.json();
-                console.error('Erro na API do Worker:', errorData);
-                alert(`Erro ao salvar no banco: ${errorData.error || response.statusText}`);
-                return; // Para a execução aqui, não reseta o form
+                const err = await response.json();
+                console.error("Erro da API:", err);
+                alert("Erro ao cadastrar equipe. Verifique o console.");
+                return;
             }
             
             addTeamForm.reset();
             await renderAdminList();
-            console.log("Equipe adicionada com sucesso!");
-
         } catch (error) {
-            console.error('Erro de requisição/CORS:', error);
-            alert('Falha de conexão com o Worker. Verifique o console (F12).');
+            console.error("Falha de rede ao tentar cadastrar:", error);
+            alert("Erro de conexão com o banco de dados.");
         }
-    });
-
-        
-        // Objeto simplificado sem a propriedade "logo"
-        const newTeam = {
-            id: 'team_' + Date.now(),
-            name: name,
-            level: 1
-        };
-
-        await fetch(`/api/teams`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(newTeam)
-        });
-        
-        addTeamForm.reset();
-        await renderAdminList();
     });
 
     async function triggerLevelUp(teamId, teamName) {
@@ -187,10 +160,11 @@ if (document.getElementById('admin-page')) {
             if (!response.ok) {
                 console.error('Falha na API:', await response.text());
                 if(spanLvl) spanLvl.innerText = parseInt(spanLvl.innerText) - 1;
-                alert('Erro ao processar o Level UP no banco de dados.');
+                alert('Erro ao processar o Level UP.');
             }
         } catch (error) {
             console.error('Erro de conexão:', error);
+            if(spanLvl) spanLvl.innerText = parseInt(spanLvl.innerText) - 1;
         }
     }
 
