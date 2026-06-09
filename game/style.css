@@ -28,9 +28,13 @@ body {
   font-family: Inter, "Segoe UI", Arial, sans-serif;
   letter-spacing: 0;
   background:
+    linear-gradient(rgba(0, 168, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 168, 255, 0.04) 1px, transparent 1px),
     radial-gradient(circle at 16% 12%, rgba(0, 168, 255, 0.18), transparent 30%),
     radial-gradient(circle at 82% 18%, rgba(255, 107, 0, 0.16), transparent 28%),
     linear-gradient(135deg, #07080d 0%, #101321 52%, #080910 100%);
+  background-size: 40px 40px, 40px 40px, 100% 100%, 100% 100%, 100% 100%;
+  background-attachment: fixed;
   overflow-x: hidden;
 }
 
@@ -365,6 +369,26 @@ h2 {
   z-index: 1;
   pointer-events: none;
   overflow: hidden;
+}
+
+#particles-container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.25) 51%);
+  background-size: 100% 4px;
+  z-index: 0;
+  pointer-events: none;
+  animation: scanlines-scroll 8s linear infinite;
+}
+
+@keyframes scanlines-scroll {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 40px;
+  }
 }
 
 #fireworks-container {
