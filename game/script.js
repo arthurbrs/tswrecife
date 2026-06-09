@@ -13,6 +13,8 @@ const STAGES = [
 
 const state = {
   teams: new Map(),
+  fireworksInstance: null,
+  fireworksTimer: null,
 };
 
 const apiUrl = (path) => `${WORKER_URL}${path}`;
@@ -118,6 +120,98 @@ function fireLevelFireworks() {
   }, 360);
 }
 
+async function stopHeavyFireworks() {
+  if (state.fireworksTimer) {
+    window.clearTimeout(state.fireworksTimer);
+    state.fireworksTimer = null;
+  }
+
+  if (state.fireworksInstance) {
+    state.fireworksInstance.destroy();
+    state.fireworksInstance = null;
+  }
+}
+
+async function startHeavyFireworks() {
+  const container = document.getElementById("fireworks-container");
+  const particles = window.tsParticles;
+
+  if (!container || !particles?.load) return;
+
+  await stopHeavyFireworks();
+  container.classList.add("is-active");
+
+  state.fireworksInstance = await particles.load("fireworks-container", {
+    preset: "fireworks",
+    fullScreen: {
+      enable: false,
+    },
+    background: {
+      color: "transparent",
+    },
+    detectRetina: true,
+    fpsLimit: 60,
+    emitters: {
+      life: {
+        count: 0,
+        duration: 0.12,
+        delay: 0.28,
+      },
+      rate: {
+        delay: 0.12,
+        quantity: 3,
+      },
+      size: {
+        width: 100,
+        height: 0,
+      },
+      position: {
+        x: 50,
+        y: 100,
+      },
+    },
+    particles: {
+      number: {
+        value: 0,
+      },
+      color: {
+        value: ["#00e5ff", "#ff2d7a", "#4dff88", "#ffd166", "#ffffff"],
+      },
+      move: {
+        enable: true,
+        speed: {
+          min: 8,
+          max: 18,
+        },
+        gravity: {
+          enable: true,
+          acceleration: 10,
+        },
+        decay: 0.92,
+      },
+      life: {
+        duration: {
+          value: {
+            min: 1.2,
+            max: 2.4,
+          },
+        },
+      },
+      size: {
+        value: {
+          min: 1,
+          max: 4,
+        },
+      },
+    },
+  });
+
+  state.fireworksTimer = window.setTimeout(async () => {
+    container.classList.remove("is-active");
+    await stopHeavyFireworks();
+  }, 5600);
+}
+
 function boostCard(teamId) {
   const card = document.querySelector(`[data-team-id="${CSS.escape(teamId)}"]`);
   if (!card) return;
@@ -148,6 +242,7 @@ function showLevelCelebration(team) {
 
 function celebrateLevelUp(team) {
   showLevelCelebration(team);
+  startHeavyFireworks();
   fireLevelFireworks();
   boostCard(team.id);
 }

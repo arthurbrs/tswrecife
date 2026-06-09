@@ -367,6 +367,19 @@ h2 {
   overflow: hidden;
 }
 
+#fireworks-container {
+  position: fixed;
+  inset: 0;
+  z-index: 24;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 240ms ease;
+}
+
+#fireworks-container.is-active {
+  opacity: 1;
+}
+
 .particle {
   position: absolute;
   bottom: -24px;
