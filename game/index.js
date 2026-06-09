@@ -30,14 +30,24 @@ async function getHMAC(secret, message) {
 export default {
   async fetch(request, env) {
     if (request.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+    
     const url = new URL(request.url);
+    const path = url.pathname.endsWith('/') && url.pathname.length > 1 
+      ? url.pathname.slice(0, -1) 
+      : url.pathname;
 
-    if (url.pathname === "/api/teams" && request.method === "GET") {
+    if (path === "/" && request.method === "GET") {
+      return new Response(JSON.stringify({ status: "Online", message: "API do Placar funcionando!" }), { 
+        status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } 
+      });
+    }
+
+    if (path === "/api/teams" && request.method === "GET") {
       const teamsData = await env.KV.get("placar_teams");
       return new Response(teamsData || "[]", { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    if (url.pathname === "/api/teams" && request.method === "POST") {
+    if (path === "/api/teams" && request.method === "POST") {
       try {
         const newTeam = await request.json();
         const currentData = await env.KV.get("placar_teams");
@@ -50,7 +60,7 @@ export default {
       }
     }
 
-    if (url.pathname === "/api/trigger-levelup" && request.method === "POST") {
+    if (path === "/api/trigger-levelup" && request.method === "POST") {
       try {
         const bodyData = await request.json();
         const { teamId, teamName } = bodyData;
@@ -69,7 +79,7 @@ export default {
 
         const pusherData = JSON.stringify({ teamId, teamName, newLevel: updatedLevel });
         const pusherPayload = JSON.stringify({ name: "update-level", channels: ["placar-game"], data: pusherData });
-        const path = `/apps/${PUSHER_APP_ID}/events`;
+        const pusherPath = `/apps/${PUSHER_APP_ID}/events`;
         const timestamp = Math.floor(Date.now() / 1000);
         const bodyMd5 = await getMD5(pusherPayload);
         const queryString = `auth_key=&auth_timestamp=&auth_version=1.0&body_md5=`;
@@ -78,13 +88,14 @@ export default {
         const pusherEndpoint = `<https://api-.pusher.com?&auth_signature=>`;
         
         const pusherResponse = await fetch(pusherEndpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: pusherPayload });
-        if (!pusherResponse.ok) throw new Error(`Pusher API error: ${await pusherResponse.text()}`);
+        if (!pusherResponse.ok) throw new Error(`Pusher erro: ${await pusherResponse.text()}`);
 
         return new Response(JSON.stringify({ success: true, newLevel: updatedLevel }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
       } catch (error) {
         return new Response(JSON.stringify({ success: false, error: error.message }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
       }
     }
-    return new Response("Not Found", { status: 404, headers: corsHeaders });
+    
+    return new Response(JSON.stringify({ error: "Not Found", rota: path }), { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } });
   }
 };

@@ -1,6 +1,6 @@
 {
   "name": "tswrecife",
-  "main": "src/index.js",
+  "main": "index.js",
   "compatibility_date": "2025-02-04",
   "observability": {
     "enabled": false,
