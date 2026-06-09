@@ -1,7 +1,6 @@
 const app_key = "715f24c522c36b942eee";
 const cluster = "sa1";
 const WORKER_URL = "";
-const POLL_INTERVAL_MS = 1500;
 
 const STAGES = [
   "Ideia",
@@ -14,7 +13,6 @@ const STAGES = [
 
 const state = {
   teams: new Map(),
-  pollingId: null,
 };
 
 const apiUrl = (path) => `${WORKER_URL}${path}`;
@@ -83,16 +81,41 @@ function createParticles() {
   }
 }
 
-function fireLevelConfetti() {
+function fireConfettiBurst(origin, particleCount = 80) {
   if (typeof confetti !== "function") return;
 
   confetti({
-    particleCount: 140,
-    spread: 88,
-    startVelocity: 42,
-    origin: { y: 0.62 },
+    particleCount,
+    angle: origin.x < 0.5 ? 60 : 120,
+    spread: 72,
+    startVelocity: 48,
+    decay: 0.91,
+    scalar: 1.08,
+    origin,
     colors: ["#00e5ff", "#ff2d7a", "#4dff88", "#ffd166", "#ffffff"],
   });
+}
+
+function fireLevelFireworks() {
+  if (typeof confetti !== "function") return;
+
+  const duration = 3600;
+  const end = Date.now() + duration;
+
+  fireConfettiBurst({ x: 0.12, y: 0.72 }, 110);
+  fireConfettiBurst({ x: 0.88, y: 0.72 }, 110);
+
+  const timer = window.setInterval(() => {
+    const remaining = end - Date.now();
+
+    if (remaining <= 0) {
+      window.clearInterval(timer);
+      return;
+    }
+
+    fireConfettiBurst({ x: Math.random() * 0.24 + 0.04, y: Math.random() * 0.34 + 0.28 }, 52);
+    fireConfettiBurst({ x: Math.random() * 0.24 + 0.72, y: Math.random() * 0.34 + 0.28 }, 52);
+  }, 360);
 }
 
 function boostCard(teamId) {
@@ -100,7 +123,33 @@ function boostCard(teamId) {
   if (!card) return;
 
   card.classList.add("is-boosted");
-  window.setTimeout(() => card.classList.remove("is-boosted"), 900);
+  window.setTimeout(() => card.classList.remove("is-boosted"), 2400);
+}
+
+function showLevelCelebration(team) {
+  const overlay = document.getElementById("level-celebration");
+  const teamName = document.getElementById("celebration-team-name");
+  const stageName = document.getElementById("celebration-stage-name");
+
+  if (!overlay || !teamName || !stageName) return;
+
+  teamName.textContent = team.name;
+  stageName.textContent = stageLabel(team.stage);
+  overlay.classList.remove("is-active");
+  void overlay.offsetWidth;
+  overlay.classList.add("is-active");
+  overlay.setAttribute("aria-hidden", "false");
+
+  window.setTimeout(() => {
+    overlay.classList.remove("is-active");
+    overlay.setAttribute("aria-hidden", "true");
+  }, 3300);
+}
+
+function celebrateLevelUp(team) {
+  showLevelCelebration(team);
+  fireLevelFireworks();
+  boostCard(team.id);
 }
 
 function teamTokenTemplate(team) {
@@ -135,7 +184,7 @@ function renderDisplay(teams) {
 async function syncDisplay() {
   const teams = (await fetchTeams()).map(normalizeTeam);
   let needsRender = teams.length !== state.teams.size;
-  const boostedTeamIds = [];
+  const boostedTeams = [];
 
   for (const team of teams) {
     const current = state.teams.get(team.id);
@@ -144,7 +193,7 @@ async function syncDisplay() {
     }
 
     if (current && team.stage > current.stage) {
-      boostedTeamIds.push(team.id);
+      boostedTeams.push(team);
     }
   }
 
@@ -162,9 +211,10 @@ async function syncDisplay() {
     }
   }
 
-  if (boostedTeamIds.length) {
-    fireLevelConfetti();
-    boostedTeamIds.forEach(boostCard);
+  if (boostedTeams.length) {
+    boostedTeams.forEach((team, index) => {
+      window.setTimeout(() => celebrateLevelUp(team), index * 900);
+    });
   }
 }
 
@@ -178,9 +228,10 @@ function initializePusher() {
   const pusher = new Pusher(app_key, { cluster });
   const channel = pusher.subscribe("placar-game");
 
+  pusher.connection.bind("connected", syncDisplay);
+
   channel.bind("update-level", (payload) => {
     const teamId = String(payload.teamId || payload.id || "");
-    const stage = Number(payload.stage ?? payload.newLevel ?? payload.level ?? 0);
     if (!teamId) return;
 
     syncDisplay();
@@ -192,7 +243,6 @@ async function bootDisplay() {
 
   try {
     await syncDisplay();
-    state.pollingId = window.setInterval(syncDisplay, POLL_INTERVAL_MS);
     initializePusher();
   } catch (error) {
     console.error(error);
