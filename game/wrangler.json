@@ -21,16 +21,6 @@
       "head_sampling_rate": 1
     }
   },
-  "secrets": {
-    "required": [
-      "ADMIN_PASSWORD",
-      "SESSION_SECRET",
-      "PUSHER_APP_ID",
-      "PUSHER_KEY",
-      "PUSHER_SECRET",
-      "PUSHER_CLUSTER"
-    ]
-  },
   "kv_namespaces": [
     {
       "binding": "PLACAR_KV",
