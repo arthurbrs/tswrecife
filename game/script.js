@@ -34,6 +34,7 @@ const stageLabel = (stageIndex) => {
 async function requestJson(path, options = {}) {
   const response = await fetch(apiUrl(path), {
     headers: { "Content-Type": "application/json", ...(options.headers || {}) },
+    credentials: "include",
     ...options,
   });
 
@@ -243,6 +244,60 @@ function setAdminMessage(message, isError = false) {
   node.style.color = isError ? "var(--pink)" : "var(--green)";
 }
 
+function setAuthMessage(message, isError = false) {
+  const node = document.getElementById("auth-message");
+  if (!node) return;
+  node.textContent = message;
+  node.style.color = isError ? "var(--pink)" : "var(--green)";
+}
+
+function showAdminContent(isAuthenticated) {
+  document.getElementById("login-form")?.classList.toggle("is-hidden", isAuthenticated);
+  document.getElementById("admin-content")?.classList.toggle("is-hidden", !isAuthenticated);
+}
+
+async function checkAdminSession() {
+  const data = await requestJson("/api/session");
+  showAdminContent(Boolean(data.authenticated));
+  return Boolean(data.authenticated);
+}
+
+async function loginAdmin(event) {
+  event.preventDefault();
+
+  const form = event.currentTarget;
+  const button = form.querySelector("button");
+  const password = document.getElementById("admin-password").value;
+
+  button.disabled = true;
+  setAuthMessage("Validando acesso...");
+
+  try {
+    await requestJson("/api/login", {
+      method: "POST",
+      body: JSON.stringify({ password }),
+    });
+
+    form.reset();
+    setAuthMessage("");
+    showAdminContent(true);
+    await renderAdmin();
+  } catch (error) {
+    setAuthMessage(error.message, true);
+  } finally {
+    button.disabled = false;
+  }
+}
+
+async function logoutAdmin() {
+  try {
+    await requestJson("/api/logout", { method: "POST", body: JSON.stringify({}) });
+  } finally {
+    showAdminContent(false);
+    setAuthMessage("Sessão encerrada.");
+  }
+}
+
 async function addTeam(event) {
   event.preventDefault();
 
@@ -335,12 +390,16 @@ async function removeTeam(teamId) {
 }
 
 async function bootAdmin() {
+  const loginForm = document.getElementById("login-form");
   const form = document.getElementById("team-form");
   const refresh = document.getElementById("refresh-admin");
+  const logout = document.getElementById("logout-admin");
   const list = document.getElementById("admin-teams-list");
 
+  loginForm?.addEventListener("submit", loginAdmin);
   form?.addEventListener("submit", addTeam);
   refresh?.addEventListener("click", renderAdmin);
+  logout?.addEventListener("click", logoutAdmin);
   list?.addEventListener("change", (event) => {
     const select = event.target.closest("[data-stage-select]");
     if (!select) return;
@@ -360,9 +419,13 @@ async function bootAdmin() {
   });
 
   try {
-    await renderAdmin();
+    const isAuthenticated = await checkAdminSession();
+    if (isAuthenticated) {
+      await renderAdmin();
+    }
   } catch (error) {
-    setAdminMessage(error.message, true);
+    showAdminContent(false);
+    setAuthMessage(error.message, true);
   }
 }
 

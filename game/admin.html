@@ -13,7 +13,17 @@
       <h1>Painel <span>Admin</span></h1>
     </header>
 
-    <section class="admin-layout">
+    <form id="login-form" class="panel auth-panel">
+      <h2>Acesso restrito</h2>
+      <label class="field">
+        <span>Senha do admin</span>
+        <input id="admin-password" type="password" autocomplete="current-password" required>
+      </label>
+      <button class="primary-button" type="submit">Entrar</button>
+      <p id="auth-message" class="admin-message" role="status"></p>
+    </form>
+
+    <section id="admin-content" class="admin-layout is-hidden">
       <form id="team-form" class="panel">
         <h2>Cadastrar equipe</h2>
 
@@ -29,7 +39,10 @@
       <section class="panel">
         <div class="panel-heading">
           <h2>Equipes</h2>
-          <button id="refresh-admin" class="ghost-button" type="button">Atualizar</button>
+          <div class="panel-actions">
+            <button id="refresh-admin" class="ghost-button" type="button">Atualizar</button>
+            <button id="logout-admin" class="danger-button" type="button">Sair</button>
+          </div>
         </div>
 
         <ul id="admin-teams-list" class="admin-list"></ul>

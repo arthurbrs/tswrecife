@@ -258,6 +258,20 @@ h2 {
   margin-bottom: 0;
 }
 
+.panel-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.auth-panel {
+  width: min(420px, 100%);
+  margin: 0 auto;
+}
+
+.is-hidden {
+  display: none !important;
+}
+
 .field {
   display: grid;
   gap: 8px;
@@ -403,6 +417,12 @@ h2 {
 
   .admin-item {
     justify-items: start;
+  }
+
+  .panel-heading,
+  .panel-actions {
+    align-items: stretch;
+    flex-direction: column;
   }
 
   .ghost-button,
