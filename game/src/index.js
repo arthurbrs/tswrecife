@@ -1,10 +1,3 @@
-// src/index.ts
-
-export interface Env {
-  // Faz o binding do KV configurado no wrangler.jsonc
-  KV: KVNamespace;
-}
-
 const PUSHER_APP_ID = "2164463";
 const PUSHER_KEY = "715f24c522c36b942eee";
 const PUSHER_SECRET = "baa039ebd06abdfc0587";
@@ -16,15 +9,14 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type",
 };
 
-// Funções criptográficas nativas para a assinatura do Pusher
-async function getMD5(message: string): Promise<string> {
+async function getMD5(message) {
   const encoder = new TextEncoder();
   const data = encoder.encode(message);
   const hashBuffer = await crypto.subtle.digest("MD5", data);
   return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, "0")).join("");
 }
 
-async function getHMAC(secret: string, message: string): Promise<string> {
+async function getHMAC(secret, message) {
   const encoder = new TextEncoder();
   const keyData = encoder.encode(secret);
   const messageData = encoder.encode(message);
@@ -36,60 +28,37 @@ async function getHMAC(secret: string, message: string): Promise<string> {
 }
 
 export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
-    if (request.method === "OPTIONS") {
-      return new Response(null, { headers: corsHeaders });
-    }
-
+  async fetch(request, env) {
+    if (request.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
     const url = new URL(request.url);
 
-    // ==========================================
-    // ROTA 1: Obter todas as equipes (GET /api/teams)
-    // ==========================================
     if (url.pathname === "/api/teams" && request.method === "GET") {
-      // Busca as equipes do KV. Se não existir, retorna um array vazio.
       const teamsData = await env.KV.get("placar_teams");
-      return new Response(teamsData || "[]", {
-        headers: { ...corsHeaders, "Content-Type": "application/json" }
-      });
+      return new Response(teamsData || "[]", { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    // ==========================================
-    // ROTA 2: Cadastrar nova equipe (POST /api/teams)
-    // ==========================================
     if (url.pathname === "/api/teams" && request.method === "POST") {
       try {
-        const newTeam = await request.json() as any;
-        
-        // Pega as equipes atuais, adiciona a nova e salva no KV
+        const newTeam = await request.json();
         const currentData = await env.KV.get("placar_teams");
         const teams = currentData ? JSON.parse(currentData) : [];
         teams.push(newTeam);
-        
         await env.KV.put("placar_teams", JSON.stringify(teams));
-
-        return new Response(JSON.stringify({ success: true, teams }), {
-          headers: { ...corsHeaders, "Content-Type": "application/json" }
-        });
-      } catch (error: any) {
+        return new Response(JSON.stringify({ success: true, teams }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      } catch (error) {
         return new Response(JSON.stringify({ error: error.message }), { status: 500, headers: corsHeaders });
       }
     }
 
-    // ==========================================
-    // ROTA 3: Evoluir nível e disparar Pusher (POST /api/trigger-levelup)
-    // ==========================================
     if (url.pathname === "/api/trigger-levelup" && request.method === "POST") {
       try {
-        const bodyData = await request.json() as { teamId: string, teamName: string };
+        const bodyData = await request.json();
         const { teamId, teamName } = bodyData;
-
-        // 1. Atualizar o KV primeiro
         const currentData = await env.KV.get("placar_teams");
         let teams = currentData ? JSON.parse(currentData) : [];
         let updatedLevel = 1;
-
-        const teamIndex = teams.findIndex((t: any) => t.id === teamId);
+        const teamIndex = teams.findIndex(t => t.id === teamId);
+        
         if (teamIndex !== -1) {
           teams[teamIndex].level += 1;
           updatedLevel = teams[teamIndex].level;
@@ -98,47 +67,24 @@ export default {
           return new Response(JSON.stringify({ error: "Equipe não encontrada." }), { status: 404, headers: corsHeaders });
         }
 
-        // 2. Preparar e enviar Payload para o Pusher
         const pusherData = JSON.stringify({ teamId, teamName, newLevel: updatedLevel });
-        const pusherPayload = JSON.stringify({
-          name: "update-level",
-          channels: ["placar-game"],
-          data: pusherData
-        });
-
+        const pusherPayload = JSON.stringify({ name: "update-level", channels: ["placar-game"], data: pusherData });
         const path = `/apps/${PUSHER_APP_ID}/events`;
         const timestamp = Math.floor(Date.now() / 1000);
         const bodyMd5 = await getMD5(pusherPayload);
-
         const queryString = `auth_key=&auth_timestamp=&auth_version=1.0&body_md5=`;
         const stringToSign = `POST\n\n`;
         const authSignature = await getHMAC(PUSHER_SECRET, stringToSign);
-
         const pusherEndpoint = `<https://api-.pusher.com?&auth_signature=>`;
         
-        const pusherResponse = await fetch(pusherEndpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: pusherPayload
-        });
+        const pusherResponse = await fetch(pusherEndpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: pusherPayload });
+        if (!pusherResponse.ok) throw new Error(`Pusher API error: ${await pusherResponse.text()}`);
 
-        if (!pusherResponse.ok) {
-          throw new Error(`Pusher API error: ${await pusherResponse.text()}`);
-        }
-
-        return new Response(JSON.stringify({ success: true, newLevel: updatedLevel }), {
-          status: 200,
-          headers: { ...corsHeaders, "Content-Type": "application/json" }
-        });
-
-      } catch (error: any) {
-        return new Response(JSON.stringify({ success: false, error: error.message }), {
-          status: 500,
-          headers: { ...corsHeaders, "Content-Type": "application/json" }
-        });
+        return new Response(JSON.stringify({ success: true, newLevel: updatedLevel }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      } catch (error) {
+        return new Response(JSON.stringify({ success: false, error: error.message }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
       }
     }
-
     return new Response("Not Found", { status: 404, headers: corsHeaders });
   }
 };
