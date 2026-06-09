@@ -7,12 +7,14 @@ Como criar o namespace KV no painel da Cloudflare:
 4. O binding precisa se chamar PLACAR_KV, pois este Worker usa env.PLACAR_KV.
 
 Rotas principais:
-- GET  /api/teams     busca todas as equipes e niveis atuais no KV.
-- POST /api/teams     cadastra uma equipe com nome e URL da logo.
-- POST /api/level-up  incrementa o nivel da equipe enviada pelo Admin.
+- GET  /api/teams      busca todas as equipes e suas etapas atuais no KV.
+- POST /api/teams      cadastra uma equipe.
+- POST /api/stage      move a equipe para uma etapa especifica.
+- POST /api/team-name  edita o nome da equipe.
 */
 
 const TEAMS_KEY = "placar-game:teams";
+const MAX_STAGE = 5;
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -33,13 +35,29 @@ const json = (body, status = 200) =>
 const slug = () =>
   `team_${Date.now()}_${Math.random().toString(16).slice(2, 8)}`;
 
+const normalizeStage = (value) => {
+  const stage = Number(value);
+  if (!Number.isFinite(stage)) return 0;
+  return Math.max(0, Math.min(Math.trunc(stage), MAX_STAGE));
+};
+
 async function readTeams(env) {
   const stored = await env.PLACAR_KV.get(TEAMS_KEY, "json");
-  return Array.isArray(stored) ? stored : [];
+  if (!Array.isArray(stored)) return [];
+
+  return stored.map((team) => ({
+    ...team,
+    stage: normalizeStage(team.stage ?? team.level ?? 0),
+    level: normalizeStage(team.stage ?? team.level ?? 0),
+  }));
 }
 
 async function writeTeams(env, teams) {
   await env.PLACAR_KV.put(TEAMS_KEY, JSON.stringify(teams));
+}
+
+function findTeam(teams, teamId) {
+  return teams.find((item) => String(item.id) === String(teamId));
 }
 
 async function handleApi(request, env) {
@@ -57,18 +75,17 @@ async function handleApi(request, env) {
   if (path === "/api/teams" && request.method === "POST") {
     const body = await request.json().catch(() => null);
     const name = String(body?.name || "").trim();
-    const logoUrl = String(body?.logoUrl || body?.logo || "").trim();
 
-    if (!name || !logoUrl) {
-      return json({ error: "Informe nome e URL da logo." }, 400);
+    if (!name) {
+      return json({ error: "Informe o nome da equipe." }, 400);
     }
 
     const teams = await readTeams(env);
     const team = {
       id: body?.id ? String(body.id) : slug(),
       name,
-      logoUrl,
-      level: Number(body?.level || 0),
+      stage: normalizeStage(body?.stage ?? 0),
+      level: normalizeStage(body?.stage ?? 0),
       createdAt: new Date().toISOString(),
     };
 
@@ -78,7 +95,7 @@ async function handleApi(request, env) {
     return json({ success: true, team, teams }, 201);
   }
 
-  if ((path === "/api/level-up" || path === "/api/trigger-levelup") && request.method === "POST") {
+  if (path === "/api/stage" && request.method === "POST") {
     const body = await request.json().catch(() => null);
     const teamId = String(body?.teamId || body?.id || "").trim();
 
@@ -87,17 +104,58 @@ async function handleApi(request, env) {
     }
 
     const teams = await readTeams(env);
-    const team = teams.find((item) => String(item.id) === teamId);
+    const team = findTeam(teams, teamId);
 
     if (!team) {
       return json({ error: "Equipe nao encontrada." }, 404);
     }
 
-    team.level = Number(team.level || 0) + 1;
+    team.stage = normalizeStage(body?.stage);
+    team.level = team.stage;
     team.updatedAt = new Date().toISOString();
     await writeTeams(env, teams);
 
-    return json({ success: true, team, newLevel: team.level, teams });
+    return json({ success: true, team, teams });
+  }
+
+  if (path === "/api/team-name" && request.method === "POST") {
+    const body = await request.json().catch(() => null);
+    const teamId = String(body?.teamId || body?.id || "").trim();
+    const name = String(body?.name || "").trim();
+
+    if (!teamId || !name) {
+      return json({ error: "Informe teamId e nome." }, 400);
+    }
+
+    const teams = await readTeams(env);
+    const team = findTeam(teams, teamId);
+
+    if (!team) {
+      return json({ error: "Equipe nao encontrada." }, 404);
+    }
+
+    team.name = name;
+    team.updatedAt = new Date().toISOString();
+    await writeTeams(env, teams);
+
+    return json({ success: true, team, teams });
+  }
+
+  if ((path === "/api/level-up" || path === "/api/trigger-levelup") && request.method === "POST") {
+    const body = await request.json().catch(() => null);
+    const teams = await readTeams(env);
+    const team = findTeam(teams, body?.teamId || body?.id);
+
+    if (!team) {
+      return json({ error: "Equipe nao encontrada." }, 404);
+    }
+
+    team.stage = normalizeStage((team.stage || 0) + 1);
+    team.level = team.stage;
+    team.updatedAt = new Date().toISOString();
+    await writeTeams(env, teams);
+
+    return json({ success: true, team, newLevel: team.stage, teams });
   }
 
   return json({ error: "Rota nao encontrada." }, 404);

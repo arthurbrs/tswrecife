@@ -35,7 +35,8 @@ body {
 }
 
 button,
-input {
+input,
+select {
   font: inherit;
 }
 
@@ -108,7 +109,7 @@ h2 {
 
 .team-card {
   position: relative;
-  min-height: 330px;
+  min-height: 360px;
   padding: 22px;
   border: 1px solid rgba(0, 229, 255, 0.24);
   border-radius: 8px;
@@ -137,53 +138,96 @@ h2 {
   transform: translateX(120%);
 }
 
-.logo-frame {
-  width: 156px;
-  height: 156px;
-  margin: 0 auto 20px;
-  padding: 16px;
-  display: grid;
-  place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 8px;
-  background: rgba(0, 0, 0, 0.34);
-}
-
-.logo-frame img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
 .team-name {
-  min-height: 56px;
-  margin: 0 0 16px;
+  min-height: 68px;
+  margin: 0 0 22px;
   display: grid;
   place-items: center;
   color: var(--text);
-  font-size: 1.42rem;
+  font-size: 1.65rem;
   font-weight: 900;
   text-align: center;
   overflow-wrap: anywhere;
 }
 
+.stage-count {
+  margin: 0 0 16px;
+  color: var(--green);
+  font-size: 0.8rem;
+  font-weight: 900;
+  text-align: center;
+  text-transform: uppercase;
+}
+
 .team-level {
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: 10px;
+  display: grid;
+  gap: 8px;
   color: var(--muted);
   font-size: 0.9rem;
   font-weight: 800;
+  text-align: center;
   text-transform: uppercase;
 }
 
 .team-level strong {
   color: var(--yellow);
-  font-size: 4.5rem;
-  line-height: 0.9;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  line-height: 1;
   text-shadow: 0 0 24px rgba(255, 209, 102, 0.38);
+  overflow-wrap: anywhere;
+}
+
+.stage-track {
+  display: grid;
+  gap: 8px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stage-track li {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  padding: 6px 8px;
+  color: var(--muted);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.stage-track span {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  color: var(--bg);
+  border-radius: 999px;
+  background: var(--line);
+}
+
+.stage-track .is-done {
+  color: var(--text);
+  border-color: rgba(77, 255, 136, 0.36);
+}
+
+.stage-track .is-done span {
+  background: var(--green);
+}
+
+.stage-track .is-current {
+  color: var(--yellow);
+  border-color: rgba(255, 209, 102, 0.46);
+  box-shadow: 0 0 18px rgba(255, 209, 102, 0.12);
+}
+
+.stage-track .is-current span {
+  background: var(--yellow);
 }
 
 .empty-state {
@@ -266,7 +310,8 @@ h2 {
   font-weight: 700;
 }
 
-.field input {
+.field input,
+.stage-select-label select {
   width: 100%;
   min-height: 48px;
   padding: 0 14px;
@@ -277,14 +322,14 @@ h2 {
   outline: none;
 }
 
-.field input:focus {
+.field input:focus,
+.stage-select-label select:focus {
   border-color: var(--cyan);
   box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.14);
 }
 
 .primary-button,
-.ghost-button,
-.level-button {
+.ghost-button {
   min-height: 44px;
   border: 0;
   border-radius: 8px;
@@ -323,27 +368,13 @@ h2 {
 
 .admin-item {
   display: grid;
-  grid-template-columns: 56px 1fr auto;
+  grid-template-columns: minmax(170px, 1fr) minmax(210px, 0.85fr) auto;
   gap: 14px;
   align-items: center;
   padding: 12px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 8px;
   background: rgba(0, 0, 0, 0.24);
-}
-
-.admin-logo {
-  width: 56px;
-  height: 56px;
-  padding: 6px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.admin-logo img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
 }
 
 .admin-team-name {
@@ -358,14 +389,19 @@ h2 {
   font-size: 0.9rem;
 }
 
-.level-button {
-  padding: 0 16px;
-  color: #fff;
-  background: var(--pink);
-  box-shadow: 0 0 20px rgba(255, 45, 122, 0.2);
+.stage-select-label {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
 }
 
-.level-button:disabled,
+.stage-select-label select {
+  cursor: pointer;
+}
+
 .primary-button:disabled {
   cursor: wait;
   opacity: 0.62;
@@ -387,7 +423,7 @@ h2 {
     justify-items: start;
   }
 
-  .level-button {
+  .ghost-button {
     width: 100%;
   }
 }

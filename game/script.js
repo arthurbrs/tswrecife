@@ -3,6 +3,15 @@ const cluster = "COLE_SEU_PUSHER_CLUSTER_AQUI";
 const WORKER_URL = "";
 const POLL_INTERVAL_MS = 1500;
 
+const STAGES = [
+  "Ideia",
+  "Problema",
+  "Validação do Problema",
+  "Solução",
+  "Validação da Solução",
+  "Pitch",
+];
+
 const state = {
   teams: new Map(),
   pollingId: null,
@@ -14,6 +23,12 @@ const sanitizeText = (value) => {
   const node = document.createElement("span");
   node.textContent = value || "";
   return node.innerHTML;
+};
+
+const stageLabel = (stageIndex) => {
+  const stage = Number(stageIndex);
+  const safeStage = Number.isFinite(stage) ? stage : 0;
+  return STAGES[Math.max(0, Math.min(Math.trunc(safeStage), STAGES.length - 1))];
 };
 
 async function requestJson(path, options = {}) {
@@ -37,11 +52,12 @@ async function fetchTeams() {
 }
 
 function normalizeTeam(team) {
+  const stage = Number.isFinite(Number(team.stage)) ? Number(team.stage) : Number(team.level || 0);
+
   return {
     id: String(team.id),
     name: String(team.name || "Equipe sem nome"),
-    logoUrl: String(team.logoUrl || team.logo || ""),
-    level: Number(team.level || 0),
+    stage: Math.max(0, Math.min(Math.trunc(stage), STAGES.length - 1)),
   };
 }
 
@@ -86,20 +102,27 @@ function boostCard(teamId) {
   window.setTimeout(() => card.classList.remove("is-boosted"), 900);
 }
 
+function progressTemplate(team) {
+  return STAGES.map((label, index) => {
+    const status = index < team.stage ? "is-done" : index === team.stage ? "is-current" : "";
+    return `<li class="${status}"><span>${index + 1}</span>${sanitizeText(label)}</li>`;
+  }).join("");
+}
+
 function teamCardTemplate(team) {
   const safeName = sanitizeText(team.name);
-  const safeLogo = sanitizeText(team.logoUrl);
 
   return `
     <article class="team-card" data-team-id="${team.id}">
-      <div class="logo-frame">
-        <img src="${safeLogo}" alt="Logo ${safeName}" loading="lazy">
-      </div>
+      <p class="stage-count">Etapa ${team.stage + 1} de ${STAGES.length}</p>
       <h2 class="team-name">${safeName}</h2>
       <div class="team-level">
-        <span>Level</span>
-        <strong data-level-for="${team.id}">${team.level}</strong>
+        <span>Agora</span>
+        <strong data-stage-for="${team.id}">${sanitizeText(stageLabel(team.stage))}</strong>
       </div>
+      <ol class="stage-track" data-track-for="${team.id}">
+        ${progressTemplate(team)}
+      </ol>
     </article>
   `;
 }
@@ -113,22 +136,22 @@ function renderDisplay(teams) {
   empty?.classList.toggle("is-visible", teams.length === 0);
 }
 
-function updateDisplayLevel(team) {
+function updateDisplayStage(team) {
   const current = state.teams.get(team.id);
-  const levelNode = document.querySelector(`[data-level-for="${CSS.escape(team.id)}"]`);
+  const stageNode = document.querySelector(`[data-stage-for="${CSS.escape(team.id)}"]`);
+  const trackNode = document.querySelector(`[data-track-for="${CSS.escape(team.id)}"]`);
 
-  if (!levelNode) {
+  if (!stageNode || !trackNode) {
     return false;
   }
 
-  if (current && team.level > current.level) {
-    levelNode.textContent = String(team.level);
+  if (current && team.stage > current.stage) {
     fireLevelConfetti();
     boostCard(team.id);
-  } else {
-    levelNode.textContent = String(team.level);
   }
 
+  stageNode.textContent = stageLabel(team.stage);
+  trackNode.innerHTML = progressTemplate(team);
   return true;
 }
 
@@ -137,7 +160,8 @@ async function syncDisplay() {
   let needsRender = teams.length !== state.teams.size;
 
   for (const team of teams) {
-    if (!state.teams.has(team.id)) {
+    const current = state.teams.get(team.id);
+    if (!current || current.name !== team.name) {
       needsRender = true;
       break;
     }
@@ -148,7 +172,7 @@ async function syncDisplay() {
   }
 
   for (const team of teams) {
-    updateDisplayLevel(team);
+    updateDisplayStage(team);
     state.teams.set(team.id, team);
   }
 }
@@ -165,12 +189,12 @@ function initializePusher() {
 
   channel.bind("update-level", (payload) => {
     const teamId = String(payload.teamId || payload.id || "");
-    const newLevel = Number(payload.newLevel || payload.level || 0);
-    if (!teamId || !newLevel) return;
+    const stage = Number(payload.stage ?? payload.newLevel ?? payload.level ?? 0);
+    if (!teamId) return;
 
     const previous = state.teams.get(teamId);
-    const next = { ...(previous || { id: teamId, name: "Equipe", logoUrl: "" }), level: newLevel };
-    updateDisplayLevel(next);
+    const next = { ...(previous || { id: teamId, name: "Equipe" }), stage };
+    updateDisplayStage(next);
     state.teams.set(teamId, next);
   });
 }
@@ -187,20 +211,29 @@ async function bootDisplay() {
   }
 }
 
+function stageOptions(selectedStage) {
+  return STAGES.map((label, index) => {
+    const selected = Number(selectedStage) === index ? "selected" : "";
+    return `<option value="${index}" ${selected}>${index + 1}. ${sanitizeText(label)}</option>`;
+  }).join("");
+}
+
 function adminItemTemplate(team) {
   const safeName = sanitizeText(team.name);
-  const safeLogo = sanitizeText(team.logoUrl);
 
   return `
     <li class="admin-item">
-      <div class="admin-logo">
-        <img src="${safeLogo}" alt="Logo ${safeName}" loading="lazy">
-      </div>
       <div>
         <p class="admin-team-name">${safeName}</p>
-        <p class="admin-team-level">Level <strong data-admin-level-for="${team.id}">${team.level}</strong></p>
+        <p class="admin-team-level">Etapa atual: <strong data-admin-stage-for="${team.id}">${sanitizeText(stageLabel(team.stage))}</strong></p>
       </div>
-      <button class="level-button" type="button" data-level-up="${team.id}">UP LEVEL</button>
+      <label class="stage-select-label">
+        <span>Mover para</span>
+        <select data-stage-select="${team.id}">
+          ${stageOptions(team.stage)}
+        </select>
+      </label>
+      <button class="ghost-button" type="button" data-edit-name="${team.id}">Editar nome</button>
     </li>
   `;
 }
@@ -228,9 +261,8 @@ async function addTeam(event) {
   const form = event.currentTarget;
   const button = form.querySelector("button");
   const name = document.getElementById("team-name").value.trim();
-  const logoUrl = document.getElementById("team-logo").value.trim();
 
-  if (!name || !logoUrl) return;
+  if (!name) return;
 
   button.disabled = true;
   setAdminMessage("Salvando equipe...");
@@ -238,7 +270,7 @@ async function addTeam(event) {
   try {
     await requestJson("/api/teams", {
       method: "POST",
-      body: JSON.stringify({ name, logoUrl }),
+      body: JSON.stringify({ name }),
     });
 
     form.reset();
@@ -251,25 +283,46 @@ async function addTeam(event) {
   }
 }
 
-async function levelUp(teamId, button) {
-  button.disabled = true;
+async function updateStage(teamId, stage, select) {
+  select.disabled = true;
 
   try {
-    const data = await requestJson("/api/level-up", {
+    const data = await requestJson("/api/stage", {
       method: "POST",
-      body: JSON.stringify({ teamId }),
+      body: JSON.stringify({ teamId, stage: Number(stage) }),
     });
 
-    const levelNode = document.querySelector(`[data-admin-level-for="${CSS.escape(teamId)}"]`);
-    if (levelNode) {
-      levelNode.textContent = String(data.team?.level || data.newLevel || Number(levelNode.textContent) + 1);
+    const stageNode = document.querySelector(`[data-admin-stage-for="${CSS.escape(teamId)}"]`);
+    if (stageNode) {
+      stageNode.textContent = stageLabel(data.team?.stage ?? stage);
     }
 
-    setAdminMessage("Level atualizado.");
+    setAdminMessage("Etapa atualizada.");
   } catch (error) {
     setAdminMessage(error.message, true);
+    await renderAdmin();
   } finally {
-    button.disabled = false;
+    select.disabled = false;
+  }
+}
+
+async function editTeamName(teamId) {
+  const teams = (await fetchTeams()).map(normalizeTeam);
+  const team = teams.find((item) => item.id === teamId);
+  const newName = window.prompt("Novo nome da equipe:", team?.name || "");
+
+  if (!newName || !newName.trim()) return;
+
+  try {
+    await requestJson("/api/team-name", {
+      method: "POST",
+      body: JSON.stringify({ teamId, name: newName.trim() }),
+    });
+
+    setAdminMessage("Nome atualizado.");
+    await renderAdmin();
+  } catch (error) {
+    setAdminMessage(error.message, true);
   }
 }
 
@@ -280,10 +333,15 @@ async function bootAdmin() {
 
   form?.addEventListener("submit", addTeam);
   refresh?.addEventListener("click", renderAdmin);
+  list?.addEventListener("change", (event) => {
+    const select = event.target.closest("[data-stage-select]");
+    if (!select) return;
+    updateStage(select.dataset.stageSelect, select.value, select);
+  });
   list?.addEventListener("click", (event) => {
-    const button = event.target.closest("[data-level-up]");
+    const button = event.target.closest("[data-edit-name]");
     if (!button) return;
-    levelUp(button.dataset.levelUp, button);
+    editTeamName(button.dataset.editName);
   });
 
   try {
