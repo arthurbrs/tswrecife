@@ -134,77 +134,78 @@ async function stopHeavyFireworks() {
 
 async function startHeavyFireworks() {
   const container = document.getElementById("fireworks-container");
-  const particles = window.tsParticles;
+  const Fireworks = window.Fireworks?.default || window.Fireworks;
 
-  if (!container || !particles?.load) return;
+  if (!container || typeof Fireworks !== "function") return;
 
   await stopHeavyFireworks();
   container.classList.add("is-active");
 
-  state.fireworksInstance = await particles.load("fireworks-container", {
-    preset: "fireworks",
-    fullScreen: {
-      enable: false,
+  state.fireworksInstance = new Fireworks(container, {
+    autoresize: true,
+    opacity: 0.55,
+    acceleration: 1.04,
+    friction: 0.97,
+    gravity: 1.35,
+    particles: 95,
+    traceLength: 4,
+    traceSpeed: 8,
+    explosion: 7,
+    intensity: 36,
+    flickering: 50,
+    hue: {
+      min: 18,
+      max: 205,
     },
-    background: {
-      color: "transparent",
+    delay: {
+      min: 18,
+      max: 34,
     },
-    detectRetina: true,
-    fpsLimit: 60,
-    emitters: {
-      life: {
-        count: 0,
-        duration: 0.12,
-        delay: 0.28,
+    rocketsPoint: {
+      min: 18,
+      max: 82,
+    },
+    lineWidth: {
+      explosion: {
+        min: 1,
+        max: 3,
       },
-      rate: {
-        delay: 0.12,
-        quantity: 3,
-      },
-      size: {
-        width: 100,
-        height: 0,
-      },
-      position: {
-        x: 50,
-        y: 100,
+      trace: {
+        min: 1,
+        max: 2,
       },
     },
-    particles: {
-      number: {
-        value: 0,
-      },
-      color: {
-        value: ["#00e5ff", "#ff2d7a", "#4dff88", "#ffd166", "#ffffff"],
-      },
-      move: {
-        enable: true,
-        speed: {
-          min: 8,
-          max: 18,
-        },
-        gravity: {
-          enable: true,
-          acceleration: 10,
-        },
-        decay: 0.92,
-      },
-      life: {
-        duration: {
-          value: {
-            min: 1.2,
-            max: 2.4,
-          },
-        },
-      },
-      size: {
-        value: {
-          min: 1,
-          max: 4,
-        },
-      },
+    brightness: {
+      min: 64,
+      max: 92,
+    },
+    decay: {
+      min: 0.015,
+      max: 0.03,
+    },
+    mouse: {
+      click: false,
+      move: false,
+      max: 0,
+    },
+    boundaries: {
+      x: 50,
+      y: 50,
+      width: container.clientWidth,
+      height: container.clientHeight,
+    },
+    sound: {
+      enabled: false,
     },
   });
+
+  state.fireworksInstance.start();
+
+  window.setTimeout(() => {
+    if (state.fireworksInstance) {
+      state.fireworksInstance.waitStop();
+    }
+  }, 4200);
 
   state.fireworksTimer = window.setTimeout(async () => {
     container.classList.remove("is-active");
