@@ -66,8 +66,7 @@ function createParticles() {
   const container = document.getElementById("particles-container");
   if (!container) return;
 
-  // Nova paleta de cores para as partículas de fundo
-  const colors = ["#00a8ff", "#ff6b00", "#ffb833", "#4dabf7"];
+  const colors = ["#00e5ff", "#ff2d7a", "#4dff88", "#ffd166"];
 
   for (let index = 0; index < 46; index += 1) {
     const particle = document.createElement("span");
@@ -95,8 +94,7 @@ function fireConfettiBurst(origin, particleCount = 80) {
     decay: 0.91,
     scalar: 1.08,
     origin,
-    // Nova paleta de cores para os confetes de level up
-    colors: ["#00a8ff", "#ff6b00", "#ffb833", "#4dabf7", "#ffffff"],
+    colors: ["#00e5ff", "#ff2d7a", "#4dff88", "#ffd166", "#ffffff"],
   });
 }
 
@@ -389,14 +387,14 @@ function setAdminMessage(message, isError = false) {
   const node = document.getElementById("admin-message");
   if (!node) return;
   node.textContent = message;
-  node.style.color = isError ? "var(--orange)" : "var(--light-blue)";
+  node.style.color = isError ? "var(--pink)" : "var(--green)";
 }
 
 function setAuthMessage(message, isError = false) {
   const node = document.getElementById("auth-message");
   if (!node) return;
   node.textContent = message;
-  node.style.color = isError ? "var(--orange)" : "var(--light-blue)";
+  node.style.color = isError ? "var(--pink)" : "var(--green)";
 }
 
 function showAdminContent(isAuthenticated) {
