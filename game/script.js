@@ -118,7 +118,43 @@ if (document.getElementById('admin-page')) {
     addTeamForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
+            const addTeamForm = document.getElementById('add-team-form');
+    addTeamForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
         const name = document.getElementById('team-name').value;
+        
+        const newTeam = {
+            id: 'team_' + Date.now(),
+            name: name,
+            level: 1
+        };
+
+        try {
+            const response = await fetch(`${WORKER_URL}/api/teams`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newTeam)
+            });
+
+            if (!response.ok) {
+                // Captura o erro retornado pelo Worker
+                const errorData = await response.json();
+                console.error('Erro na API do Worker:', errorData);
+                alert(`Erro ao salvar no banco: ${errorData.error || response.statusText}`);
+                return; // Para a execução aqui, não reseta o form
+            }
+            
+            addTeamForm.reset();
+            await renderAdminList();
+            console.log("Equipe adicionada com sucesso!");
+
+        } catch (error) {
+            console.error('Erro de requisição/CORS:', error);
+            alert('Falha de conexão com o Worker. Verifique o console (F12).');
+        }
+    });
+
         
         // Objeto simplificado sem a propriedade "logo"
         const newTeam = {
