@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Placar Game</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body id="display-page">
+  <div id="particles-container" aria-hidden="true"></div>
+  <div id="fireworks-container" aria-hidden="true"></div>
+  <div id="level-celebration" class="level-celebration" aria-live="polite" aria-hidden="true">
+    <div class="celebration-panel">
+      <p>Nova fase desbloqueada</p>
+      <strong id="celebration-team-name"></strong>
+      <span id="celebration-stage-name"></span>
+    </div>
+  </div>
+
+  <main class="scoreboard-shell">
+    <header class="scoreboard-header">
+      <p class="eyebrow">Live Scoreboard</p>
+      <h1>Zero t<span>o HERO</span></h1>
+    </header>
+
+    <section id="teams-grid" class="teams-grid" aria-live="polite"></section>
+
+    <p id="empty-display" class="empty-state">
+      Nenhuma equipe cadastrada ainda.
+    </p>
+
+    <footer class="site-footer">
+      <a class="brand-logo" href="./index.html" aria-label="Startup Weekend Recife">
+        <img src="https://r2.tswrecife.com.br/Logos/Startup%20Weekend%20Logo%20-%203%20WRITE%20orange.png" alt="Startup Weekend Recife">
+      </a>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js"></script>
+  <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

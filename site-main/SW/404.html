@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Página não encontrada | techstars_ Startup Weekend Recife</title>
+  <meta name="description" content="Página de erro do Startup Weekend Recife.">
+  <style>
+    :root {
+      --deep: #081826;
+      --navy: #0d2435;
+      --sea: #00a6b2;
+      --sun: #EE6F2D;
+      --coral: #ff6259;
+      --sand: #fff3d6;
+      --white: #ffffff;
+      --muted: rgba(255, 255, 255, .68);
+      --line: rgba(255, 255, 255, .14);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--white);
+      background:
+        radial-gradient(circle at 18% 20%, rgba(238, 111, 45, .18), transparent 28rem),
+        radial-gradient(circle at 82% 24%, rgba(0, 166, 178, .22), transparent 30rem),
+        linear-gradient(180deg, #071522, #0d2435);
+      display: grid;
+      place-items: center;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      width: min(1120px, calc(100% - 32px));
+      min-height: 640px;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 44px;
+      align-items: center;
+      padding: 52px 0;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 42px;
+      font-weight: 900;
+    }
+
+    .brand-logo {
+      display: block;
+      width: 230px;
+      max-width: 54vw;
+      max-height: 56px;
+      object-fit: contain;
+      filter: drop-shadow(0 14px 28px rgba(0, 0, 0, .26));
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      min-height: 34px;
+      padding: 0 12px;
+      border: 1px solid rgba(255, 255, 255, .2);
+      border-radius: 999px;
+      align-items: center;
+      color: #ffb083;
+      background: rgba(238, 111, 45, .12);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    h1 {
+      max-width: 720px;
+      margin: 24px 0 18px;
+      font-size: clamp(48px, 9vw, 96px);
+      line-height: .9;
+      letter-spacing: 0;
+    }
+
+    p {
+      max-width: 620px;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(17px, 2vw, 21px);
+      line-height: 1.65;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .btn {
+      min-height: 48px;
+      padding: 0 20px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--deep);
+      background: var(--sun);
+      font-weight: 900;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 36px rgba(238, 111, 45, .25);
+    }
+
+    .btn.secondary {
+      color: var(--white);
+      border-color: rgba(255, 255, 255, .24);
+      background: rgba(255, 255, 255, .1);
+    }
+
+    .visual {
+      min-height: 520px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+      background: rgba(255, 255, 255, .06);
+      box-shadow: 0 26px 70px rgba(6, 22, 34, .28);
+    }
+
+    .visual img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .visual::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 42%, rgba(8, 24, 38, .92));
+    }
+
+    .code {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 24px;
+      z-index: 1;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .code strong {
+      color: var(--sun);
+      font-size: clamp(52px, 10vw, 92px);
+      line-height: .8;
+      letter-spacing: 0;
+    }
+
+    .code span {
+      color: rgba(255, 255, 255, .74);
+      font-size: 13px;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      text-align: right;
+    }
+
+    footer {
+      position: fixed;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      color: rgba(255, 255, 255, .5);
+      font-size: 13px;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    @media (max-width: 900px) {
+      body {
+        display: block;
+      }
+
+      .page {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding: 32px 0 72px;
+      }
+
+      .brand {
+        margin-bottom: 30px;
+      }
+
+      .visual {
+        min-height: 340px;
+      }
+
+      .actions {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      footer {
+        position: static;
+        padding: 0 16px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section>
+      <a class="brand" href="/index.html" aria-label="Voltar para Startup Weekend Recife">
+        <img class="brand-logo" src="https://tswrecifestorage.blob.core.windows.net/site-frontend/Images/Startup%20Weekend%20Logo%20-%203%20WRITE%20orange.png" alt="Techstars Startup Weekend Recife" loading="eager" decoding="async">
+      </a>
+
+      <span class="eyebrow">Erro 404</span>
+      <h1>Essa página saiu do pitch.</h1>
+      <p>O endereço acessado não foi encontrado. Volte para a página inicial ou siga direto para a área de inscrição do evento.</p>
+
+      <div class="actions">
+        <a class="btn" href="/index.html">Voltar para o site</a>
+        <a class="btn secondary" href="/index.html#inscricao">Ir para inscrição</a>
+      </div>
+    </section>
+
+    <aside class="visual" aria-label="Imagem do Startup Weekend Recife">
+      <img src="https://tswrecifestorage.blob.core.windows.net/site-frontend/Images/recife-capa.jpg" alt="Capa do Startup Weekend Recife">
+      <div class="code">
+        <strong>404</strong>
+        <span>Página não encontrada</span>
+      </div>
+    </aside>
+  </main>
+
+  <footer>Techstars Startup Weekend Recife. Todos os direitos reservados.</footer>
+</body>
+</html>

@@ -1,0 +1,2301 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html b:css='false' b:defaultwidgetversion='2' b:layoutsVersion='3' b:responsive='true' expr:dir='data:blog.languageDirection' expr:lang='data:blog.locale' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <meta content="#EE6F2D" name="theme-color" />
+  <meta content="#EE6F2D" name="msapplication-TileColor" />
+  <meta content="#EE6F2D" name="msapplication-navbutton-color" />
+  <meta content="yes" name="apple-mobile-web-app-capable" />
+  <meta content="default" name="apple-mobile-web-app-status-bar-style" />
+  <meta content="techstars Startup Weekend Recife: 54 horas para transformar ideias em startups." name="description" />
+  <meta content="index,follow,max-image-preview:large" name="robots" />
+  <meta content="Startup Weekend Recife" name="author" />
+  <meta content="website" property="og:type" />
+  <meta content="techstars Startup Weekend Recife" property="og:title" />
+  <meta content="54 horas para transformar ideias em startups." property="og:description" />
+  <meta content="Startup Weekend Recife" property="og:site_name" />
+  <meta content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhXKDjEreJqiutQybgqL4-TSI4qEFgN9WwOTYdoCCXOX2hFuf1kYvnuJzl3Ex3EsSWSFFhvMvG5o0dR1PJRr1h07rEnrq99L0v_1cpsXSunUSjWuL3-oBNZx5KUH6UYm74C7UYX989I3fanZSDKcGCc_Bdcb1A2uOmSrG2PvcYBqgRieA9qo3k-FCv16y-i/s2000/Startup%20Weekend%20Logo%20-%203%20Black%20orange.png" property="og:image" />
+  <meta content="512" property="og:image:width" />
+  <meta content="512" property="og:image:height" />
+  <meta content="pt_BR" property="og:locale" />
+  <meta content="summary" name="twitter:card" />
+  <meta content="techstars Startup Weekend Recife" name="twitter:title" />
+  <meta content="54 horas para transformar ideias em startups." name="twitter:description" />
+  <meta content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhXKDjEreJqiutQybgqL4-TSI4qEFgN9WwOTYdoCCXOX2hFuf1kYvnuJzl3Ex3EsSWSFFhvMvG5o0dR1PJRr1h07rEnrq99L0v_1cpsXSunUSjWuL3-oBNZx5KUH6UYm74C7UYX989I3fanZSDKcGCc_Bdcb1A2uOmSrG2PvcYBqgRieA9qo3k-FCv16y-i/s2000/Startup%20Weekend%20Logo%20-%203%20Black%20orange.png" name="twitter:image" />
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="anonymous" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet" />
+  <link href="https://tswrecifestorage.blob.core.windows.net" rel="preconnect" crossorigin="anonymous" />
+  <link href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhBY-jUGjxLV8vYGA2oTxNoOYXDBwIDgT9HaN_gCNWDd3KsXSdfbFg0lKXuobVH02AwSQAp5Sn1Awgg3pEKCUZPdSVoav_67EwCwmjy-5aFb69SpUQ5z9gzzVkyTg8F-RYnEcwDwfkUsiEt0ZzspSIfjePpVoC9rFCupk7DMBsFcQETyiiVt_TQ8i-wUJvE/s2000/Startup%20Weekend%20Logo%20-%203%20WRITE%20orange.png" rel="icon" type="image/png" />
+  <link href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhBY-jUGjxLV8vYGA2oTxNoOYXDBwIDgT9HaN_gCNWDd3KsXSdfbFg0lKXuobVH02AwSQAp5Sn1Awgg3pEKCUZPdSVoav_67EwCwmjy-5aFb69SpUQ5z9gzzVkyTg8F-RYnEcwDwfkUsiEt0ZzspSIfjePpVoC9rFCupk7DMBsFcQETyiiVt_TQ8i-wUJvE/s2000/Startup%20Weekend%20Logo%20-%203%20WRITE%20orange.png" rel="apple-touch-icon" />
+  <title><data:blog.pageTitle/></title>
+  <b:skin><![CDATA[
+:root {
+      --deep: #081826;
+      --navy: #0d2435;
+      --sea: #00a6b2;
+      --sea-dark: #08717b;
+      --sun: #EE6F2D;
+      --sun-dark: #b94d1f;
+      --sun-soft: #ffb083;
+      --sun-rgb: 238, 111, 45;
+      --coral: #ff6259;
+      --mangue: #1f9d6f;
+      --sand: #fff3d6;
+      --paper: #fffaf0;
+      --ink: #112433;
+      --ink-soft: #526272;
+      --muted: #647382;
+      --white: #ffffff;
+      --line: rgba(255, 255, 255, .16);
+      --shadow: 0 26px 70px rgba(6, 22, 34, .28);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--white);
+      background: var(--deep);
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(circle at var(--mx, 50%) var(--my, 20%), rgba(238, 111, 45, .16), transparent 24rem),
+        linear-gradient(180deg, #071522, #0c2232 46%, #092233);
+      transition: background .2s ease;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translate3d(0, 0, 0) rotate(0deg);
+      }
+
+      50% {
+        transform: translate3d(14px, -18px, 0) rotate(3deg);
+      }
+    }
+
+    @keyframes waveMove {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    @keyframes marquee {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    @keyframes riseIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes shine {
+      0%, 35% {
+        transform: translateX(-70%) rotate(10deg);
+      }
+
+      75%, 100% {
+        transform: translateX(70%) rotate(10deg);
+      }
+    }
+
+    .site-header {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 40;
+      border-bottom: 1px solid rgba(255, 255, 255, .1);
+      background: rgba(8, 24, 38, .72);
+      backdrop-filter: blur(18px);
+      transition: background .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+
+    .site-header.is-scrolled {
+      border-color: rgba(238, 111, 45, .32);
+      background: rgba(8, 24, 38, .95);
+      box-shadow: 0 16px 38px rgba(0, 0, 0, .22);
+    }
+
+    .nav,
+    .section-inner,
+    .hero-inner,
+    .footer-inner {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      white-space: nowrap;
+      min-width: 0;
+    }
+
+    .brand-logo {
+      display: block;
+      width: 230px;
+      max-width: 44vw;
+      max-height: 52px;
+      object-fit: contain;
+      filter: drop-shadow(0 14px 28px rgba(0, 0, 0, .26));
+      transition: transform .25s ease;
+    }
+
+    .brand:hover .brand-logo {
+      transform: translateY(-1px) scale(1.02);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: rgba(255, 255, 255, .78);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: .01em;
+      font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .nav-links a {
+      position: relative;
+      padding: 8px 0;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 2px;
+      transform: scaleX(0);
+      transform-origin: left;
+      background: var(--sun);
+      transition: transform .2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--white);
+    }
+
+    .nav-links a:hover::after {
+      transform: scaleX(1);
+    }
+
+    .btn {
+      min-height: 46px;
+      padding: 0 20px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+      color: var(--deep);
+      background: var(--sun);
+      font-weight: 750;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+
+    .site-header .btn {
+      font-weight: 650;
+      letter-spacing: .01em;
+      font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .btn::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      transform: translateX(-115%);
+      background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .45), transparent);
+      transition: transform .55s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 36px rgba(238, 111, 45, .25);
+    }
+
+    .btn:hover::before {
+      transform: translateX(115%);
+    }
+
+    .btn-dark {
+      color: var(--white);
+      border-color: rgba(255, 255, 255, .22);
+      background: rgba(255, 255, 255, .1);
+    }
+
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+      padding: 126px 0 74px;
+      background:
+        linear-gradient(110deg, rgba(8, 24, 38, .97) 0%, rgba(8, 24, 38, .87) 48%, rgba(8, 24, 38, .42) 100%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1500' height='950' viewBox='0 0 1500 950'%3E%3Crect width='1500' height='950' fill='%230b2d3f'/%3E%3Ccircle cx='1120' cy='190' r='150' fill='%23EE6F2D'/%3E%3Cpath d='M0 680c150-70 310-69 480 0s330 68 480 0 330-70 540 0v270H0z' fill='%2300a6b2'/%3E%3Cpath d='M0 740c170-72 330-70 500 0s330 70 500 0 320-72 500 0v210H0z' fill='%2308717b' opacity='.86'/%3E%3Cpath d='M120 585h1100' stroke='%23fff3d6' stroke-width='22' stroke-linecap='round' opacity='.92'/%3E%3Cpath d='M180 585c70-180 190-180 260 0M440 585c70-180 190-180 260 0M700 585c70-180 190-180 260 0M960 585c70-180 190-180 260 0' fill='none' stroke='%23fff3d6' stroke-width='20' stroke-linecap='round' opacity='.92'/%3E%3Cpath d='M130 616h1080' stroke='%23ff6259' stroke-width='10' stroke-linecap='round' opacity='.92'/%3E%3Cg opacity='.5' fill='%23fffaf0'%3E%3Crect x='130' y='340' width='74' height='180' rx='8'/%3E%3Crect x='230' y='300' width='92' height='220' rx='8'/%3E%3Crect x='360' y='360' width='72' height='160' rx='8'/%3E%3Crect x='1220' y='310' width='82' height='210' rx='8'/%3E%3Crect x='1320' y='370' width='58' height='150' rx='8'/%3E%3C/g%3E%3C/svg%3E") center/cover;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      pointer-events: none;
+    }
+
+    .hero::before {
+      width: 270px;
+      height: 270px;
+      right: 9vw;
+      top: 18vh;
+      border: 1px solid rgba(238, 111, 45, .45);
+      background: radial-gradient(circle, rgba(238, 111, 45, .2), transparent 66%);
+      animation: float 7s ease-in-out infinite;
+    }
+
+    .hero::after {
+      width: 160px;
+      height: 160px;
+      right: 31vw;
+      bottom: 17vh;
+      border: 1px solid rgba(0, 166, 178, .55);
+      background: radial-gradient(circle, rgba(0, 166, 178, .18), transparent 67%);
+      animation: float 8.5s ease-in-out infinite reverse;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 430px;
+      align-items: start;
+      gap: 52px;
+    }
+
+    .hero-main {
+      margin-top: 46px;
+    }
+
+    .eyebrow {
+      min-height: 34px;
+      padding: 0 12px;
+      border: 1px solid rgba(var(--sun-rgb), .32);
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--sun-soft);
+      background: rgba(238, 111, 45, .12);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 780px;
+      margin: 26px 0 20px;
+      font-size: clamp(50px, 8vw, 104px);
+      line-height: .9;
+      letter-spacing: 0;
+    }
+
+    .accent {
+      color: var(--sun);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .hero-copy {
+      max-width: 650px;
+      color: rgba(255, 255, 255, .8);
+      font-size: clamp(18px, 2vw, 22px);
+    }
+
+    .hero-logo-title {
+      max-width: 720px;
+      line-height: 1;
+    }
+
+    .hero-logo-title img {
+      display: block;
+      width: min(680px, 100%);
+      height: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 18px 34px rgba(0, 0, 0, .28));
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 32px;
+    }
+
+    .hero-actions .btn {
+      font-weight: 800;
+      letter-spacing: .01em;
+      font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .hero .eyebrow,
+    .hero h1,
+    .hero-copy,
+    .hero-actions,
+    .event-card,
+    .hero-gallery {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: riseIn .75s cubic-bezier(.2, .75, .2, 1) forwards;
+    }
+
+    .hero h1 {
+      animation-delay: .1s;
+    }
+
+    .hero-copy {
+      animation-delay: .18s;
+    }
+
+    .hero-actions {
+      animation-delay: .28s;
+    }
+
+    .event-card {
+      animation-delay: .38s;
+    }
+
+    .hero-gallery {
+      animation-delay: .5s;
+    }
+
+    .event-card {
+      margin-top: 24px;
+      border: 1px solid rgba(255, 255, 255, .16);
+      border-radius: 8px;
+      overflow: hidden;
+      background: rgba(8, 24, 38, .78);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      transition: transform .25s ease, border-color .25s ease;
+    }
+
+    .event-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(238, 111, 45, .42);
+    }
+
+    .event-photo {
+      height: 210px;
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, rgba(238, 111, 45, .72), rgba(255, 98, 89, .62)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='360' viewBox='0 0 600 360'%3E%3Crect width='600' height='360' fill='%230d2435'/%3E%3Ccircle cx='430' cy='78' r='64' fill='%23EE6F2D'/%3E%3Cpath d='M0 245c72-34 144-34 216 0s144 34 216 0 112-34 168 0v115H0z' fill='%2300a6b2'/%3E%3Cpath d='M62 205h420' stroke='%23fff3d6' stroke-width='12' stroke-linecap='round'/%3E%3Cpath d='M92 205c32-80 88-80 120 0M212 205c32-80 88-80 120 0M332 205c32-80 88-80 120 0' fill='none' stroke='%23fff3d6' stroke-width='11' stroke-linecap='round'/%3E%3C/svg%3E") center/cover;
+    }
+
+    .event-photo img {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .event-photo::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(180deg, transparent 48%, rgba(8, 24, 38, .58));
+    }
+
+    .event-photo::after,
+    .photo-tile::after {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      z-index: 2;
+      pointer-events: none;
+      background: linear-gradient(110deg, transparent 36%, rgba(255, 255, 255, .26) 48%, transparent 60%);
+      animation: shine 6s ease-in-out infinite;
+    }
+
+    .event-body {
+      padding: 24px;
+    }
+
+    .event-body strong {
+      display: block;
+      color: var(--sun);
+      text-transform: uppercase;
+      font-size: clamp(12px, 1.2vw, 14px);
+      letter-spacing: 0;
+      font-weight: 800;
+      font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .event-body strong span {
+      font-weight: 800;
+    }
+
+    .event-list {
+      margin-top: 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .event-list div {
+      padding: 14px;
+      border: 1px solid rgba(255, 255, 255, .11);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .06);
+    }
+
+    .event-list small {
+      display: block;
+      color: rgba(var(--sun-rgb), .82);
+      font-weight: 800;
+      font-size: clamp(11px, 1vw, 12px);
+    }
+
+    .event-list b {
+      color: var(--white);
+    }
+
+    .countdown-card {
+      border-color: rgba(var(--sun-rgb), .34) !important;
+      background: linear-gradient(145deg, rgba(var(--sun-rgb), .16), rgba(0, 166, 178, .1)) !important;
+    }
+
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(54px, 1fr));
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .countdown-unit {
+      min-width: 0;
+      padding: 9px 6px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 8px;
+      background: rgba(8, 24, 38, .52);
+      text-align: center;
+      min-height: 68px;
+    }
+
+    .countdown-unit b {
+      display: block;
+      color: var(--sun);
+      font-size: clamp(22px, 3.5vw, 30px);
+      line-height: 1;
+      font-weight: 950;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .countdown-unit span {
+      display: block;
+      margin-top: 5px;
+      color: rgba(var(--sun-rgb), .84);
+      font-size: 10px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    .countdown-note {
+      margin: 10px 0 0;
+      color: rgba(var(--sun-rgb), .78);
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .wave-strip {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -1px;
+      height: 72px;
+      overflow: hidden;
+      opacity: .95;
+    }
+
+    .wave-strip span {
+      position: absolute;
+      inset: 0;
+      width: 200%;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='72' viewBox='0 0 1200 72'%3E%3Cpath d='M0 36c100-48 200-48 300 0s200 48 300 0 200-48 300 0 200 48 300 0v36H0z' fill='%23fffaf0'/%3E%3C/svg%3E") repeat-x bottom/1200px 72px;
+      animation: waveMove 16s linear infinite;
+    }
+
+    .scroll-cue {
+      margin-top: 48px;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: rgba(255, 255, 255, .74);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .scroll-cue span {
+      width: 24px;
+      height: 40px;
+      border: 1px solid rgba(255, 255, 255, .36);
+      border-radius: 999px;
+      display: inline-grid;
+      justify-content: center;
+      padding-top: 7px;
+    }
+
+    .scroll-cue span::before {
+      content: "";
+      width: 4px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--sun);
+      animation: float 1.6s ease-in-out infinite;
+    }
+
+    section {
+      padding: 96px 0;
+      position: relative;
+    }
+
+    .light {
+      color: var(--ink);
+      background: var(--paper);
+    }
+
+    .sand {
+      color: var(--ink);
+      background: var(--sand);
+    }
+
+    #programacao {
+      padding-bottom: 44px;
+    }
+
+    .dark {
+      background:
+        radial-gradient(circle at 85% 10%, rgba(0, 166, 178, .2), transparent 28rem),
+        var(--navy);
+    }
+
+    .section-title {
+      max-width: 790px;
+      margin-bottom: 44px;
+    }
+
+    .section-title h2 {
+      margin-bottom: 14px;
+      font-size: clamp(34px, 5vw, 62px);
+      line-height: .95;
+    }
+
+    .section-title p {
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .dark .section-title p {
+      color: rgba(255, 255, 255, .68);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .68s ease, transform .68s cubic-bezier(.2, .75, .2, 1);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr .9fr;
+      grid-auto-rows: 190px;
+      gap: 16px;
+    }
+
+    .photo-tile {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(0, 166, 178, .82), rgba(255, 98, 89, .72)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='500' viewBox='0 0 700 500'%3E%3Crect width='700' height='500' fill='%230d2435'/%3E%3Cg fill='%23fff3d6'%3E%3Ccircle cx='150' cy='160' r='48'/%3E%3Ccircle cx='332' cy='126' r='44'/%3E%3Ccircle cx='520' cy='164' r='52'/%3E%3C/g%3E%3Cg fill='%2300a6b2'%3E%3Crect x='80' y='220' width='140' height='180' rx='22'/%3E%3Crect x='270' y='190' width='126' height='210' rx='22'/%3E%3Crect x='456' y='230' width='146' height='170' rx='22'/%3E%3C/g%3E%3Crect x='70' y='420' width='560' height='34' rx='17' fill='%23EE6F2D'/%3E%3C/svg%3E") center/cover;
+      box-shadow: 0 18px 46px rgba(17, 36, 51, .12);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    .photo-tile:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 26px 58px rgba(17, 36, 51, .2);
+    }
+
+    .photo-tile.large {
+      grid-row: span 2;
+    }
+
+    .photo-label {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      z-index: 3;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      color: var(--white);
+      font-weight: 900;
+    }
+
+    .photo-label small {
+      color: rgba(255, 255, 255, .72);
+      font-weight: 800;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 54px;
+      align-items: center;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .stat {
+      padding: 22px;
+      border-radius: 8px;
+      color: var(--white);
+      background: linear-gradient(145deg, rgba(0, 166, 178, .88), rgba(8, 24, 38, .92));
+      box-shadow: 0 18px 46px rgba(17, 36, 51, .16);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      gap: 8px;
+    }
+
+    .stat b {
+      display: block;
+      color: var(--sun);
+      font-size: clamp(34px, 4.2vw, 50px);
+      line-height: 1.05;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat span {
+      color: rgba(255, 226, 204, .96);
+      font-size: 14px;
+      font-weight: 850;
+      line-height: 1.35;
+      display: block;
+      max-width: 11ch;
+    }
+
+    .track-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .track-card {
+      min-height: 250px;
+      padding: 28px;
+      border: 1px solid rgba(255, 255, 255, .14);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .07);
+      overflow: hidden;
+      position: relative;
+      transition: transform .25s ease, border-color .25s ease, background .25s ease;
+    }
+
+    .track-card::before {
+      content: "";
+      position: absolute;
+      inset: auto -30px -60px auto;
+      width: 150px;
+      height: 150px;
+      border-radius: 999px;
+      background: rgba(238, 111, 45, .16);
+      transition: transform .25s ease;
+    }
+
+    .track-card:hover {
+      transform: translateY(-7px);
+      border-color: rgba(238, 111, 45, .42);
+      background: rgba(255, 255, 255, .1);
+    }
+
+    .track-card:hover::before {
+      transform: scale(1.25);
+    }
+
+    .track-card h3 {
+      margin-bottom: 12px;
+      font-size: 27px;
+    }
+
+    .track-card p {
+      color: rgba(255, 255, 255, .7);
+      margin-bottom: 0;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+      align-items: start;
+    }
+
+    .tab-panel {
+      min-height: auto;
+      border-radius: 8px;
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: auto;
+      color: var(--white);
+      background: var(--navy);
+      box-shadow: 0 22px 60px rgba(17, 36, 51, .16);
+    }
+
+    .tab-content {
+      padding: 28px;
+    }
+
+    .tab-content h3 {
+      margin-bottom: 10px;
+      font-size: clamp(28px, 3vw, 38px);
+      line-height: 1;
+    }
+
+    .tab-content p {
+      color: rgba(255, 255, 255, .72);
+    }
+
+    .session-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0 20px;
+    }
+
+    .session-meta span {
+      min-height: 32px;
+      padding: 0 12px;
+      border: 1px solid rgba(255, 255, 255, .14);
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      color: rgba(255, 255, 255, .82);
+      background: rgba(255, 255, 255, .07);
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .timeline-list {
+      margin: 26px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 14px;
+    }
+
+    .timeline-list li {
+      padding: 14px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .06);
+    }
+
+    .timeline-list b {
+      color: var(--sun);
+      margin-right: 8px;
+    }
+
+    .timeline-list strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--white);
+      font-size: 14px;
+    }
+
+    .tab-photo {
+      display: none;
+      min-height: 0;
+      background:
+        linear-gradient(145deg, rgba(255, 98, 89, .58), rgba(0, 166, 178, .58)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='520' viewBox='0 0 420 520'%3E%3Crect width='420' height='520' fill='%230b2d3f'/%3E%3Ccircle cx='304' cy='110' r='72' fill='%23EE6F2D'/%3E%3Cpath d='M0 384c64-34 128-34 192 0s128 34 228 0v136H0z' fill='%2300a6b2'/%3E%3Cpath d='M54 302h310' stroke='%23fff3d6' stroke-width='12' stroke-linecap='round'/%3E%3Cpath d='M76 302c28-76 76-76 104 0M180 302c28-76 76-76 104 0M284 302c28-76 76-76 104 0' fill='none' stroke='%23fff3d6' stroke-width='10' stroke-linecap='round'/%3E%3C/svg%3E") center/cover;
+    }
+
+    .gallery-shell {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .gallery-main {
+      min-height: 500px;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      background:
+        linear-gradient(135deg, rgba(8, 24, 38, .3), rgba(0, 166, 178, .35)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='620' viewBox='0 0 900 620'%3E%3Crect width='900' height='620' fill='%230d2435'/%3E%3Cg fill='%23fff3d6'%3E%3Ccircle cx='190' cy='180' r='62'/%3E%3Ccircle cx='450' cy='150' r='58'/%3E%3Ccircle cx='690' cy='194' r='64'/%3E%3C/g%3E%3Cg fill='%23ff6259'%3E%3Crect x='106' y='270' width='170' height='230' rx='28'/%3E%3Crect x='370' y='236' width='160' height='264' rx='28'/%3E%3Crect x='600' y='288' width='178' height='212' rx='28'/%3E%3C/g%3E%3Cpath d='M70 540h760' stroke='%23EE6F2D' stroke-width='34' stroke-linecap='round'/%3E%3C/svg%3E") center/cover;
+      box-shadow: var(--shadow);
+    }
+
+    .gallery-main::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 45%, rgba(8, 24, 38, .88));
+    }
+
+    .gallery-caption {
+      position: absolute;
+      z-index: 2;
+      left: 26px;
+      right: 26px;
+      bottom: 24px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .gallery-caption h3 {
+      margin-bottom: 6px;
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: 1;
+    }
+
+    .gallery-caption p {
+      max-width: 540px;
+      margin-bottom: 0;
+      color: rgba(255, 255, 255, .74);
+    }
+
+    .gallery-controls {
+      display: flex;
+      gap: 10px;
+    }
+
+    .icon-btn {
+      width: 46px;
+      height: 46px;
+      border: 1px solid rgba(255, 255, 255, .24);
+      border-radius: 8px;
+      color: var(--white);
+      background: rgba(255, 255, 255, .12);
+      cursor: pointer;
+      transition: transform .2s ease, background .2s ease;
+    }
+
+    .icon-btn:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, .2);
+    }
+
+    .gallery-side {
+      display: grid;
+      gap: 14px;
+    }
+
+    .side-photo {
+      min-height: 154px;
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(238, 111, 45, .74), rgba(31, 157, 111, .7)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='220' viewBox='0 0 420 220'%3E%3Crect width='420' height='220' fill='%230b2d3f'/%3E%3Ccircle cx='312' cy='70' r='44' fill='%23EE6F2D'/%3E%3Cpath d='M0 165c58-26 116-26 174 0s116 26 246 0v55H0z' fill='%2300a6b2'/%3E%3C/svg%3E") center/cover;
+    }
+
+    .cta {
+      padding: 58px;
+      border-radius: 8px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 26px;
+      align-items: center;
+      color: var(--deep);
+      background: linear-gradient(90deg, var(--sun), #ff8c3f, var(--coral), var(--sea), var(--sun));
+      background-size: 280% 280%;
+    }
+
+    .cta h2 {
+      margin-bottom: 8px;
+      font-size: clamp(32px, 5vw, 58px);
+      line-height: .96;
+    }
+
+    .cta p {
+      margin-bottom: 0;
+      color: rgba(8, 24, 38, .75);
+      font-weight: 800;
+    }
+
+    .cta .btn {
+      color: var(--white);
+      background: var(--deep);
+    }
+
+    .sponsor-track {
+      overflow: hidden;
+      mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+    }
+
+    .sponsor-row {
+      width: max-content;
+      display: flex;
+      gap: 14px;
+      animation: marquee 24s linear infinite;
+    }
+
+    .sponsor-track:hover .sponsor-row {
+      animation-play-state: paused;
+    }
+
+    .sponsor {
+      width: 190px;
+      min-height: 94px;
+      border: 1px solid rgba(255, 255, 255, .13);
+      border-radius: 8px;
+      padding: 16px;
+      display: grid;
+      place-items: center;
+      color: rgba(255, 255, 255, .86);
+      background: rgba(255, 255, 255, .07);
+      font-weight: 900;
+      text-align: center;
+      transition: transform .2s ease, border-color .2s ease, background .2s ease;
+    }
+
+    .sponsor:hover {
+      transform: translateY(-5px);
+      border-color: rgba(238, 111, 45, .42);
+      background: rgba(255, 255, 255, .11);
+    }
+
+    .sponsor-groups {
+      display: grid;
+      gap: 34px;
+    }
+
+    .sponsor-tier {
+      display: grid;
+      gap: 16px;
+    }
+
+    .sponsor-tier-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, .1);
+    }
+
+    .sponsor-tier-head h3 {
+      margin: 0;
+      font-size: clamp(22px, 3vw, 34px);
+    }
+
+    .sponsor-tier-head span {
+      color: rgba(255, 255, 255, .52);
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .sponsor-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .sponsor-grid .sponsor {
+      width: auto;
+      min-height: 116px;
+    }
+
+    .sponsor.logo-card {
+      background: rgba(255, 255, 255, .07);
+      border-color: rgba(255, 255, 255, .13);
+    }
+
+    .sponsor.logo-card.hsbc-light {
+      background: rgba(255, 255, 255, .9);
+      border-color: rgba(255, 255, 255, .55);
+    }
+
+    .sponsor.logo-card img {
+      width: 100%;
+      max-width: 150px;
+      max-height: 58px;
+      object-fit: contain;
+    }
+
+    .sponsor.placeholder {
+      border-style: dashed;
+      color: rgba(255, 255, 255, .56);
+      background: rgba(255, 255, 255, .04);
+    }
+
+    .ticket-grid {
+      display: grid;
+      grid-template-columns: .95fr 1.05fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .ticket-card,
+    .included {
+      border-radius: 8px;
+      box-shadow: 0 18px 52px rgba(17, 36, 51, .12);
+    }
+
+    .ticket-card {
+      padding: 34px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 28px;
+      color: var(--ink);
+      background: var(--white);
+    }
+
+    .ticket-countdown {
+      padding: 18px;
+      border: 1px solid rgba(var(--sun-rgb), .28);
+      border-radius: 8px;
+      background: linear-gradient(145deg, rgba(var(--sun-rgb), .2), rgba(255, 176, 128, .18));
+    }
+
+    .ticket-countdown small {
+      display: block;
+      color: var(--sun-dark);
+      font-size: 12px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    .ticket-countdown .ticket-date {
+      display: block;
+      margin-top: 3px;
+      color: var(--sun-dark);
+      font-size: clamp(19px, 2.4vw, 24px);
+      font-weight: 950;
+    }
+
+    .ticket-countdown .countdown-unit {
+      border-color: rgba(var(--sun-rgb), .24);
+      background: rgba(255, 255, 255, .74);
+    }
+
+    .ticket-countdown .countdown-unit b {
+      color: var(--sun);
+    }
+
+    .ticket-countdown .countdown-unit span,
+    .ticket-countdown .countdown-note {
+      color: var(--sun-dark);
+    }
+
+
+    .price {
+      color: var(--sun);
+      font-size: clamp(52px, 8vw, 84px);
+      line-height: .9;
+      font-weight: 950;
+    }
+
+    .price small {
+      color: var(--sun-dark);
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .included {
+      padding: 34px;
+      color: var(--white);
+      background:
+        linear-gradient(145deg, rgba(8, 24, 38, .88), rgba(8, 24, 38, .76)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='480' viewBox='0 0 600 480'%3E%3Crect width='600' height='480' fill='%230b2d3f'/%3E%3Ccircle cx='450' cy='110' r='76' fill='%23EE6F2D' opacity='.85'/%3E%3Cpath d='M0 348c80-36 160-36 240 0s160 36 360 0v132H0z' fill='%2300a6b2' opacity='.7'/%3E%3C/svg%3E") center/cover;
+    }
+
+    .included ul {
+      list-style: none;
+      padding: 0;
+      margin: 22px 0 0;
+      display: grid;
+      gap: 13px;
+      color: rgba(255, 255, 255, .78);
+      font-weight: 700;
+    }
+
+    .included li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .included li::before {
+      content: "";
+      flex: 0 0 10px;
+      width: 10px;
+      height: 6px;
+      margin-top: 7px;
+      border-left: 3px solid var(--sun);
+      border-bottom: 3px solid var(--sun);
+      transform: rotate(-45deg);
+    }
+
+    footer {
+      padding: 44px 0;
+      color: rgba(255, 255, 255, .58);
+      border-top: 1px solid rgba(255, 255, 255, .1);
+      background: #06111b;
+    }
+
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 32px;
+      align-items: start;
+      font-size: 14px;
+      font-weight: 750;
+    }
+
+    .footer-copy {
+      display: grid;
+      gap: 10px;
+    }
+
+    .footer-copy strong,
+    .footer-contact strong {
+      color: var(--white);
+      font-size: 15px;
+    }
+
+    .footer-copy a,
+    .footer-contact a {
+      color: rgba(255, 255, 255, .72);
+      transition: color .2s ease;
+    }
+
+    .footer-copy a:hover,
+    .footer-contact a:hover {
+      color: var(--sun);
+    }
+
+    .footer-contact {
+      min-width: 250px;
+      display: grid;
+      gap: 10px;
+      text-align: right;
+    }
+
+    .footer-links {
+      min-width: 220px;
+      display: grid;
+      gap: 10px;
+      text-align: center;
+    }
+
+    .footer-links span {
+      color: rgba(255, 255, 255, .42);
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, .72);
+      transition: color .2s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--sun);
+    }
+
+    .footer-contact span {
+      color: rgba(255, 255, 255, .42);
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .blogger-page {
+      padding: 128px 0 72px;
+      color: var(--ink);
+      background: linear-gradient(180deg, var(--sand), var(--paper));
+      min-height: 100vh;
+    }
+
+    .blogger-page-hero {
+      width: min(920px, calc(100% - 32px));
+      margin: 0 auto 30px;
+    }
+
+    .blogger-page-hero .eyebrow {
+      color: var(--sun-dark);
+      border-color: rgba(var(--sun-rgb), .32);
+      background: rgba(var(--sun-rgb), .1);
+    }
+
+    .blogger-page-hero h1 {
+      margin: 22px 0 14px;
+      color: var(--ink);
+      font-size: clamp(38px, 6vw, 72px);
+      line-height: .96;
+      letter-spacing: 0;
+    }
+
+    .blogger-page-card {
+      width: min(920px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: clamp(26px, 5vw, 48px);
+      border-radius: 8px;
+      color: var(--ink);
+      background: var(--white);
+      box-shadow: 0 18px 52px rgba(17, 36, 51, .12);
+    }
+
+    .blogger-page-body {
+      color: var(--ink-soft);
+      font-size: 18px;
+      line-height: 1.75;
+      font-weight: 600;
+    }
+
+    .blogger-content-section {
+      display: none;
+    }
+
+    .blogger-page-loading {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .blogger-page-body > *:first-child {
+      margin-top: 0;
+    }
+
+    .blogger-page-body > *:last-child {
+      margin-bottom: 0;
+    }
+
+    .blogger-page-body h1,
+    .blogger-page-body h2,
+    .blogger-page-body h3,
+    .blogger-page-body h4 {
+      color: var(--ink);
+      line-height: 1.08;
+      margin: 1.4em 0 .5em;
+    }
+
+    .blogger-page-body h2 {
+      font-size: clamp(28px, 4vw, 44px);
+    }
+
+    .blogger-page-body h3 {
+      font-size: clamp(22px, 3vw, 30px);
+    }
+
+    .blogger-page-body a {
+      color: var(--sun-dark);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    .blogger-page-body img {
+      width: auto;
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      object-fit: contain;
+      box-shadow: 0 14px 34px rgba(17, 36, 51, .14);
+    }
+
+    .blogger-page-body ul,
+    .blogger-page-body ol {
+      padding-left: 1.25em;
+    }
+
+    .blogger-page-body blockquote {
+      margin: 28px 0;
+      padding: 20px 24px;
+      border-left: 4px solid var(--sun);
+      border-radius: 8px;
+      color: var(--ink);
+      background: rgba(var(--sun-rgb), .09);
+    }
+
+    .blogger-page-body table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+
+    .blogger-page-body th,
+    .blogger-page-body td {
+      padding: 12px 14px;
+      border: 1px solid rgba(17, 36, 51, .12);
+      text-align: left;
+    }
+
+    .blogger-page-body th {
+      color: var(--ink);
+      background: rgba(var(--sun-rgb), .1);
+    }
+
+    @media (max-width: 980px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero-grid,
+      .about-grid,
+      .tabs,
+      .gallery-shell,
+      .ticket-grid,
+      .footer-inner,
+      .cta {
+        grid-template-columns: 1fr;
+      }
+
+      .event-card {
+        max-width: 560px;
+        margin-top: 0;
+      }
+
+      .hero-main {
+        margin-top: 0;
+      }
+
+      .stat-grid,
+      .track-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .sponsor-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .tab-panel {
+        grid-template-rows: auto;
+      }
+
+      .tab-photo {
+        min-height: 0;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .brand-logo {
+        width: 176px;
+        max-width: 58vw;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 130px;
+      }
+
+      .hero-main {
+        margin-top: 0;
+      }
+
+      .hero h1 {
+        font-size: clamp(36px, 12vw, 50px);
+        line-height: .96;
+      }
+
+      .hero-logo-title img {
+        width: min(430px, 100%);
+      }
+
+      .hero-actions,
+      .stat-grid,
+      .track-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .photo-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: 220px;
+      }
+
+      .sponsor-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .sponsor-tier-head {
+        display: grid;
+      }
+
+      .photo-tile.large {
+        grid-row: span 1;
+      }
+
+      section {
+        padding: 70px 0;
+      }
+
+      #programacao {
+        padding-bottom: 36px;
+      }
+
+      .gallery-main {
+        min-height: 430px;
+      }
+
+      .gallery-caption {
+        display: block;
+      }
+
+      .gallery-controls {
+        margin-top: 18px;
+      }
+
+      .cta,
+      .ticket-card,
+      .included {
+        padding: 28px;
+      }
+
+      .footer-contact {
+        min-width: 0;
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .countdown-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .countdown-unit b {
+        font-size: clamp(24px, 10vw, 32px);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .001ms !important;
+      }
+
+      .reveal,
+      .hero .eyebrow,
+      .hero h1,
+      .hero-copy,
+      .hero-actions,
+      .event-card,
+      .hero-gallery {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  ]]></b:skin>
+  <script type="application/ld+json">
+//<![CDATA[
+{
+      "@context": "https://schema.org",
+      "@type": "Event",
+      "name": "techstars Startup Weekend Recife",
+      "description": "54 horas para transformar ideias em startups.",
+      "startDate": "2026-09-18T18:00:00-03:00",
+      "endDate": "2026-09-20T22:00:00-03:00",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "location": {
+        "@type": "Place",
+        "name": "Recife, PE",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Recife",
+          "addressRegion": "PE",
+          "addressCountry": "BR"
+        }
+      },
+      "image": [
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhXKDjEreJqiutQybgqL4-TSI4qEFgN9WwOTYdoCCXOX2hFuf1kYvnuJzl3Ex3EsSWSFFhvMvG5o0dR1PJRr1h07rEnrq99L0v_1cpsXSunUSjWuL3-oBNZx5KUH6UYm74C7UYX989I3fanZSDKcGCc_Bdcb1A2uOmSrG2PvcYBqgRieA9qo3k-FCv16y-i/s2000/Startup%20Weekend%20Logo%20-%203%20Black%20orange.png"
+      ],
+      "organizer": {
+        "@type": "Organization",
+        "name": "Startup Weekend Recife",
+        "url": "https://tswrecife.com.br/"
+      },
+      "performer": {
+        "@type": "Organization",
+        "name": "Techstars Startup Weekend Recife",
+        "url": "https://tswrecife.com.br/"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://www.sympla.com.br/evento/techstars-startup-weekend-recife-2026-2/3458161",
+        "priceCurrency": "BRL",
+        "availability": "https://schema.org/InStock",
+        "validFrom": "2026-06-08T00:00:00-03:00"
+      },
+      "url": "https://www.sympla.com.br/evento/techstars-startup-weekend-recife-2026-2/3458161"
+    }
+//]]>
+  </script>
+</head>
+<body>
+<header class="site-header">
+    <nav class="nav" aria-label="Navegação principal">
+      <a class="brand" expr:href='data:blog.homepageUrl' aria-label="techstars Startup Weekend Recife">
+        <img class="brand-logo" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhBY-jUGjxLV8vYGA2oTxNoOYXDBwIDgT9HaN_gCNWDd3KsXSdfbFg0lKXuobVH02AwSQAp5Sn1Awgg3pEKCUZPdSVoav_67EwCwmjy-5aFb69SpUQ5z9gzzVkyTg8F-RYnEcwDwfkUsiEt0ZzspSIfjePpVoC9rFCupk7DMBsFcQETyiiVt_TQ8i-wUJvE/s2000/Startup%20Weekend%20Logo%20-%203%20WRITE%20orange.png" alt="Techstars Startup Weekend Recife" loading="eager" decoding="async" />
+      </a>
+      <div class="nav-links">
+        <a expr:href='data:blog.homepageUrl + "#sobre"'>Sobre</a>
+        <a expr:href='data:blog.homepageUrl + "#programacao"'>Programação</a>
+        <a expr:href='data:blog.homepageUrl + "#fotos"'>Fotos</a>
+        <a expr:href='data:blog.homepageUrl + "#patrocinio"'>Patrocínio</a>
+        <a expr:href='data:blog.homepageUrl + "#inscricao"'>Inscrição</a>
+      </div>
+      <a class="btn" href="https://www.sympla.com.br/evento/techstars-startup-weekend-recife-2026-2/3458161" target="_blank" rel="noopener noreferrer">Inscreva-se</a>
+    </nav>
+  </header>
+
+  <b:if cond='data:blog.pageType == "static_page" or data:blog.pageType == "item"'>
+    <main id="top" class="blogger-page" data-blogger-page="true">
+      <section class="blogger-page-hero" aria-label="Página">
+        <span class="eyebrow">Startup Weekend Recife</span>
+        <h1 id="bloggerPageTitle"><data:blog.pageName/></h1>
+      </section>
+      <section class="blogger-page-card" aria-label="Conteúdo da página">
+        <article class='blogger-page-article'>
+          <div class='blogger-page-body' id="bloggerPageBody">
+            <p class="blogger-page-loading">Carregando conteúdo da página...</p>
+          </div>
+        </article>
+      </section>
+    </main>
+  </b:if>
+
+  <b:section class='blogger-content-section' id='blogger-content-section' maxwidgets='1' showaddelement='false'>
+    <b:widget id='Blog1' locked='true' pageType='all' title='' type='Blog' version='1' visible='false'>
+      <b:includable id='main' var='top'></b:includable>
+    </b:widget>
+  </b:section>
+
+  <b:if cond='data:blog.pageType != "static_page" and data:blog.pageType != "item"'>
+  <main id="top">
+    <section class="hero" aria-label="Startup Weekend Recife">
+      <div class="hero-inner">
+        <div class="hero-grid">
+          <div class="hero-main">
+            <span class="eyebrow">Recife, PE • 54 horas de inovação</span>
+            <h1 class="hero-logo-title">
+              <span class="sr-only">techstars Startup Weekend Recife</span>
+              <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhBY-jUGjxLV8vYGA2oTxNoOYXDBwIDgT9HaN_gCNWDd3KsXSdfbFg0lKXuobVH02AwSQAp5Sn1Awgg3pEKCUZPdSVoav_67EwCwmjy-5aFb69SpUQ5z9gzzVkyTg8F-RYnEcwDwfkUsiEt0ZzspSIfjePpVoC9rFCupk7DMBsFcQETyiiVt_TQ8i-wUJvE/s2000/Startup%20Weekend%20Logo%20-%203%20WRITE%20orange.png" alt="Techstars Startup Weekend Recife" loading="eager" decoding="async" />
+            </h1>
+            <p class="hero-copy">Um fim de semana para transformar ideias em startups no ritmo criativo do Recife: tecnologia, negócio, design, mangue, pontes e gente construindo junto.</p>
+            <div class="hero-actions">
+              <a class="btn" href="https://www.sympla.com.br/evento/techstars-startup-weekend-recife-2026-2/3458161" target="_blank" rel="noopener noreferrer">Garantir vaga</a>
+              <a class="btn btn-dark" href="#fotos">Ver fotos</a>
+            </div>
+            <a class="scroll-cue" href="#sobre"><span></span> Scroll</a>
+          </div>
+
+          <aside class="event-card" data-tilt="true">
+            <div class="event-photo" role="img" aria-label="Capa do Startup Weekend Recife">
+              <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgsuxW8PIfJiyK0dc0KIY9Kac0RgSgbMT8Nv06NffKjtza1wp-OIkJuIr0doQuoWeULIojeWN5Iq_-PPlwdVGlVHB2Mq_RsWh4wAIEs4jj-kZp-SrrXeddbKp2hgT1pmD8XD5BvBqdPD7QWsPCoqsSPf9806GuwnljMRUfHt09ugms06Qyh3LyerXwIVMF7/s800/recife-capa.jpg" alt="Capa do Startup Weekend Recife" loading="eager" decoding="async" />
+            </div>
+            <div class="event-body">
+              <strong>Próxima edição: <span data-event-date-label="true">Data em breve</span></strong>
+              <div class="event-list">
+                <div class="countdown-card" aria-label="Data e contagem regressiva para o evento">
+                  <div class="countdown-grid">
+                    <div class="countdown-unit"><b id="countDays">--</b><span>dias</span></div>
+                    <div class="countdown-unit"><b id="countHours">--</b><span>horas</span></div>
+                    <div class="countdown-unit"><b id="countMinutes">--</b><span>min</span></div>
+                    <div class="countdown-unit"><b id="countSeconds">--</b><span>seg</span></div>
+                  </div>
+                  <p class="countdown-note" id="countdownNote">Contagem regressiva para o evento.</p>
+                </div>
+                <div>
+                  <small>Localização</small>
+                  <a href="https://www.google.com/maps/search/?api=1&amp;query=RUA%20XXXX%2C%20Bairro%20do%20Recife%2C%2012345-678%2C%20Recife%2C%20PE" target="_blank" rel="noopener noreferrer" aria-label="Abrir localização no Google Maps">
+                    <b>Local exato a ser divulgado, Recife, PE</b>
+                  </a>
+                </div>
+                <div>
+                  <small>Formato</small>
+                  <b>Presencial, prático e colaborativo</b>
+                </div>
+                <div>
+                  <small>Para quem</small>
+                  <b>Devs, designers, negócios e curiosos</b>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+      <div class="wave-strip" aria-hidden="true"><span></span></div>
+    </section>
+
+    <section id="sobre" class="light">
+      <div class="section-inner about-grid">
+        <div>
+          <div class="section-title">
+            <span class="eyebrow" style="color:#b94d1f;border-color:rgba(238,111,45,.32);background:rgba(238,111,45,.1)">Sobre</span>
+            <h2>Ideias atravessam pontes quando viram produto.</h2>
+            <p>O Startup Weekend Recife conecta pessoas de diferentes áreas para validar problemas, prototipar soluções e apresentar startups em apenas 54 horas.</p>
+          </div>
+          <div class="stat-grid">
+            <div class="stat">
+              <b data-count="54" data-suffix="h">0h </b>
+              <span>de imersão</span>
+            </div>
+            <div class="stat">
+              <b data-count="3">0</b>
+              <span>dias intensos</span>
+            </div>
+            <div class="stat">
+              <b data-count="12">0</b>
+              <span>ideias selecionadas</span>
+            </div>
+            <div class="stat">
+              <b data-count="1">0</b>
+              <span>startup validada</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="photo-grid" aria-label="Espaços para fotos do evento">
+          <div class="photo-tile large" style="background-image:linear-gradient(135deg,rgba(0,166,178,.62),rgba(255,98,89,.58)),url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjkfwqMjhvSw87xDGRI8nhOtI1OMgZcKIt8weqJq0tR1lPqUSxLl3HMVGH8uhjc5vTsilZbZOQ2BY2pSzvNCxxAHHJzewXaQ2rgmKhs4GGxjVEOX3QaK8L-J6FHVZpNikQPheaqCkHG4u7fmkO1DDKEK2C-ePCxZDxPjl-SB4xs-RdamAk09rkaRBzGA3Ja/s2048/2017-4.jpg')">
+            <div class="photo-label"><span>Mentorias em ação</span></div>
+          </div>
+          <div class="photo-tile" style="background-image:linear-gradient(135deg,rgba(238,111,45,.62),rgba(31,157,111,.58)),url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi4_R-Lqg98smqSMfzvt7Nra_gj9pAYfQDoJDbq_TVrah3lH-F92Xw4hL1uU7qinWjVTFo-uzU0V8x95-N7_ZTDUtQEQPvgDSArHgroRlnXa5vE91B72-JYbAoy6QBpkpkQxR_WsDt5F1-g6aGfEyxE4PgICn6tB4idvz_pbq9V2OOBNQLuPBr1kC4QWDgg/s960/2019-1.jpg')">
+            <div class="photo-label"><span>Comunidade empreendedora</span></div>
+          </div>
+          <div class="photo-tile" style="background-image:linear-gradient(135deg,rgba(255,98,89,.62),rgba(0,166,178,.58)),url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjESwh0kisqKsrtW2xTvTBaVnO-fLwhXwxy_sNNXOKbIa1DHSpS4MnJ7FhOQqw__Y6R8b687kcwJEfMxoGcOGKpIyd1lDNqT05WhWZGVL7NcxDoA7dYXvXMe_1z6CRMOWc4afrZo9VtZ3n1IIdsQIcnMw8CxKUDP-NuWvjXv5zgRNfuvUSPWxAPw17PJrVw/s2048/2019-2.jpg')">
+            <div class="photo-label"><span>Momento do pitch</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="dark">
+      <div class="section-inner">
+        <div class="section-title">
+          <span class="eyebrow">Experiência</span>
+          <h2>Um evento com energia de ecossistema.</h2>
+          <p>O design desta página reserva espaço para fotos reais do evento, mas já funciona com uma identidade visual inspirada em Recife.</p>
+        </div>
+
+        <div class="track-grid">
+          <article class="track-card">
+            <h3>Ideação</h3>
+            <p>Problemas reais, votação de ideias e formação de times multidisciplinares.</p>
+          </article>
+          <article class="track-card">
+            <h3>Validação</h3>
+            <p>Entrevistas, hipóteses, proposta de valor e primeiras evidências de mercado.</p>
+          </article>
+          <article class="track-card">
+            <h3>Construção</h3>
+            <p>Protótipo, modelo de negócio, narrativa e pitch final para a banca.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="programacao" class="sand">
+      <div class="section-inner">
+        <div class="section-title">
+          <span class="eyebrow" style="color:#b94d1f;border-color:rgba(238,111,45,.32);background:rgba(238,111,45,.1)">Programação</span>
+          <h2>Três dias para tirar uma ideia do papel.</h2>
+          <p>Cada etapa acelera o time até uma solução validada, com MVP e pitch final para a banca.</p>
+        </div>
+
+        <div class="tabs">
+          <article class="tab-panel" data-panel="sexta">
+            <div class="tab-content">
+              <span class="eyebrow">Sexta-feira - O Início</span>
+              <h3>Pitch de 60s + Formação de Equipes</h3>
+              <div class="session-meta">
+                <span>18h — 22h</span>
+                <span>4h</span>
+                <span>Networking</span>
+              </div>
+              <p>Networking intenso onde você apresenta sua ideia em 60 segundos. Os participantes votam nas melhores e formam times multidisciplinares.</p>
+              <ul class="timeline-list">
+                <li><strong>Apresentação de ideias</strong> Cada participante tem 60 segundos para defender uma oportunidade.</li>
+                <li><strong>Votação nas melhores propostas</strong> A comunidade escolhe os problemas com maior potencial.</li>
+                <li><strong>Formação de times multidisciplinares</strong> Pessoas de tecnologia, negócio e design se conectam.</li>
+                <li><strong>Conexão com o ecossistema</strong> Primeiras conversas com participantes, organização e mentores.</li>
+              </ul>
+            </div>
+            <div class="tab-photo" style="background-image:url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiXL_nLmYE2rVWQIJI-TdX8-QdYh-S6zTdcaXToHvuffxnl0Mtke4nJDxTTObkYTW_diJK2W2wgEsdgZO_npwT5J8Rc1HZW9Qm3ysX8246ttD46d5n7nhgau10nd5EKBItILmXLE82ILYHq3NjCWIeXU5_tLsS6zCPbQ-ekyUtPosf7Z41JfwZb26QC3GO8/s2048/2017-1.jpg')"></div>
+          </article>
+
+          <article class="tab-panel" data-panel="sabado">
+            <div class="tab-content">
+              <span class="eyebrow">Sábado - Mão na Massa</span>
+              <h3>Validação de Mercado + MVP</h3>
+              <div class="session-meta">
+                <span>8h — 22h</span>
+                <span>14h</span>
+                <span>Mentoria</span>
+              </div>
+              <p>Dia intenso de validação com clientes reais, desenvolvimento do produto mínimo viável e refinamento do modelo de negócio.</p>
+              <ul class="timeline-list">
+                <li><strong>Validação com clientes reais</strong> Times testam hipóteses fora da bolha e coletam evidências.</li>
+                <li><strong>Desenvolvimento do MVP</strong> A solução ganha forma em protótipo, fluxo, demo ou landing page.</li>
+                <li><strong>Refinamento do modelo de negócio</strong> Proposta de valor, público, canais e receita ficam mais claros.</li>
+                <li><strong>Apoio de mentores experientes</strong> Mentorias ajudam a corrigir rota e acelerar decisões.</li>
+              </ul>
+            </div>
+            <div class="tab-photo" style="background-image:url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjBaWkoSkEr1dv8jxT1kMpmZY8nZNUSzj5ueSDn9S86q0UdeWURC5u91nT6nvxYq-5v1XNxG_ZPksFIdT9ZabPW7yBnwKTl1BG7NU9z-G2A5gmU7eJ9m2pIQ4gtk2oG0t5W6L6OhjSJqksWSjn1uYG2NKaTwQzxytjRmeRCTaFIaND537brM_dALqrGeQO0/s2048/2017-3.jpg')"></div>
+          </article>
+
+          <article class="tab-panel" data-panel="domingo">
+            <div class="tab-content">
+              <span class="eyebrow">Domingo - A Grande Final</span>
+              <h3>Pitch Final para Banca de Jurados</h3>
+              <div class="session-meta">
+                <span>8h — 20h</span>
+                <span>12h</span>
+                <span>Pitch Final</span>
+              </div>
+              <p>Momento de apresentar sua solução validada e modelo de negócio para uma banca de especialistas. Receba feedbacks reais e valiosos.</p>
+              <ul class="timeline-list">
+                <li><strong>Apresentação para banca de avaliadores</strong> Cada time defende problema, solução, validação e próximos passos.</li>
+                <li><strong>Feedback de especialistas do mercado</strong> Jurados e mentores apontam riscos, oportunidades e caminhos.</li>
+                <li><strong>Premiação das melhores startups</strong> Os projetos mais consistentes recebem reconhecimento.</li>
+                <li><strong>Oportunidades de conexão</strong> Participantes saem com contatos, repertório e uma startup em evolução.</li>
+              </ul>
+            </div>
+            <div class="tab-photo" style="background-image:url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjESwh0kisqKsrtW2xTvTBaVnO-fLwhXwxy_sNNXOKbIa1DHSpS4MnJ7FhOQqw__Y6R8b687kcwJEfMxoGcOGKpIyd1lDNqT05WhWZGVL7NcxDoA7dYXvXMe_1z6CRMOWc4afrZo9VtZ3n1IIdsQIcnMw8CxKUDP-NuWvjXv5zgRNfuvUSPWxAPw17PJrVw/s2048/2019-2.jpg')"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="fotos" class="dark">
+      <div class="section-inner">
+        <div class="section-title">
+          <span class="eyebrow">Fotos</span>
+          <h2>Os melhores momentos das edições passadas.</h2>
+          <p>Registros de mentorias, construção de MVP, apresentações e conexões que acontecem durante as 54 horas.</p>
+        </div>
+
+        <div class="gallery-shell">
+          <div class="gallery-main" id="galleryMain">
+            <div class="gallery-caption">
+              <div>
+                <h3 id="galleryTitle">Edições que viraram história</h3>
+                <p id="galleryText">Uma visão real da energia do evento: colaboração intensa, validação no mundo real e muito aprendizado em equipe.</p>
+              </div>
+              <div class="gallery-controls">
+                <button class="icon-btn" type="button" id="prevPhoto" aria-label="Foto anterior">‹</button>
+                <button class="icon-btn" type="button" id="nextPhoto" aria-label="Próxima foto">›</button>
+              </div>
+            </div>
+          </div>
+          <div class="gallery-side" aria-hidden="true">
+            <div class="side-photo" style="background-image:linear-gradient(135deg,rgba(238,111,45,.64),rgba(255,98,89,.52)),url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjBaWkoSkEr1dv8jxT1kMpmZY8nZNUSzj5ueSDn9S86q0UdeWURC5u91nT6nvxYq-5v1XNxG_ZPksFIdT9ZabPW7yBnwKTl1BG7NU9z-G2A5gmU7eJ9m2pIQ4gtk2oG0t5W6L6OhjSJqksWSjn1uYG2NKaTwQzxytjRmeRCTaFIaND537brM_dALqrGeQO0/s2048/2017-3.jpg')"></div>
+            <div class="side-photo" style="background-image:linear-gradient(135deg,rgba(0,166,178,.64),rgba(31,157,111,.52)),url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjZ0Evc16ZkSqDwsegLFy8fllYYUb-uSDVCGaOpM2sM-tYSGm70Aeyg-DZubo9RtyXn0Y8AngiTrNkIyX15ESoERXIEBscSJA8bPphGAB0avmEetEEut6vvBzzb7siVP_073m3xafxibqO8d3amCMcuhCFw_d11KeNvSPyVFUopjpOWEeNfg6rj_D7W1wEJ/s2048/2017.jpg')"></div>
+            <div class="side-photo" style="background-image:linear-gradient(135deg,rgba(255,98,89,.64),rgba(0,166,178,.52)),url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhP74IMkUl0UA9hVeatJ06s1kBOWuu2XW90zv2E24pwlkA3iRHT4UOMcogSMC4YlABbctp0TQmv6GRYxGW5leBcR2JGrPh8PGueNqC76P__bf4JGsc4OLmRbzFcqtsMfHNzTSZSisNuimpI00Uwmw4w8eRtEqY7yWAK2nZHc8jOnzJV-94yR-b967dkd1QH/s1944/2018-1.jpg')"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="light">
+      <div class="section-inner">
+        <div class="cta">
+          <div>
+            <h2>Construa uma startup em 54 horas.</h2>
+            <p>Participe da edição Recife e trabalhe em equipe para validar, prototipar e apresentar uma solução real.</p>
+          </div>
+          <a class="btn" href="https://www.sympla.com.br/evento/techstars-startup-weekend-recife-2026-2/3458161" target="_blank" rel="noopener noreferrer">Quero participar</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="patrocinio" class="dark">
+      <div class="section-inner">
+        <div class="section-title">
+          <span class="eyebrow">Patrocínio</span>
+          <h2>Marcas que conectam tecnologia e território.</h2>
+          <p>Reserve este espaço para patrocinadores, apoiadores, comunidades, universidades e parceiros locais.</p>
+        </div>
+
+        <div class="sponsor-groups" aria-label="Lista de patrocinadores por categoria">
+          <div class="sponsor-tier">
+            <div class="sponsor-tier-head">
+              <h3>Globais</h3>
+              <span>techstars_ global partners</span>
+            </div>
+            <div class="sponsor-grid">
+              <a class="sponsor logo-card" href="https://mercury.com" target="_blank" rel="noopener noreferrer" aria-label="Mercury">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjOduX1oofAj_zBZeBjwC_Oh7QiHvgwdlnbeYJ8Lpnz0MpLyamM65n88OVGJkXrsvvPPP41B62qxFN9SPdhsysrdmod2KmJ4iBZtq_BjD7TuZ3443eqniR3RXHPoLcsLRJ32swJvrD7WCM5B-1PUr7d7EpOfLeqenN120Yl0twzJXzTq7hg-gWdGv0iFUSM/s690/mercury.png" alt="Mercury" loading="lazy" decoding="async" />
+              </a>
+              <a class="sponsor logo-card" href="https://startup.google.com" target="_blank" rel="noopener noreferrer" aria-label="Google for Startups">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiMvqbMfBCZkagmXIzqyAs9qcw6qrABVkOliWQvWLsq3ULam1lBqIDHbgQ_zdWNMnAMCJnp770xEZYpM-TAHR9pguJTvqwjDrarEt0vZWL5GsbGw207USbpmKGcNOAkYqVX-cOyPzCNmkj1Q8hIJahv5SCpg4qXWDBwB_PkS2bWPVWarYBUiowWoJljkBHO/s1290/google-for-startups.png" alt="Google for Startups" loading="lazy" decoding="async" />
+              </a>
+              <a class="sponsor logo-card" href="https://www.deel.com" target="_blank" rel="noopener noreferrer" aria-label="Deel">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgWm4BTIM7FLWFmt3OpIdgXcvDxfG9On6A312kyO7eG0Qmbn7t8gmB7g62VUnx1DEdwwKRIXwdaywGWfsZHzPRFbMCESx_lypWlFjuiUrbE1Qgo6zG6NgJpGNXryyTzdROp3DbkYdX4rb23X9T0RFJ-cryVd_V9_w1ASmODpqFdypsKpvcafqMhzKbV0wt5/s454/deel.png" alt="Deel" loading="lazy" decoding="async" />
+              </a>
+              <a class="sponsor logo-card" href="https://www.business.hsbc.com" target="_blank" rel="noopener noreferrer" aria-label="HSBC Innovation Banking">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg-uu6mVatrNo7_o9kN-MeY_ffmnO9xAB1RjZlH325Z6x879XysCaHhSt4417D_oBJUXK-VoYvRkPwPYCyKdZgpQ01lv5qiyG3bqZkqp0TD1ysdSkujJNVeZEB9w55TSiZ6BYqKgeWW1FruFa5Ncy10RrLSWYF__SxZFU8WdQACTtSgKeSWStJj7NnGwmZE/s818/HSBC-InnovationBanking-Logo-MONO-BLK.png" alt="HSBC Innovation Banking" loading="lazy" decoding="async" />
+              </a>
+              <a class="sponsor logo-card" href="https://www.brex.com" target="_blank" rel="noopener noreferrer" aria-label="Brex">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgfRJhQ8XqzSpWez93peKPBYkvHaX-TKbbNpOuKLWuh2pTdqdTb_jKeajBFuN-OhA5Dkvi7Ntous9BoUaZ4H_N3-D8iGSOb8egIO4mZRhLeFjbwW0NBeCeMk-eyshYC3CtLnGcoltR4iIo8yWpg2-2wIXmpnyMr5FAv437pjG722P-NP6yfDwRrgkQSvMG0/s605/brex.png" alt="Brex" loading="lazy" decoding="async" />
+              </a>
+            </div>
+          </div>
+          <div class="sponsor-tier">
+            <div class="sponsor-tier-head">
+              <h3>Apoio Institucional</h3>
+              <span></span>
+            </div>
+            <div class="sponsor-grid">
+              <div class="sponsor placeholder">Adicionar logo Platinum</div>
+              <div class="sponsor placeholder">Adicionar logo Platinum</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="inscricao" class="sand">
+      <div class="section-inner ticket-grid">
+        <article class="ticket-card">
+          <div>
+            <span class="eyebrow" style="color:#b94d1f;border-color:rgba(238,111,45,.32);background:rgba(238,111,45,.1)">Inscrições</span>
+            <h2 style="margin:22px 0 14px;font-size:clamp(34px,5vw,62px);line-height:.96">Garanta sua vaga</h2>
+            <p style="color:var(--muted)">Viva uma imersão de empreendedorismo, tecnologia, design e validação em equipe.</p>
+          </div>
+          <div class="ticket-countdown" aria-label="Contagem regressiva para inscrição">
+            <small>Evento em</small>
+            <span class="ticket-date" data-event-date-label="true">Data em breve</span>
+            <div class="countdown-grid">
+              <div class="countdown-unit"><b id="ticketCountDays">--</b><span>dias</span></div>
+              <div class="countdown-unit"><b id="ticketCountHours">--</b><span>horas</span></div>
+              <div class="countdown-unit"><b id="ticketCountMinutes">--</b><span>min</span></div>
+              <div class="countdown-unit"><b id="ticketCountSeconds">--</b><span>seg</span></div>
+            </div>
+            <p class="countdown-note" id="ticketCountdownNote">Contagem regressiva para o evento.</p>
+          </div>
+          <a class="btn" href="https://www.sympla.com.br/evento/techstars-startup-weekend-recife-2026-2/3458161" target="_blank" rel="noopener noreferrer" aria-label="Abrir inscrição no Sympla">Inscreva-se agora</a>
+        </article>
+
+        <aside class="included">
+          <h3 style="margin:0;font-size:30px">O que inclui</h3>
+          <ul>
+            <li>Participação nos três dias de imersão</li>
+            <li>Coffee break, almoço e jantar</li>
+            <li>Mentorias com especialistas convidados</li>
+            <li>Networking com comunidade empreendedora</li>
+            <li>Espaço para validar, prototipar e apresentar sua ideia</li>
+            <li>Experiência presencial com energia de comunidade</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+  </main>
+  </b:if>
+
+  <footer>
+    <div class="footer-inner">
+      <!-- Rodapé legal: texto de direitos e link oficial da política de privacidade. -->
+      <div class="footer-copy">
+        <strong>techstars Startup Weekend Recife. Todos os direitos reservados.</strong>
+        <a href="https://www.techstars.com/privacy-policy" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>
+      </div>
+
+      <!-- Coluna de contato: altere o e-mail e telefone abaixo quando tiver os dados oficiais. -->
+      <nav class="footer-links" aria-label="Links de logos">
+        <span>Links</span>
+        <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhXKDjEreJqiutQybgqL4-TSI4qEFgN9WwOTYdoCCXOX2hFuf1kYvnuJzl3Ex3EsSWSFFhvMvG5o0dR1PJRr1h07rEnrq99L0v_1cpsXSunUSjWuL3-oBNZx5KUH6UYm74C7UYX989I3fanZSDKcGCc_Bdcb1A2uOmSrG2PvcYBqgRieA9qo3k-FCv16y-i/s2000/Startup%20Weekend%20Logo%20-%203%20Black%20orange.png" target="_blank" rel="noopener noreferrer">Logo preta</a>
+        <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhBY-jUGjxLV8vYGA2oTxNoOYXDBwIDgT9HaN_gCNWDd3KsXSdfbFg0lKXuobVH02AwSQAp5Sn1Awgg3pEKCUZPdSVoav_67EwCwmjy-5aFb69SpUQ5z9gzzVkyTg8F-RYnEcwDwfkUsiEt0ZzspSIfjePpVoC9rFCupk7DMBsFcQETyiiVt_TQ8i-wUJvE/s2000/Startup%20Weekend%20Logo%20-%203%20WRITE%20orange.png" target="_blank" rel="noopener noreferrer">Logo branca</a>
+      </nav>
+
+      <!-- Coluna de contato: altere o e-mail e telefone abaixo quando tiver os dados oficiais. -->
+      <address class="footer-contact">
+        <span>Contato</span>
+        <a href="mailto:contato@tswrecife.com.br">contato@tswrecife.com.br</a>
+      <!--  <a href="tel:+5581999999999">(81) 99999-9999</a> -->
+      </address>
+    </div>
+  </footer>
+
+  <script type="text/javascript">
+//<![CDATA[
+    /*
+      CONFIGURACAO GLOBAL DA DATA DO EVENTO
+      Altere somente a constante abaixo para atualizar todos os contadores e textos de data do site.
+      Use o formato ISO com fuso de Recife/Brasilia: YYYY-MM-DDTHH:mm:ss-03:00
+      Exemplo de preenchimento: AAAA-MM-DDTHH:mm:ss-03:00
+    */
+    const EVENT_DATE_ISO = "2026-09-18T18:00:00-03:00";
+
+    const header = document.querySelector(".site-header");
+    const revealTargets = document.querySelectorAll(".section-title, .stat, .photo-tile, .track-card, .tabs, .gallery-shell, .cta, .sponsor-tier, .ticket-card, .included");
+    const counters = document.querySelectorAll("[data-count]");
+    const galleryMain = document.querySelector("#galleryMain");
+    const galleryTitle = document.querySelector("#galleryTitle");
+    const galleryText = document.querySelector("#galleryText");
+    const prevPhoto = document.querySelector("#prevPhoto");
+    const nextPhoto = document.querySelector("#nextPhoto");
+    const eventDateLabels = document.querySelectorAll("[data-event-date-label]");
+    const countdownEls = {
+      days: document.querySelector("#countDays"),
+      hours: document.querySelector("#countHours"),
+      minutes: document.querySelector("#countMinutes"),
+      seconds: document.querySelector("#countSeconds"),
+      note: document.querySelector("#countdownNote")
+    };
+    const ticketCountdownEls = {
+      days: document.querySelector("#ticketCountDays"),
+      hours: document.querySelector("#ticketCountHours"),
+      minutes: document.querySelector("#ticketCountMinutes"),
+      seconds: document.querySelector("#ticketCountSeconds"),
+      note: document.querySelector("#ticketCountdownNote")
+    };
+    const countdownDisplays = [countdownEls, ticketCountdownEls];
+
+    const gallery = [
+      {
+        title: "Edição 2017",
+        text: "Comunidade, mentorias e validação em ritmo intenso durante as 54 horas de imersão.",
+        image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjBaWkoSkEr1dv8jxT1kMpmZY8nZNUSzj5ueSDn9S86q0UdeWURC5u91nT6nvxYq-5v1XNxG_ZPksFIdT9ZabPW7yBnwKTl1BG7NU9z-G2A5gmU7eJ9m2pIQ4gtk2oG0t5W6L6OhjSJqksWSjn1uYG2NKaTwQzxytjRmeRCTaFIaND537brM_dALqrGeQO0/s2048/2017-3.jpg",
+        tint: "linear-gradient(135deg, rgba(8,24,38,.28), rgba(0,166,178,.38))"
+      },
+      {
+        title: "Edição 2017 - Destaques",
+        text: "Times multidisciplinares transformando ideias em soluções com apoio de mentores.",
+        image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjZ0Evc16ZkSqDwsegLFy8fllYYUb-uSDVCGaOpM2sM-tYSGm70Aeyg-DZubo9RtyXn0Y8AngiTrNkIyX15ESoERXIEBscSJA8bPphGAB0avmEetEEut6vvBzzb7siVP_073m3xafxibqO8d3amCMcuhCFw_d11KeNvSPyVFUopjpOWEeNfg6rj_D7W1wEJ/s2048/2017.jpg",
+        tint: "linear-gradient(135deg, rgba(238,111,45,.24), rgba(255,98,89,.38))"
+      },
+      {
+        title: "Edição 2018",
+        text: "Do problema ao MVP: decisões rápidas, testes reais e evolução contínua.",
+        image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhP74IMkUl0UA9hVeatJ06s1kBOWuu2XW90zv2E24pwlkA3iRHT4UOMcogSMC4YlABbctp0TQmv6GRYxGW5leBcR2JGrPh8PGueNqC76P__bf4JGsc4OLmRbzFcqtsMfHNzTSZSisNuimpI00Uwmw4w8eRtEqY7yWAK2nZHc8jOnzJV-94yR-b967dkd1QH/s1944/2018-1.jpg",
+        tint: "linear-gradient(135deg, rgba(255,98,89,.32), rgba(8,24,38,.48))"
+      },
+      {
+        title: "Edição 2019 - Times",
+        text: "Construção colaborativa, iteração constante e preparação para o pitch final.",
+        image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi4_R-Lqg98smqSMfzvt7Nra_gj9pAYfQDoJDbq_TVrah3lH-F92Xw4hL1uU7qinWjVTFo-uzU0V8x95-N7_ZTDUtQEQPvgDSArHgroRlnXa5vE91B72-JYbAoy6QBpkpkQxR_WsDt5F1-g6aGfEyxE4PgICn6tB4idvz_pbq9V2OOBNQLuPBr1kC4QWDgg/s960/2019-1.jpg",
+        tint: "linear-gradient(135deg, rgba(0,166,178,.28), rgba(8,24,38,.42))"
+      },
+      {
+        title: "Edição 2019 - Final",
+        text: "Apresentações para banca, feedback qualificado e celebração das melhores soluções.",
+        image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjESwh0kisqKsrtW2xTvTBaVnO-fLwhXwxy_sNNXOKbIa1DHSpS4MnJ7FhOQqw__Y6R8b687kcwJEfMxoGcOGKpIyd1lDNqT05WhWZGVL7NcxDoA7dYXvXMe_1z6CRMOWc4afrZo9VtZ3n1IIdsQIcnMw8CxKUDP-NuWvjXv5zgRNfuvUSPWxAPw17PJrVw/s2048/2019-2.jpg",
+        tint: "linear-gradient(135deg, rgba(238,111,45,.26), rgba(8,24,38,.46))"
+      }
+    ];
+
+    let galleryIndex = 0;
+
+    const setHeaderState = () => {
+      header.classList.toggle("is-scrolled", window.scrollY > 18);
+    };
+
+    const setPointerGlow = (event) => {
+      document.body.style.setProperty("--mx", `${event.clientX}px`);
+      document.body.style.setProperty("--my", `${event.clientY}px`);
+    };
+
+    const animateCounter = (el) => {
+      if (el.dataset.done === "true") return;
+      el.dataset.done = "true";
+
+      const target = Number(el.dataset.count);
+      const suffix = el.dataset.suffix || "";
+      const duration = 1200;
+      const start = performance.now();
+
+      const tick = (now) => {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.round(target * eased) + suffix;
+        if (progress < 1) requestAnimationFrame(tick);
+      };
+
+      requestAnimationFrame(tick);
+    };
+
+    const setGallery = (index) => {
+      galleryIndex = (index + gallery.length) % gallery.length;
+      const item = gallery[galleryIndex];
+      galleryMain.style.backgroundImage = `${item.tint}, url('${item.image}')`;
+      galleryTitle.textContent = item.title;
+      galleryText.textContent = item.text;
+    };
+
+    const padCountdown = (value) => String(value).padStart(2, "0");
+
+    const setCountdownValues = (target, days, hours, minutes, seconds, note) => {
+      if (!target.days || !target.hours || !target.minutes || !target.seconds) return;
+
+      target.days.textContent = days;
+      target.hours.textContent = hours;
+      target.minutes.textContent = minutes;
+      target.seconds.textContent = seconds;
+      if (target.note && note) target.note.textContent = note;
+    };
+
+    const setEventDateLabels = (label) => {
+      eventDateLabels.forEach((dateLabel) => {
+        dateLabel.textContent = label;
+      });
+    };
+
+    const normalizeBloggerPath = (value) => {
+      try {
+        return new URL(value, window.location.href).pathname.replace(/\/$/, "");
+      } catch (error) {
+        return "";
+      }
+    };
+
+    const slugifyBloggerText = (value) => {
+      return String(value || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+    };
+
+    const getBloggerEntryLink = (entry) => {
+      const links = entry.link || [];
+      const alternate = links.find((link) => link.rel === "alternate");
+      return alternate ? alternate.href : "";
+    };
+
+    const getBloggerEntries = async (feedUrl) => {
+      const response = await fetch(feedUrl, { credentials: "same-origin" });
+      if (!response.ok) throw new Error(`Feed indisponivel: ${feedUrl}`);
+      const data = await response.json();
+      return data.feed && data.feed.entry ? data.feed.entry : [];
+    };
+
+    const loadBloggerPageContent = async () => {
+      const page = document.querySelector("[data-blogger-page]");
+      const titleTarget = document.querySelector("#bloggerPageTitle");
+      const bodyTarget = document.querySelector("#bloggerPageBody");
+      if (!page || !bodyTarget) return;
+
+      const currentPath = normalizeBloggerPath(window.location.href);
+      const currentSlug = currentPath.split("/").pop().replace(/\.html$/, "");
+      const titleHint = titleTarget ? slugifyBloggerText(titleTarget.textContent) : "";
+      const feeds = [
+        "/feeds/pages/default?alt=json&max-results=150",
+        "/feeds/posts/default?alt=json&max-results=150"
+      ];
+
+      try {
+        for (const feed of feeds) {
+          const entries = await getBloggerEntries(feed);
+          const match = entries.find((entry) => {
+            const entryPath = normalizeBloggerPath(getBloggerEntryLink(entry));
+            const entryTitle = entry.title && entry.title.$t ? entry.title.$t : "";
+            const entrySlug = slugifyBloggerText(entryTitle);
+            return entryPath === currentPath || entryPath.endsWith(`/${currentSlug}.html`) || entrySlug === currentSlug || entrySlug === titleHint;
+          });
+
+          if (match) {
+            const title = match.title && match.title.$t ? match.title.$t : "";
+            const content = match.content && match.content.$t ? match.content.$t : "";
+            if (titleTarget && title) titleTarget.textContent = title;
+            bodyTarget.innerHTML = content || "<p>Conteudo indisponivel para esta pagina.</p>";
+            page.classList.add("is-loaded");
+            return;
+          }
+        }
+
+        bodyTarget.innerHTML = "<p>Nao foi possivel encontrar o conteudo desta pagina no feed do Blogger.</p>";
+      } catch (error) {
+        bodyTarget.innerHTML = "<p>Nao foi possivel carregar o conteudo desta pagina agora.</p>";
+      }
+    };
+
+    const updateCountdown = () => {
+      if (!EVENT_DATE_ISO) {
+        setEventDateLabels("Data em breve");
+        countdownDisplays.forEach((display) => {
+          setCountdownValues(display, "--", "--", "--", "--", "Aguardando divulgação da data oficial.");
+        });
+        return;
+      }
+
+      const eventDate = new Date(EVENT_DATE_ISO);
+
+      if (Number.isNaN(eventDate.getTime())) {
+        setEventDateLabels("Data inválida");
+        countdownDisplays.forEach((display) => {
+          setCountdownValues(display, "--", "--", "--", "--", "Configure uma data válida no HTML.");
+        });
+        return;
+      }
+
+      const formattedDate = new Intl.DateTimeFormat("pt-BR").format(eventDate);
+      setEventDateLabels(formattedDate);
+
+      const distance = eventDate.getTime() - Date.now();
+
+      if (distance <= 0) {
+        countdownDisplays.forEach((display) => {
+          setCountdownValues(display, "00", "00", "00", "00", "Evento em andamento ou encerrado.");
+        });
+        return;
+      }
+
+      const day = 24 * 60 * 60 * 1000;
+      const hour = 60 * 60 * 1000;
+      const minute = 60 * 1000;
+      const days = Math.floor(distance / day);
+      const hours = Math.floor((distance % day) / hour);
+      const minutes = Math.floor((distance % hour) / minute);
+      const seconds = Math.floor((distance % minute) / 1000);
+
+      countdownDisplays.forEach((display) => {
+        setCountdownValues(display, String(days), padCountdown(hours), padCountdown(minutes), padCountdown(seconds), "Até a abertura do evento.");
+      });
+    };
+
+    revealTargets.forEach((item, index) => {
+      item.classList.add("reveal");
+      item.style.transitionDelay = `${Math.min(index % 4, 3) * 70}ms`;
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+
+        if (entry.target.matches(".stat")) {
+          const counter = entry.target.querySelector("[data-count]");
+          if (counter) animateCounter(counter);
+        }
+      });
+    }, { threshold: .16 });
+
+    revealTargets.forEach((item) => observer.observe(item));
+    if (prevPhoto) prevPhoto.addEventListener("click", () => setGallery(galleryIndex - 1));
+    if (nextPhoto) nextPhoto.addEventListener("click", () => setGallery(galleryIndex + 1));
+
+    setHeaderState();
+    if (galleryMain && galleryTitle && galleryText) setGallery(0);
+    loadBloggerPageContent();
+    updateCountdown();
+    if (EVENT_DATE_ISO) setInterval(updateCountdown, 1000);
+    window.addEventListener("scroll", setHeaderState, { passive: true });
+    window.addEventListener("pointermove", setPointerGlow, { passive: true });
+//]]>
+  </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Placar Game</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body id="admin-page">
+  <main class="admin-shell">
+    <header class="admin-header">
+      <p class="eyebrow">Control Room</p>
+      <h1>Painel <span>Admin</span></h1>
+    </header>
+
+    <form id="login-form" class="panel auth-panel">
+      <h2>Acesso restrito</h2>
+      <label class="field">
+        <span>Senha do admin</span>
+        <input id="admin-password" type="password" autocomplete="current-password" required>
+      </label>
+      <button class="primary-button" type="submit">Entrar</button>
+      <p id="auth-message" class="admin-message" role="status"></p>
+    </form>
+
+    <section id="admin-content" class="admin-layout is-hidden">
+      <form id="team-form" class="panel">
+        <h2>Cadastrar equipe</h2>
+
+        <label class="field">
+          <span>Nome</span>
+          <input id="team-name" type="text" maxlength="36" placeholder="Ex: Neon Wolves" required>
+        </label>
+
+        <button class="primary-button" type="submit">Adicionar equipe</button>
+        <p id="admin-message" class="admin-message" role="status"></p>
+      </form>
+
+      <section class="panel">
+        <div class="panel-heading">
+          <h2>Equipes</h2>
+          <div class="panel-actions">
+            <button id="refresh-admin" class="ghost-button" type="button">Atualizar</button>
+            <button id="logout-admin" class="danger-button" type="button">Sair</button>
+          </div>
+        </div>
+
+        <ul id="admin-teams-list" class="admin-list"></ul>
+      </section>
+    </section>
+
+    <footer class="site-footer">
+      <a class="brand-logo" href="./index.html" aria-label="Startup Weekend Recife">
+        <img src="https://r2.tswrecife.com.br/Logos/Startup%20Weekend%20Logo%20-%203%20WRITE%20orange.png" alt="Startup Weekend Recife">
+      </a>
+    </footer>
+  </main>
+
+  <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>
