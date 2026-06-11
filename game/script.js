@@ -1,5 +1,3 @@
-const app_key = "715f24c522c36b942eee";
-const cluster = "sa1";
 const WORKER_URL = "";
 
 const STAGES = [
@@ -15,9 +13,18 @@ const state = {
   teams: new Map(),
   fireworksInstance: null,
   fireworksTimer: null,
+  realtimeSocket: null,
+  realtimeReconnectTimer: null,
+  realtimeReconnectAttempts: 0,
 };
 
 const apiUrl = (path) => `${WORKER_URL}${path}`;
+const wsUrl = (path) => {
+  const base = WORKER_URL || window.location.origin;
+  const url = new URL(path, base);
+  url.protocol = url.protocol === "https:" ? "wss:" : "ws:";
+  return url.toString();
+};
 
 const sanitizeText = (value) => {
   const node = document.createElement("span");
@@ -314,24 +321,49 @@ async function syncDisplay() {
   }
 }
 
-function initializePusher() {
-  const hasConfig = app_key && cluster && !app_key.includes("COLE_") && !cluster.includes("COLE_");
-
-  if (!hasConfig || typeof Pusher !== "function") {
+function connectRealtime() {
+  if (state.realtimeSocket && [WebSocket.OPEN, WebSocket.CONNECTING].includes(state.realtimeSocket.readyState)) {
     return;
   }
 
-  const pusher = new Pusher(app_key, { cluster });
-  const channel = pusher.subscribe("placar-game");
+  state.realtimeSocket = new WebSocket(wsUrl("/ws"));
 
-  pusher.connection.bind("connected", syncDisplay);
-
-  channel.bind("update-level", (payload) => {
-    const teamId = String(payload.teamId || payload.id || "");
-    if (!teamId) return;
-
-    syncDisplay();
+  state.realtimeSocket.addEventListener("open", () => {
+    state.realtimeReconnectAttempts = 0;
+    syncDisplay().catch((error) => console.error(error));
   });
+
+  state.realtimeSocket.addEventListener("message", (event) => {
+    let payload = {};
+
+    try {
+      payload = JSON.parse(event.data);
+    } catch (error) {
+      console.error("Mensagem realtime invalida.", error);
+      return;
+    }
+
+    if (payload.type === "scoreboard:update") {
+      syncDisplay().catch((error) => console.error(error));
+    }
+  });
+
+  state.realtimeSocket.addEventListener("close", scheduleRealtimeReconnect);
+  state.realtimeSocket.addEventListener("error", () => {
+    state.realtimeSocket?.close();
+  });
+}
+
+function scheduleRealtimeReconnect() {
+  if (state.realtimeReconnectTimer) return;
+
+  const delay = Math.min(12000, 1000 * 2 ** state.realtimeReconnectAttempts);
+  state.realtimeReconnectAttempts += 1;
+
+  state.realtimeReconnectTimer = window.setTimeout(() => {
+    state.realtimeReconnectTimer = null;
+    connectRealtime();
+  }, delay);
 }
 
 async function bootDisplay() {
@@ -339,7 +371,7 @@ async function bootDisplay() {
 
   try {
     await syncDisplay();
-    initializePusher();
+    connectRealtime();
   } catch (error) {
     console.error(error);
   }

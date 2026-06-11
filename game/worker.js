@@ -16,11 +16,9 @@ Rotas principais:
 - POST /api/team-name  edita o nome da equipe.
 - POST /api/team-delete remove uma equipe.
 
-Secrets opcionais para Pusher:
-- PUSHER_APP_ID
-- PUSHER_KEY
-- PUSHER_SECRET
-- PUSHER_CLUSTER
+Tempo real:
+- GET /ws abre um WebSocket no Durable Object PLACAR_ROOM.
+- Apos cada escrita no KV, o Worker envia um broadcast para o Durable Object.
 */
 
 const TEAMS_KEY = "placar-game:teams";
@@ -239,37 +237,22 @@ function md5(input) {
     .join("");
 }
 
-async function triggerPusher(env, data) {
-  if (!env.PUSHER_APP_ID || !env.PUSHER_KEY || !env.PUSHER_SECRET || !env.PUSHER_CLUSTER) {
-    return;
-  }
+async function broadcastRealtime(env, data) {
+  if (!env.PLACAR_ROOM) return;
 
-  const body = JSON.stringify({
-    name: "update-level",
-    channels: ["placar-game"],
-    data: JSON.stringify(data),
-  });
-  const path = `/apps/${env.PUSHER_APP_ID}/events`;
-  const query = new URLSearchParams({
-    auth_key: env.PUSHER_KEY,
-    auth_timestamp: String(Math.floor(Date.now() / 1000)),
-    auth_version: "1.0",
-    body_md5: md5(body),
-  });
-  query.sort();
+  try {
+    const roomId = env.PLACAR_ROOM.idFromName("default");
+    const room = env.PLACAR_ROOM.get(roomId);
 
-  const stringToSign = `POST\n${path}\n${query.toString()}`;
-  const signature = await hmacHex(stringToSign, env.PUSHER_SECRET);
-  const endpoint = `https://api-${env.PUSHER_CLUSTER}.pusher.com${path}?${query.toString()}&auth_signature=${signature}`;
-
-  const response = await fetch(endpoint, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body,
-  });
-
-  if (!response.ok) {
-    console.error("Erro ao disparar Pusher:", await response.text());
+    await room.fetch("https://placar-room.internal/broadcast", {
+      method: "POST",
+      body: JSON.stringify({
+        type: "scoreboard:update",
+        ...data,
+      }),
+    });
+  } catch (error) {
+    console.error("Erro ao transmitir atualizacao realtime:", error);
   }
 }
 
@@ -400,7 +383,7 @@ async function handleApi(request, env) {
 
     teams.push(team);
     await writeTeams(env, teams);
-    await triggerPusher(env, { action: "team-created", teamId: team.id, stage: team.stage });
+    await broadcastRealtime(env, { action: "team-created", teamId: team.id, stage: team.stage });
 
     return json(request, { success: true, team, teams }, 201);
   }
@@ -424,7 +407,7 @@ async function handleApi(request, env) {
     team.level = team.stage;
     team.updatedAt = new Date().toISOString();
     await writeTeams(env, teams);
-    await triggerPusher(env, { action: "stage-updated", teamId: team.id, stage: team.stage });
+    await broadcastRealtime(env, { action: "stage-updated", teamId: team.id, stage: team.stage });
 
     return json(request, { success: true, team, teams });
   }
@@ -448,7 +431,7 @@ async function handleApi(request, env) {
     team.name = name;
     team.updatedAt = new Date().toISOString();
     await writeTeams(env, teams);
-    await triggerPusher(env, { action: "team-renamed", teamId: team.id, stage: team.stage });
+    await broadcastRealtime(env, { action: "team-renamed", teamId: team.id, stage: team.stage });
 
     return json(request, { success: true, team, teams });
   }
@@ -469,7 +452,7 @@ async function handleApi(request, env) {
     }
 
     await writeTeams(env, nextTeams);
-    await triggerPusher(env, { action: "team-deleted", teamId });
+    await broadcastRealtime(env, { action: "team-deleted", teamId });
 
     return json(request, { success: true, teams: nextTeams });
   }
@@ -487,7 +470,7 @@ async function handleApi(request, env) {
     team.level = team.stage;
     team.updatedAt = new Date().toISOString();
     await writeTeams(env, teams);
-    await triggerPusher(env, { action: "stage-updated", teamId: team.id, stage: team.stage });
+    await broadcastRealtime(env, { action: "stage-updated", teamId: team.id, stage: team.stage });
 
     return json(request, { success: true, team, newLevel: team.stage, teams });
   }
@@ -498,6 +481,16 @@ async function handleApi(request, env) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+
+    if (url.pathname === "/ws") {
+      if (!env.PLACAR_ROOM) {
+        return json(request, { error: "Binding PLACAR_ROOM nao configurado no Worker." }, 500);
+      }
+
+      const roomId = env.PLACAR_ROOM.idFromName("default");
+      const room = env.PLACAR_ROOM.get(roomId);
+      return room.fetch(request);
+    }
 
     if (!env.PLACAR_KV) {
       return json(request, { error: "Binding PLACAR_KV nao configurado no Worker." }, 500);
@@ -514,3 +507,66 @@ export default {
     return json(request, { ok: true, message: "Placar Game Worker ativo." });
   },
 };
+
+export class PlacarRealtimeRoom {
+  constructor() {
+    this.sessions = new Set();
+  }
+
+  async fetch(request) {
+    const url = new URL(request.url);
+
+    if (url.pathname === "/broadcast" && request.method === "POST") {
+      const payload = await request.json().catch(() => ({
+        type: "scoreboard:update",
+      }));
+
+      this.broadcast(payload);
+      return new Response(JSON.stringify({ ok: true }), {
+        headers: { "Content-Type": "application/json; charset=utf-8" },
+      });
+    }
+
+    if (request.headers.get("Upgrade") !== "websocket") {
+      return new Response("Expected WebSocket upgrade.", { status: 426 });
+    }
+
+    const pair = new WebSocketPair();
+    const [client, server] = Object.values(pair);
+
+    server.accept();
+    this.sessions.add(server);
+
+    server.addEventListener("message", (event) => {
+      const message = typeof event.data === "string" ? event.data : "";
+      if (message === "ping") {
+        server.send(JSON.stringify({ type: "pong" }));
+      }
+    });
+
+    const cleanup = () => {
+      this.sessions.delete(server);
+    };
+
+    server.addEventListener("close", cleanup);
+    server.addEventListener("error", cleanup);
+    server.send(JSON.stringify({ type: "connected" }));
+
+    return new Response(null, {
+      status: 101,
+      webSocket: client,
+    });
+  }
+
+  broadcast(payload) {
+    const message = JSON.stringify(payload);
+
+    for (const session of this.sessions) {
+      try {
+        session.send(message);
+      } catch {
+        this.sessions.delete(session);
+      }
+    }
+  }
+}

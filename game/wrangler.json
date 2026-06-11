@@ -11,5 +11,21 @@
       "binding": "PLACAR_KV",
       "id": "fe4d874300d148d6a359364b8ad6ebdf"
     }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "PLACAR_ROOM",
+        "class_name": "PlacarRealtimeRoom"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": [
+        "PlacarRealtimeRoom"
+      ]
+    }
   ]
 }
