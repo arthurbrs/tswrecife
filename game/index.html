@@ -21,15 +21,6 @@
     <header class="scoreboard-header">
       <p class="eyebrow">Live Scoreboard</p>
       <h1>Zero t<span>o HERO</span></h1>
-      <section class="countdown-panel" aria-label="Contagem regressiva para encerramento">
-        <span class="countdown-label">Encerramento em</span>
-        <div id="countdown-timer" class="countdown-timer" aria-live="polite">
-          <span><strong data-countdown-days>--</strong>Dias</span>
-          <span><strong data-countdown-hours>--</strong>Horas</span>
-          <span><strong data-countdown-minutes>--</strong>Min</span>
-          <span><strong data-countdown-seconds>--</strong>Seg</span>
-        </div>
-      </section>
     </header>
 
     <section id="teams-grid" class="teams-grid" aria-live="polite"></section>
@@ -37,6 +28,14 @@
     <p id="empty-display" class="empty-state">
       Nenhuma equipe cadastrada ainda.
     </p>
+
+    <section class="countdown-panel" aria-label="Contagem regressiva para encerramento">
+      <span class="countdown-label">Encerramento em</span>
+      <div id="countdown-timer" class="countdown-timer" aria-live="polite">
+        <strong data-countdown-hours-total>--</strong>
+        <span>horas</span>
+      </div>
+    </section>
 
     <footer class="site-footer">
       <a class="brand-logo" href="./index.html" aria-label="Startup Weekend Recife">

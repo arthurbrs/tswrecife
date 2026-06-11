@@ -44,26 +44,15 @@ function formatCountdownPart(value) {
 }
 
 function updateCountdown() {
-  const daysNode = document.querySelector("[data-countdown-days]");
-  const hoursNode = document.querySelector("[data-countdown-hours]");
-  const minutesNode = document.querySelector("[data-countdown-minutes]");
-  const secondsNode = document.querySelector("[data-countdown-seconds]");
+  const hoursNode = document.querySelector("[data-countdown-hours-total]");
   const timer = document.getElementById("countdown-timer");
 
-  if (!daysNode || !hoursNode || !minutesNode || !secondsNode || !timer) return;
+  if (!hoursNode || !timer) return;
 
   const remaining = Math.max(0, COUNTDOWN_TARGET - Date.now());
-  const totalSeconds = Math.floor(remaining / 1000);
-  const days = Math.floor(totalSeconds / 86400);
-  const hours = Math.floor((totalSeconds % 86400) / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
+  const totalHours = Math.ceil(remaining / 3600000);
 
-  daysNode.textContent = formatCountdownPart(days);
-  hoursNode.textContent = formatCountdownPart(hours);
-  minutesNode.textContent = formatCountdownPart(minutes);
-  secondsNode.textContent = formatCountdownPart(seconds);
-
+  hoursNode.textContent = formatCountdownPart(totalHours);
   timer.classList.toggle("is-finished", remaining === 0);
 }
 
