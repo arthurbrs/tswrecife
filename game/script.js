@@ -17,6 +17,8 @@ const state = {
   realtimeSocket: null,
   realtimeReconnectTimer: null,
   realtimeReconnectAttempts: 0,
+  realtimeHeartbeatTimer: null,
+  displaySyncTimer: null,
 };
 
 const apiUrl = (path) => `${WORKER_URL}${path}`;
@@ -360,6 +362,7 @@ function connectRealtime() {
 
   state.realtimeSocket.addEventListener("open", () => {
     state.realtimeReconnectAttempts = 0;
+    startRealtimeHeartbeat();
     syncDisplay().catch((error) => console.error(error));
   });
 
@@ -378,10 +381,29 @@ function connectRealtime() {
     }
   });
 
-  state.realtimeSocket.addEventListener("close", scheduleRealtimeReconnect);
+  state.realtimeSocket.addEventListener("close", () => {
+    stopRealtimeHeartbeat();
+    scheduleRealtimeReconnect();
+  });
   state.realtimeSocket.addEventListener("error", () => {
     state.realtimeSocket?.close();
   });
+}
+
+function startRealtimeHeartbeat() {
+  stopRealtimeHeartbeat();
+
+  state.realtimeHeartbeatTimer = window.setInterval(() => {
+    if (state.realtimeSocket?.readyState === WebSocket.OPEN) {
+      state.realtimeSocket.send("ping");
+    }
+  }, 25000);
+}
+
+function stopRealtimeHeartbeat() {
+  if (!state.realtimeHeartbeatTimer) return;
+  window.clearInterval(state.realtimeHeartbeatTimer);
+  state.realtimeHeartbeatTimer = null;
 }
 
 function scheduleRealtimeReconnect() {
@@ -396,6 +418,18 @@ function scheduleRealtimeReconnect() {
   }, delay);
 }
 
+function startDisplaySyncFallback() {
+  if (state.displaySyncTimer) return;
+
+  state.displaySyncTimer = window.setInterval(() => {
+    syncDisplay().catch((error) => console.error(error));
+  }, 30000);
+
+  window.addEventListener("focus", () => {
+    syncDisplay().catch((error) => console.error(error));
+  });
+}
+
 async function bootDisplay() {
   createParticles();
   startCountdown();
@@ -403,6 +437,7 @@ async function bootDisplay() {
   try {
     await syncDisplay();
     connectRealtime();
+    startDisplaySyncFallback();
   } catch (error) {
     console.error(error);
   }
