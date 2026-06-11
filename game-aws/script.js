@@ -111,6 +111,46 @@ function connectWebSocket({ onOpen } = {}) {
   return state.socket;
 }
 
+function waitForSocketOpen(socket) {
+  return new Promise((resolve, reject) => {
+    if (!socket) {
+      reject(new Error("WebSocket não configurado."));
+      return;
+    }
+
+    if (socket.readyState === WebSocket.OPEN) {
+      resolve(socket);
+      return;
+    }
+
+    if (socket.readyState !== WebSocket.CONNECTING) {
+      reject(new Error("WebSocket indisponível."));
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      socket.removeEventListener("open", handleOpen);
+      socket.removeEventListener("error", handleError);
+      reject(new Error("Tempo limite conectando ao WebSocket."));
+    }, 9000);
+
+    function handleOpen() {
+      window.clearTimeout(timer);
+      socket.removeEventListener("error", handleError);
+      resolve(socket);
+    }
+
+    function handleError() {
+      window.clearTimeout(timer);
+      socket.removeEventListener("open", handleOpen);
+      reject(new Error("Falha na conexão WebSocket."));
+    }
+
+    socket.addEventListener("open", handleOpen, { once: true });
+    socket.addEventListener("error", handleError, { once: true });
+  });
+}
+
 function scheduleReconnect() {
   if (state.reconnectTimer) return;
 
@@ -123,26 +163,10 @@ function scheduleReconnect() {
   }, delay);
 }
 
-function sendSocket(action, payload = {}, { authenticated = false, waitForAck = true } = {}) {
+async function sendSocket(action, payload = {}, { authenticated = false, waitForAck = true } = {}) {
+  const socket = await waitForSocketOpen(connectWebSocket());
+
   return new Promise((resolve, reject) => {
-    const socket = connectWebSocket({
-      onOpen: () => {
-        sendSocket(action, payload, { authenticated, waitForAck }).then(resolve).catch(reject);
-      },
-    });
-
-    if (!socket) {
-      reject(new Error("WebSocket não configurado."));
-      return;
-    }
-
-    if (socket.readyState === WebSocket.CONNECTING) return;
-
-    if (socket.readyState !== WebSocket.OPEN) {
-      reject(new Error("WebSocket indisponível."));
-      return;
-    }
-
     const requestId = nextRequestId();
     const message = {
       action,
