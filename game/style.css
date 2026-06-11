@@ -521,13 +521,25 @@ h2 {
 
 .admin-item {
   display: grid;
-  grid-template-columns: minmax(170px, 1fr) minmax(210px, 0.85fr) auto auto auto;
+  grid-template-columns: minmax(150px, 1fr) minmax(190px, 0.85fr) minmax(210px, auto);
   gap: 14px;
   align-items: center;
   padding: 12px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 8px;
   background: rgba(0, 0, 0, 0.24);
+}
+
+.admin-item-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.admin-item-actions .ghost-button,
+.admin-item-actions .danger-button {
+  min-width: 86px;
 }
 
 .admin-team-name {
@@ -606,6 +618,10 @@ h2 {
 
   .ghost-button,
   .danger-button {
+    width: 100%;
+  }
+
+  .admin-item-actions {
     width: 100%;
   }
 }
