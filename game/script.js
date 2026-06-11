@@ -44,19 +44,22 @@ function formatCountdownPart(value) {
 }
 
 function updateCountdown() {
-  const valueNode = document.querySelector("[data-countdown-value]");
-  const unitNode = document.querySelector("[data-countdown-unit]");
+  const hoursNode = document.querySelector("[data-countdown-hours]");
+  const minutesNode = document.querySelector("[data-countdown-minutes]");
+  const secondsNode = document.querySelector("[data-countdown-seconds]");
   const timer = document.getElementById("countdown-timer");
 
-  if (!valueNode || !unitNode || !timer) return;
+  if (!hoursNode || !minutesNode || !secondsNode || !timer) return;
 
   const remaining = Math.max(0, COUNTDOWN_TARGET - Date.now());
-  const totalHours = Math.ceil(remaining / 3600000);
-  const totalMinutes = Math.ceil(remaining / 60000);
-  const shouldShowMinutes = remaining > 0 && remaining < 3600000;
+  const totalSeconds = Math.floor(remaining / 1000);
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
 
-  valueNode.textContent = formatCountdownPart(shouldShowMinutes ? totalMinutes : totalHours);
-  unitNode.textContent = shouldShowMinutes ? "minutos" : "horas";
+  hoursNode.textContent = formatCountdownPart(hours);
+  minutesNode.textContent = formatCountdownPart(minutes);
+  secondsNode.textContent = formatCountdownPart(seconds);
   timer.classList.toggle("is-finished", remaining === 0);
 }
 

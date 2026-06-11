@@ -132,25 +132,29 @@ h1 span {
   display: flex;
   align-items: baseline;
   justify-content: center;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 12px;
   color: var(--yellow);
   font-weight: 900;
   text-transform: uppercase;
 }
 
+.countdown-timer span {
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  color: var(--yellow);
+  font-size: clamp(0.78rem, 2vw, 0.95rem);
+  font-weight: 950;
+  text-shadow: 0 0 14px rgba(255, 209, 102, 0.28);
+}
+
 .countdown-timer strong {
   display: block;
   color: var(--yellow);
-  font-size: clamp(2rem, 6vw, 3.4rem);
+  font-size: clamp(1.9rem, 5vw, 3rem);
   line-height: 1;
   text-shadow: 0 0 18px rgba(255, 209, 102, 0.42);
-}
-
-.countdown-timer span {
-  color: var(--yellow);
-  font-size: clamp(0.95rem, 2.4vw, 1.18rem);
-  font-weight: 950;
-  text-shadow: 0 0 14px rgba(255, 209, 102, 0.28);
 }
 
 .countdown-timer.is-finished strong {
@@ -209,8 +213,11 @@ h2 {
 }
 
 .stage-lane {
-  display: grid;
-  align-content: start;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-end;
+  align-items: flex-end;
+  justify-content: center;
   gap: 10px;
   min-height: 320px;
   padding: 10px;
@@ -221,15 +228,21 @@ h2 {
 
 .team-token {
   position: relative;
-  min-height: 52px;
-  padding: 12px;
+  flex: 1 1 calc(25% - 10px);
+  max-width: calc(25% - 8px);
+  min-width: 58px;
+  min-height: 58px;
+  padding: 10px 8px;
   display: grid;
   place-items: center;
   color: var(--text);
-  border: 1px solid rgba(255, 209, 102, 0.28);
+  border: 1px solid rgba(255, 209, 102, 0.34);
   border-radius: 8px;
-  background: rgba(255, 209, 102, 0.12);
-  box-shadow: 0 0 18px rgba(255, 209, 102, 0.1);
+  background:
+    linear-gradient(180deg, rgba(255, 209, 102, 0.16), rgba(255, 209, 102, 0.06)),
+    rgba(0, 0, 0, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04), 0 0 18px rgba(255, 209, 102, 0.1);
+  font-size: 0.78rem;
   font-weight: 950;
   text-align: center;
   overflow-wrap: anywhere;
@@ -384,7 +397,8 @@ h2 {
 }
 
 .stage-empty {
-  margin: 0;
+  width: 100%;
+  margin: auto 0 0;
   color: rgba(156, 166, 200, 0.64);
   font-size: 0.78rem;
   font-weight: 800;
@@ -668,6 +682,13 @@ h2 {
 
   .stage-lane {
     min-height: 120px;
+  }
+
+  .team-token {
+    flex-basis: calc(50% - 10px);
+    max-width: calc(50% - 8px);
+    min-height: 56px;
+    font-size: 0.84rem;
   }
 
   .admin-layout,
