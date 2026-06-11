@@ -312,7 +312,11 @@ function renderDisplay(teams) {
   const empty = document.getElementById("empty-display");
   if (!grid) return;
 
-  grid.innerHTML = STAGES.map((label, index) => stageColumnTemplate(label, index, teams)).join("");
+  grid.innerHTML = STAGES
+    .map((label, index) => ({ label, index }))
+    .reverse()
+    .map(({ label, index }) => stageColumnTemplate(label, index, teams))
+    .join("");
   empty?.classList.toggle("is-visible", teams.length === 0);
 }
 
