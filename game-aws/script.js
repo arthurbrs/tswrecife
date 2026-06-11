@@ -1,4 +1,4 @@
-const WEBSOCKET_URL = "wss://URL_AQUI";
+const WEBSOCKET_URL = "wss://3ohjyw8411.execute-api.us-east-2.amazonaws.com/prod";
 const ADMIN_PASSWORD_STORAGE_KEY = "placar-game-aws-admin-password";
 
 const STAGES = [
