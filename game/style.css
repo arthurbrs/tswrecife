@@ -633,6 +633,11 @@ h2 {
     justify-items: start;
   }
 
+  .admin-team-name {
+    font-size: 1.18rem;
+    line-height: 1.15;
+  }
+
   .panel-heading,
   .panel-actions {
     align-items: stretch;

@@ -400,7 +400,7 @@ function adminItemTemplate(team) {
         </select>
       </label>
       <div class="admin-item-actions">
-        <button class="ghost-button" type="button" data-level-up="${team.id}">Up level</button>
+        <button class="ghost-button" type="button" data-level-up="${team.id}">Subir nível</button>
         <button class="ghost-button" type="button" data-edit-name="${team.id}">Editar nome</button>
         <button class="danger-button" type="button" data-remove-team="${team.id}">Remover</button>
       </div>
