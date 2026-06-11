@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Placar Game</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2307080d'/%3E%3Cpath d='M14 44h36v6H14zM18 34h28v6H18zM22 24h20v6H22z' fill='%2300e5ff'/%3E%3Cpath d='M32 8l5.5 11.2L50 21l-9 8.8L43.1 42 32 36.1 20.9 42 23 29.8 14 21l12.5-1.8L32 8z' fill='%23ff2d7a'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="./style.css">
 </head>
 <body id="display-page">
@@ -30,10 +31,10 @@
     </p>
 
     <section class="countdown-panel" aria-label="Contagem regressiva para encerramento">
-      <span class="countdown-label">Encerramento em</span>
+      <span class="countdown-label">Tempo restante</span>
       <div id="countdown-timer" class="countdown-timer" aria-live="polite">
-        <strong data-countdown-hours-total>--</strong>
-        <span>horas</span>
+        <strong data-countdown-value>--</strong>
+        <span data-countdown-unit>horas</span>
       </div>
     </section>
 

@@ -44,15 +44,19 @@ function formatCountdownPart(value) {
 }
 
 function updateCountdown() {
-  const hoursNode = document.querySelector("[data-countdown-hours-total]");
+  const valueNode = document.querySelector("[data-countdown-value]");
+  const unitNode = document.querySelector("[data-countdown-unit]");
   const timer = document.getElementById("countdown-timer");
 
-  if (!hoursNode || !timer) return;
+  if (!valueNode || !unitNode || !timer) return;
 
   const remaining = Math.max(0, COUNTDOWN_TARGET - Date.now());
   const totalHours = Math.ceil(remaining / 3600000);
+  const totalMinutes = Math.ceil(remaining / 60000);
+  const shouldShowMinutes = remaining > 0 && remaining < 3600000;
 
-  hoursNode.textContent = formatCountdownPart(totalHours);
+  valueNode.textContent = formatCountdownPart(shouldShowMinutes ? totalMinutes : totalHours);
+  unitNode.textContent = shouldShowMinutes ? "minutos" : "horas";
   timer.classList.toggle("is-finished", remaining === 0);
 }
 

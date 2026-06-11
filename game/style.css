@@ -117,44 +117,40 @@ h1 span {
 .countdown-panel {
   display: grid;
   justify-items: center;
-  gap: 10px;
-  margin: 28px auto 0;
+  gap: 4px;
+  margin: 30px auto 0;
 }
 
 .countdown-label {
-  color: var(--yellow);
+  color: var(--muted);
   font-size: 0.78rem;
   font-weight: 950;
   text-transform: uppercase;
 }
 
 .countdown-timer {
-  display: grid;
-  place-items: center;
-  min-width: min(280px, 78vw);
-  min-height: 86px;
-  padding: 14px 18px;
-  color: var(--muted);
-  border: 1px solid rgba(0, 229, 255, 0.24);
-  border-radius: 8px;
-  background: rgba(0, 0, 0, 0.28);
-  box-shadow: 0 0 20px rgba(0, 229, 255, 0.08);
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  color: var(--yellow);
   font-weight: 900;
   text-transform: uppercase;
 }
 
 .countdown-timer strong {
   display: block;
-  color: var(--cyan);
-  font-size: clamp(2.2rem, 7vw, 4rem);
+  color: var(--yellow);
+  font-size: clamp(2rem, 6vw, 3.4rem);
   line-height: 1;
-  text-shadow: 0 0 18px rgba(0, 229, 255, 0.38);
+  text-shadow: 0 0 18px rgba(255, 209, 102, 0.42);
 }
 
 .countdown-timer span {
-  color: var(--muted);
-  font-size: 0.82rem;
+  color: var(--yellow);
+  font-size: clamp(0.95rem, 2.4vw, 1.18rem);
   font-weight: 950;
+  text-shadow: 0 0 14px rgba(255, 209, 102, 0.28);
 }
 
 .countdown-timer.is-finished strong {
