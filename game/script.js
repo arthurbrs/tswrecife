@@ -399,6 +399,7 @@ function adminItemTemplate(team) {
           ${stageOptions(team.stage)}
         </select>
       </label>
+      <button class="ghost-button" type="button" data-level-up="${team.id}">Up level</button>
       <button class="ghost-button" type="button" data-edit-name="${team.id}">Editar nome</button>
       <button class="danger-button" type="button" data-remove-team="${team.id}">Remover</button>
     </li>
@@ -527,6 +528,31 @@ async function updateStage(teamId, stage, select) {
   }
 }
 
+async function levelUpTeam(teamId, button) {
+  button.disabled = true;
+
+  try {
+    const data = await requestJson("/api/level-up", {
+      method: "POST",
+      body: JSON.stringify({ teamId }),
+    });
+
+    setAdminMessage("Equipe subiu de nível.");
+    await renderAdmin();
+
+    if (data.team) {
+      const stageNode = document.querySelector(`[data-admin-stage-for="${CSS.escape(teamId)}"]`);
+      if (stageNode) {
+        stageNode.textContent = stageLabel(data.team.stage);
+      }
+    }
+  } catch (error) {
+    setAdminMessage(error.message, true);
+  } finally {
+    button.disabled = false;
+  }
+}
+
 async function editTeamName(teamId) {
   const teams = (await fetchTeams()).map(normalizeTeam);
   const team = teams.find((item) => item.id === teamId);
@@ -584,8 +610,13 @@ async function bootAdmin() {
     updateStage(select.dataset.stageSelect, select.value, select);
   });
   list?.addEventListener("click", (event) => {
+    const levelUpButton = event.target.closest("[data-level-up]");
     const editButton = event.target.closest("[data-edit-name]");
     const removeButton = event.target.closest("[data-remove-team]");
+
+    if (levelUpButton) {
+      levelUpTeam(levelUpButton.dataset.levelUp, levelUpButton);
+    }
 
     if (editButton) {
       editTeamName(editButton.dataset.editName);

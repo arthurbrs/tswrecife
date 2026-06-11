@@ -521,7 +521,7 @@ h2 {
 
 .admin-item {
   display: grid;
-  grid-template-columns: minmax(170px, 1fr) minmax(210px, 0.85fr) auto auto;
+  grid-template-columns: minmax(170px, 1fr) minmax(210px, 0.85fr) auto auto auto;
   gap: 14px;
   align-items: center;
   padding: 12px;
