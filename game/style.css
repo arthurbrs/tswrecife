@@ -114,6 +114,56 @@ h1 span {
   text-shadow: 0 0 28px rgba(255, 45, 122, 0.55);
 }
 
+.countdown-panel {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  margin: 24px auto 0;
+}
+
+.countdown-label {
+  color: var(--yellow);
+  font-size: 0.78rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.countdown-timer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.countdown-timer span {
+  display: grid;
+  place-items: center;
+  min-width: 82px;
+  min-height: 70px;
+  padding: 10px 12px;
+  color: var(--muted);
+  border: 1px solid rgba(0, 229, 255, 0.24);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.28);
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.08);
+  font-size: 0.7rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.countdown-timer strong {
+  display: block;
+  color: var(--cyan);
+  font-size: 1.55rem;
+  line-height: 1;
+  text-shadow: 0 0 18px rgba(0, 229, 255, 0.38);
+}
+
+.countdown-timer.is-finished strong {
+  color: var(--pink);
+  text-shadow: 0 0 18px rgba(255, 45, 122, 0.45);
+}
+
 h2 {
   margin-bottom: 18px;
   color: var(--cyan);

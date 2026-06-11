@@ -1,4 +1,5 @@
 const WORKER_URL = "";
+const COUNTDOWN_TARGET = new Date("2026-10-18T18:00:00-03:00").getTime();
 
 const STAGES = [
   "Ideia",
@@ -37,6 +38,39 @@ const stageLabel = (stageIndex) => {
   const safeStage = Number.isFinite(stage) ? stage : 0;
   return STAGES[Math.max(0, Math.min(Math.trunc(safeStage), STAGES.length - 1))];
 };
+
+function formatCountdownPart(value) {
+  return String(value).padStart(2, "0");
+}
+
+function updateCountdown() {
+  const daysNode = document.querySelector("[data-countdown-days]");
+  const hoursNode = document.querySelector("[data-countdown-hours]");
+  const minutesNode = document.querySelector("[data-countdown-minutes]");
+  const secondsNode = document.querySelector("[data-countdown-seconds]");
+  const timer = document.getElementById("countdown-timer");
+
+  if (!daysNode || !hoursNode || !minutesNode || !secondsNode || !timer) return;
+
+  const remaining = Math.max(0, COUNTDOWN_TARGET - Date.now());
+  const totalSeconds = Math.floor(remaining / 1000);
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  daysNode.textContent = formatCountdownPart(days);
+  hoursNode.textContent = formatCountdownPart(hours);
+  minutesNode.textContent = formatCountdownPart(minutes);
+  secondsNode.textContent = formatCountdownPart(seconds);
+
+  timer.classList.toggle("is-finished", remaining === 0);
+}
+
+function startCountdown() {
+  updateCountdown();
+  window.setInterval(updateCountdown, 1000);
+}
 
 async function requestJson(path, options = {}) {
   const response = await fetch(apiUrl(path), {
@@ -368,6 +402,7 @@ function scheduleRealtimeReconnect() {
 
 async function bootDisplay() {
   createParticles();
+  startCountdown();
 
   try {
     await syncDisplay();
