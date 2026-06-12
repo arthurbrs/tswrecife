@@ -414,15 +414,6 @@ h2 {
   }
 }
 
-.stage-empty {
-  margin: 0;
-  color: rgba(156, 166, 200, 0.64);
-  font-size: 0.78rem;
-  font-weight: 800;
-  text-align: center;
-  text-transform: uppercase;
-}
-
 .empty-state {
   display: none;
   margin: 24px auto 0;

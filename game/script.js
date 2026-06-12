@@ -301,7 +301,7 @@ function stageColumnTemplate(label, index, teams) {
         <h2>${sanitizeText(label)}</h2>
       </header>
       <div class="stage-lane">
-        ${stageTeams.length ? stageTeams.map(teamTokenTemplate).join("") : '<p class="stage-empty">Aguardando equipe</p>'}
+        ${stageTeams.map(teamTokenTemplate).join("")}
       </div>
     </article>
   `;

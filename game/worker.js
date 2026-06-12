@@ -18,6 +18,12 @@ const TEAMS_KEY = "placar-game:teams";
 const SESSION_COOKIE = "placar_admin_session";
 const SESSION_TTL_SECONDS = 60 * 60 * 8;
 const MAX_STAGE = 5;
+const PUBLIC_API_ROUTES = new Set([
+  "GET /api/teams",
+  "GET /api/session",
+  "POST /api/login",
+  "POST /api/logout",
+]);
 
 function corsHeaders(request) {
   const origin = request.headers.get("Origin") || "*";
@@ -268,9 +274,13 @@ async function isAuthenticated(request, env) {
   }
 }
 
-function isProtectedWrite(path, method) {
-  if (method !== "POST") return false;
-  return !["/api/login"].includes(path);
+function isPublicApiRoute(path, method) {
+  return PUBLIC_API_ROUTES.has(`${method} ${path}`);
+}
+
+function requiresAdminSession(path, method) {
+  if (!path.startsWith("/api/")) return false;
+  return !isPublicApiRoute(path, method);
 }
 
 async function handleApi(request, env) {
@@ -311,7 +321,7 @@ async function handleApi(request, env) {
     return json(request, { success: true }, 200, { "Set-Cookie": clearSessionCookie() });
   }
 
-  if (isProtectedWrite(path, request.method) && !(await isAuthenticated(request, env))) {
+  if (requiresAdminSession(path, request.method) && !(await isAuthenticated(request, env))) {
     return json(request, { error: "Nao autorizado." }, 401);
   }
 
