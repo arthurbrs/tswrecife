@@ -1,6 +1,6 @@
 # Placar Game Cloudflare
 
-Versao Cloudflare do placar animado. O app usa Worker para servir frontend/API, KV para persistir equipes e Durable Objects com WebSocket para transmitir atualizacoes em tempo real.
+Versao Cloudflare do placar animado. O app usa Worker para servir frontend/API e Durable Object para persistir equipes, etapas e transmitir atualizacoes em tempo real.
 
 ## Arquitetura
 
@@ -11,24 +11,20 @@ Browser
   -> WebSocket /ws no Durable Object
 
 Worker
-  -> PLACAR_KV para salvar equipes
-  -> PLACAR_ROOM Durable Object para broadcast realtime
+  -> PLACAR_ROOM Durable Object para dados e broadcast realtime
 ```
 
 ## Responsabilidade de cada recurso
 
 ```txt
-KV
-  Banco de dados simples das equipes e etapas.
-
 Durable Object
-  Transmissor em tempo real. Mantem conexoes WebSocket vivas em memoria e envia broadcast para as telas abertas.
+  Fonte de verdade do placar. Guarda equipes/etapas no storage persistente e mantem conexoes WebSocket vivas para enviar broadcast.
 
 Worker
-  Serve arquivos estaticos, autentica admin, escreve no KV e avisa o Durable Object apos cada alteracao.
+  Serve arquivos estaticos, autentica admin e encaminha as rotas do placar para o Durable Object.
 ```
 
-O Durable Object nao substitui o KV neste desenho. Ele nao grava registros persistentes por padrao; por isso e normal nao ver itens ou historico dentro dele no painel.
+Neste desenho, o Durable Object substitui o KV. O storage persistente dele guarda a lista de equipes; as conexoes WebSocket continuam em memoria e sao recriadas quando as telas abrem novamente.
 
 ## Configuracao do Wrangler
 
@@ -36,12 +32,6 @@ O `wrangler.json` precisa ter:
 
 ```json
 {
-  "kv_namespaces": [
-    {
-      "binding": "PLACAR_KV",
-      "id": "ID_DO_NAMESPACE"
-    }
-  ],
   "durable_objects": {
     "bindings": [
       {
@@ -59,7 +49,7 @@ O `wrangler.json` precisa ter:
 }
 ```
 
-No Workers Free plan, use `new_sqlite_classes`. Nao precisa D1 e nao precisa do backend key-value antigo do Durable Objects.
+No Workers Free plan, use `new_sqlite_classes`. Nao precisa KV nem D1 para este placar.
 
 ## Secrets
 
@@ -104,7 +94,7 @@ Realtime:
 GET /ws
 ```
 
-`/ws` abre uma conexao WebSocket no Durable Object. Quando o admin altera algo, o Worker grava no KV e chama o Durable Object para enviar:
+`/ws` abre uma conexao WebSocket no Durable Object. Quando o admin altera algo, o Worker valida a sessao e encaminha a escrita para o Durable Object. O Durable Object grava no proprio storage persistente e envia:
 
 ```json
 {
@@ -119,17 +109,16 @@ A tela do placar recebe essa mensagem e busca o estado atualizado em `/api/teams
 
 ## Logs e metricas
 
-E normal o Durable Object nao mostrar registros persistentes.
-
-Hoje ele guarda apenas sockets em memoria:
+O Durable Object guarda:
 
 ```txt
+equipes e etapas no storage persistente
 conexoes WebSocket abertas
 broadcasts em tempo real
 cleanup ao desconectar
 ```
 
-Ele nao grava:
+Ele ainda nao grava:
 
 ```txt
 historico de conexoes
@@ -144,7 +133,6 @@ Para observar o funcionamento:
 Browser DevTools > Network > WS > /ws
 Cloudflare Dashboard > Workers & Pages > Worker > Logs
 wrangler tail
-KV > chave placar-game:teams
 ```
 
 ## Teste manual
@@ -173,7 +161,7 @@ Para producao mais forte, considere:
 ```txt
 rate limit em POST /api/login
 validacao de Origin em rotas de escrita
-auditoria de acoes admin no KV
+auditoria de acoes admin no storage do Durable Object
 Cloudflare Access para proteger o admin
 ```
 

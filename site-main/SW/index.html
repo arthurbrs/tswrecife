@@ -10,10 +10,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>techstars Startup Weekend Recife</title>
   <meta name="description" content="techstars Startup Weekend Recife: 54 horas para transformar ideias em startups.">
+  <meta name="keywords" content="TSW, TSW Recife, TSW Startup Weekend, Techstars Startup Weekend, Startup Weekend, Recife, techstars, empreendedorismo, inovação, startups, tecnologia, evento, programação, design, negócios">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <!-- <meta name="google-site-verification" content="COLOQUE_SEU_CODIGO_DE_VERIFICACAO_AQUI" /> -->
   <meta name="author" content="Startup Weekend Recife">
   <link rel="canonical" href="https://tswrecife.com.br/">
   <link rel="preconnect" href="https://tswrecifestorage.blob.core.windows.net" crossorigin>
@@ -1892,6 +1894,7 @@
       <address class="footer-contact">
         <span>Contato</span>
         <a href="mailto:contato@tswrecife.com.br">contato@tswrecife.com.br</a>
+        <a href="https://www.instagram.com/tswrecife/" target="_blank" rel="noopener noreferrer">Instagram</a>
       <!--  <a href="tel:+5581999999999">(81) 99999-9999</a> -->
       </address>
     </div>
@@ -2082,11 +2085,11 @@
     }, { threshold: .16 });
 
     revealTargets.forEach((item) => observer.observe(item));
-    prevPhoto.addEventListener("click", () => setGallery(galleryIndex - 1));
-    nextPhoto.addEventListener("click", () => setGallery(galleryIndex + 1));
+    if (prevPhoto) prevPhoto.addEventListener("click", () => setGallery(galleryIndex - 1));
+    if (nextPhoto) nextPhoto.addEventListener("click", () => setGallery(galleryIndex + 1));
 
     setHeaderState();
-    setGallery(0);
+    if (galleryMain && galleryTitle && galleryText) setGallery(0);
     updateCountdown();
     if (EVENT_DATE_ISO) setInterval(updateCountdown, 1000);
     window.addEventListener("scroll", setHeaderState, { passive: true });
@@ -2094,5 +2097,3 @@
   </script>
 </body>
 </html>
-
-

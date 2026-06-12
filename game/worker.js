@@ -1,13 +1,6 @@
 /*
-Como criar o namespace KV no painel da Cloudflare:
-1. Acesse Cloudflare Dashboard > Workers & Pages > KV.
-2. Clique em "Create namespace" e crie um namespace, por exemplo: PLACAR_GAME.
-3. Abra o arquivo wrangler.json deste projeto e, em kv_namespaces, use:
-   { "binding": "PLACAR_KV", "id": "ID_DO_NAMESPACE" }
-4. O binding precisa se chamar PLACAR_KV, pois este Worker usa env.PLACAR_KV.
-
 Rotas principais:
-- GET  /api/teams      busca todas as equipes e suas etapas atuais no KV.
+- GET  /api/teams      busca todas as equipes e suas etapas atuais no Durable Object.
 - GET  /api/session    verifica se o Admin tem uma sessao valida.
 - POST /api/login      autentica o Admin com ADMIN_PASSWORD.
 - POST /api/logout     encerra a sessao do Admin.
@@ -18,7 +11,7 @@ Rotas principais:
 
 Tempo real:
 - GET /ws abre um WebSocket no Durable Object PLACAR_ROOM.
-- Apos cada escrita no KV, o Worker envia um broadcast para o Durable Object.
+- Apos cada escrita no storage do Durable Object, ele envia broadcast para as telas conectadas.
 */
 
 const TEAMS_KEY = "placar-game:teams";
@@ -237,25 +230,6 @@ function md5(input) {
     .join("");
 }
 
-async function broadcastRealtime(env, data) {
-  if (!env.PLACAR_ROOM) return;
-
-  try {
-    const roomId = env.PLACAR_ROOM.idFromName("default");
-    const room = env.PLACAR_ROOM.get(roomId);
-
-    await room.fetch("https://placar-room.internal/broadcast", {
-      method: "POST",
-      body: JSON.stringify({
-        type: "scoreboard:update",
-        ...data,
-      }),
-    });
-  } catch (error) {
-    console.error("Erro ao transmitir atualizacao realtime:", error);
-  }
-}
-
 function getCookie(request, name) {
   const cookie = request.headers.get("Cookie") || "";
   const item = cookie.split(";").map((part) => part.trim()).find((part) => part.startsWith(`${name}=`));
@@ -297,25 +271,6 @@ async function isAuthenticated(request, env) {
 function isProtectedWrite(path, method) {
   if (method !== "POST") return false;
   return !["/api/login"].includes(path);
-}
-
-async function readTeams(env) {
-  const stored = await env.PLACAR_KV.get(TEAMS_KEY, "json");
-  if (!Array.isArray(stored)) return [];
-
-  return stored.map((team) => ({
-    ...team,
-    stage: normalizeStage(team.stage ?? team.level ?? 0),
-    level: normalizeStage(team.stage ?? team.level ?? 0),
-  }));
-}
-
-async function writeTeams(env, teams) {
-  await env.PLACAR_KV.put(TEAMS_KEY, JSON.stringify(teams));
-}
-
-function findTeam(teams, teamId) {
-  return teams.find((item) => String(item.id) === String(teamId));
 }
 
 async function handleApi(request, env) {
@@ -360,119 +315,16 @@ async function handleApi(request, env) {
     return json(request, { error: "Nao autorizado." }, 401);
   }
 
-  if (path === "/api/teams" && request.method === "GET") {
-    return json(request, await readTeams(env));
-  }
-
-  if (path === "/api/teams" && request.method === "POST") {
-    const body = await request.json().catch(() => null);
-    const name = String(body?.name || "").trim();
-
-    if (!name) {
-      return json(request, { error: "Informe o nome da equipe." }, 400);
+  if (path.startsWith("/api/")) {
+    if (!env.PLACAR_ROOM) {
+      return json(request, { error: "Binding PLACAR_ROOM nao configurado no Worker." }, 500);
     }
 
-    const teams = await readTeams(env);
-    const team = {
-      id: body?.id ? String(body.id) : slug(),
-      name,
-      stage: normalizeStage(body?.stage ?? 0),
-      level: normalizeStage(body?.stage ?? 0),
-      createdAt: new Date().toISOString(),
-    };
-
-    teams.push(team);
-    await writeTeams(env, teams);
-    await broadcastRealtime(env, { action: "team-created", teamId: team.id, stage: team.stage });
-
-    return json(request, { success: true, team, teams }, 201);
-  }
-
-  if (path === "/api/stage" && request.method === "POST") {
-    const body = await request.json().catch(() => null);
-    const teamId = String(body?.teamId || body?.id || "").trim();
-
-    if (!teamId) {
-      return json(request, { error: "Informe o teamId." }, 400);
-    }
-
-    const teams = await readTeams(env);
-    const team = findTeam(teams, teamId);
-
-    if (!team) {
-      return json(request, { error: "Equipe nao encontrada." }, 404);
-    }
-
-    team.stage = normalizeStage(body?.stage);
-    team.level = team.stage;
-    team.updatedAt = new Date().toISOString();
-    await writeTeams(env, teams);
-    await broadcastRealtime(env, { action: "stage-updated", teamId: team.id, stage: team.stage });
-
-    return json(request, { success: true, team, teams });
-  }
-
-  if (path === "/api/team-name" && request.method === "POST") {
-    const body = await request.json().catch(() => null);
-    const teamId = String(body?.teamId || body?.id || "").trim();
-    const name = String(body?.name || "").trim();
-
-    if (!teamId || !name) {
-      return json(request, { error: "Informe teamId e nome." }, 400);
-    }
-
-    const teams = await readTeams(env);
-    const team = findTeam(teams, teamId);
-
-    if (!team) {
-      return json(request, { error: "Equipe nao encontrada." }, 404);
-    }
-
-    team.name = name;
-    team.updatedAt = new Date().toISOString();
-    await writeTeams(env, teams);
-    await broadcastRealtime(env, { action: "team-renamed", teamId: team.id, stage: team.stage });
-
-    return json(request, { success: true, team, teams });
-  }
-
-  if (path === "/api/team-delete" && request.method === "POST") {
-    const body = await request.json().catch(() => null);
-    const teamId = String(body?.teamId || body?.id || "").trim();
-
-    if (!teamId) {
-      return json(request, { error: "Informe o teamId." }, 400);
-    }
-
-    const teams = await readTeams(env);
-    const nextTeams = teams.filter((item) => String(item.id) !== teamId);
-
-    if (nextTeams.length === teams.length) {
-      return json(request, { error: "Equipe nao encontrada." }, 404);
-    }
-
-    await writeTeams(env, nextTeams);
-    await broadcastRealtime(env, { action: "team-deleted", teamId });
-
-    return json(request, { success: true, teams: nextTeams });
-  }
-
-  if ((path === "/api/level-up" || path === "/api/trigger-levelup") && request.method === "POST") {
-    const body = await request.json().catch(() => null);
-    const teams = await readTeams(env);
-    const team = findTeam(teams, body?.teamId || body?.id);
-
-    if (!team) {
-      return json(request, { error: "Equipe nao encontrada." }, 404);
-    }
-
-    team.stage = normalizeStage((team.stage || 0) + 1);
-    team.level = team.stage;
-    team.updatedAt = new Date().toISOString();
-    await writeTeams(env, teams);
-    await broadcastRealtime(env, { action: "stage-updated", teamId: team.id, stage: team.stage });
-
-    return json(request, { success: true, team, newLevel: team.stage, teams });
+    const roomId = env.PLACAR_ROOM.idFromName("default");
+    const room = env.PLACAR_ROOM.get(roomId);
+    const response = await room.fetch(request);
+    const data = await response.json().catch(() => ({}));
+    return json(request, data, response.status);
   }
 
   return json(request, { error: "Rota nao encontrada." }, 404);
@@ -492,10 +344,6 @@ export default {
       return room.fetch(request);
     }
 
-    if (!env.PLACAR_KV) {
-      return json(request, { error: "Binding PLACAR_KV nao configurado no Worker." }, 500);
-    }
-
     if (url.pathname.startsWith("/api/") || request.method === "OPTIONS") {
       return handleApi(request, env);
     }
@@ -509,22 +357,167 @@ export default {
 };
 
 export class PlacarRealtimeRoom {
-  constructor() {
+  constructor(ctx) {
+    this.ctx = ctx;
     this.sessions = new Set();
+  }
+
+  async readTeams() {
+    const stored = await this.ctx.storage.get(TEAMS_KEY);
+    if (!Array.isArray(stored)) return [];
+
+    return stored.map((team) => ({
+      ...team,
+      stage: normalizeStage(team.stage ?? team.level ?? 0),
+      level: normalizeStage(team.stage ?? team.level ?? 0),
+    }));
+  }
+
+  async writeTeams(teams) {
+    await this.ctx.storage.put(TEAMS_KEY, teams);
+  }
+
+  findTeam(teams, teamId) {
+    return teams.find((item) => String(item.id) === String(teamId));
+  }
+
+  response(body, status = 200) {
+    return new Response(JSON.stringify(body), {
+      status,
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "no-store",
+      },
+    });
+  }
+
+  async handleApi(request) {
+    const url = new URL(request.url);
+    const path = url.pathname.replace(/\/$/, "");
+
+    if (path === "/api/teams" && request.method === "GET") {
+      return this.response(await this.readTeams());
+    }
+
+    if (path === "/api/teams" && request.method === "POST") {
+      const body = await request.json().catch(() => null);
+      const name = String(body?.name || "").trim();
+
+      if (!name) {
+        return this.response({ error: "Informe o nome da equipe." }, 400);
+      }
+
+      const teams = await this.readTeams();
+      const team = {
+        id: body?.id ? String(body.id) : slug(),
+        name,
+        stage: normalizeStage(body?.stage ?? 0),
+        level: normalizeStage(body?.stage ?? 0),
+        createdAt: new Date().toISOString(),
+      };
+
+      teams.push(team);
+      await this.writeTeams(teams);
+      this.broadcastUpdate({ action: "team-created", teamId: team.id, stage: team.stage });
+
+      return this.response({ success: true, team, teams }, 201);
+    }
+
+    if (path === "/api/stage" && request.method === "POST") {
+      const body = await request.json().catch(() => null);
+      const teamId = String(body?.teamId || body?.id || "").trim();
+
+      if (!teamId) {
+        return this.response({ error: "Informe o teamId." }, 400);
+      }
+
+      const teams = await this.readTeams();
+      const team = this.findTeam(teams, teamId);
+
+      if (!team) {
+        return this.response({ error: "Equipe nao encontrada." }, 404);
+      }
+
+      team.stage = normalizeStage(body?.stage);
+      team.level = team.stage;
+      team.updatedAt = new Date().toISOString();
+      await this.writeTeams(teams);
+      this.broadcastUpdate({ action: "stage-updated", teamId: team.id, stage: team.stage });
+
+      return this.response({ success: true, team, teams });
+    }
+
+    if (path === "/api/team-name" && request.method === "POST") {
+      const body = await request.json().catch(() => null);
+      const teamId = String(body?.teamId || body?.id || "").trim();
+      const name = String(body?.name || "").trim();
+
+      if (!teamId || !name) {
+        return this.response({ error: "Informe teamId e nome." }, 400);
+      }
+
+      const teams = await this.readTeams();
+      const team = this.findTeam(teams, teamId);
+
+      if (!team) {
+        return this.response({ error: "Equipe nao encontrada." }, 404);
+      }
+
+      team.name = name;
+      team.updatedAt = new Date().toISOString();
+      await this.writeTeams(teams);
+      this.broadcastUpdate({ action: "team-renamed", teamId: team.id, stage: team.stage });
+
+      return this.response({ success: true, team, teams });
+    }
+
+    if (path === "/api/team-delete" && request.method === "POST") {
+      const body = await request.json().catch(() => null);
+      const teamId = String(body?.teamId || body?.id || "").trim();
+
+      if (!teamId) {
+        return this.response({ error: "Informe o teamId." }, 400);
+      }
+
+      const teams = await this.readTeams();
+      const nextTeams = teams.filter((item) => String(item.id) !== teamId);
+
+      if (nextTeams.length === teams.length) {
+        return this.response({ error: "Equipe nao encontrada." }, 404);
+      }
+
+      await this.writeTeams(nextTeams);
+      this.broadcastUpdate({ action: "team-deleted", teamId });
+
+      return this.response({ success: true, teams: nextTeams });
+    }
+
+    if ((path === "/api/level-up" || path === "/api/trigger-levelup") && request.method === "POST") {
+      const body = await request.json().catch(() => null);
+      const teams = await this.readTeams();
+      const team = this.findTeam(teams, body?.teamId || body?.id);
+
+      if (!team) {
+        return this.response({ error: "Equipe nao encontrada." }, 404);
+      }
+
+      team.stage = normalizeStage((team.stage || 0) + 1);
+      team.level = team.stage;
+      team.updatedAt = new Date().toISOString();
+      await this.writeTeams(teams);
+      this.broadcastUpdate({ action: "stage-updated", teamId: team.id, stage: team.stage });
+
+      return this.response({ success: true, team, newLevel: team.stage, teams });
+    }
+
+    return this.response({ error: "Rota nao encontrada." }, 404);
   }
 
   async fetch(request) {
     const url = new URL(request.url);
 
-    if (url.pathname === "/broadcast" && request.method === "POST") {
-      const payload = await request.json().catch(() => ({
-        type: "scoreboard:update",
-      }));
-
-      this.broadcast(payload);
-      return new Response(JSON.stringify({ ok: true }), {
-        headers: { "Content-Type": "application/json; charset=utf-8" },
-      });
+    if (url.pathname.startsWith("/api/")) {
+      return this.handleApi(request);
     }
 
     if (request.headers.get("Upgrade") !== "websocket") {
@@ -568,5 +561,12 @@ export class PlacarRealtimeRoom {
         this.sessions.delete(session);
       }
     }
+  }
+
+  broadcastUpdate(data) {
+    this.broadcast({
+      type: "scoreboard:update",
+      ...data,
+    });
   }
 }
