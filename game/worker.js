@@ -540,13 +540,6 @@ export class PlacarRealtimeRoom {
     server.accept();
     this.sessions.add(server);
 
-    server.addEventListener("message", (event) => {
-      const message = typeof event.data === "string" ? event.data : "";
-      if (message === "ping") {
-        server.send(JSON.stringify({ type: "pong" }));
-      }
-    });
-
     const cleanup = () => {
       this.sessions.delete(server);
     };

@@ -178,6 +178,66 @@ h2 {
   position: relative;
 }
 
+.scoreboard-content {
+  display: grid;
+  grid-template-columns: minmax(150px, 190px) minmax(0, 1fr);
+  gap: clamp(18px, 3vw, 42px);
+  align-items: stretch;
+}
+
+.sponsors-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  padding: 18px 14px;
+  border: 1px solid rgba(238, 111, 45, 0.3);
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(238, 111, 45, 0.12), rgba(17, 19, 29, 0.5));
+  box-shadow: 0 0 28px rgba(238, 111, 45, 0.1);
+}
+
+.sponsors-title {
+  margin: 0;
+  color: var(--recife-orange);
+  font-size: 0.68rem;
+  font-weight: 950;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.sponsors-logos {
+  display: grid;
+  gap: 10px;
+}
+
+.sponsor-logo,
+.sponsor-placeholder {
+  display: grid;
+  place-items: center;
+  min-height: 76px;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.sponsor-logo img {
+  display: block;
+  width: 100%;
+  max-height: 56px;
+  object-fit: contain;
+}
+
+.sponsor-placeholder {
+  color: var(--muted);
+  font-size: 0.66rem;
+  font-weight: 800;
+  text-align: center;
+  text-transform: uppercase;
+}
+
 .teams-grid::before {
   content: "";
   position: absolute;
@@ -671,6 +731,23 @@ h2 {
 }
 
 @media (max-width: 760px) {
+  .scoreboard-content {
+    grid-template-columns: 1fr;
+  }
+
+  .sponsors-panel {
+    order: 2;
+  }
+
+  .sponsors-logos {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .sponsor-logo,
+  .sponsor-placeholder {
+    min-height: 64px;
+  }
+
   .scoreboard-shell,
   .admin-shell {
     width: min(100% - 20px, 1180px);
