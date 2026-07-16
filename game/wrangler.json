@@ -6,6 +6,12 @@
     "directory": "./",
     "binding": "ASSETS"
   },
+  "r2_buckets": [
+    {
+      "binding": "SPONSORS_BUCKET",
+      "bucket_name": "startup-weekend"
+    }
+  ],
   "durable_objects": {
     "bindings": [
       {

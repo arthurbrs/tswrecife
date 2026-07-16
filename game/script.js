@@ -89,6 +89,32 @@ async function fetchTeams() {
   return Array.isArray(data) ? data : data.teams || [];
 }
 
+function sponsorName(key) {
+  const filename = String(key).split("/").pop() || "Patrocinador";
+  return decodeURIComponent(filename).replace(/\.[^.]+$/, "").replace(/[-_]+/g, " ");
+}
+
+async function renderSponsors() {
+  const container = document.getElementById("sponsors-logos");
+  if (!container) return;
+
+  try {
+    const data = await requestJson("/api/sponsors");
+    const logos = Array.isArray(data.logos) ? data.logos : [];
+
+    container.innerHTML = logos.length
+      ? logos.map(({ key, url }) => `
+          <div class="sponsor-logo">
+            <img src="${sanitizeText(url)}" alt="${sanitizeText(sponsorName(key))}" loading="lazy" decoding="async">
+          </div>
+        `).join("")
+      : '<div class="sponsor-placeholder">Logos em breve</div>';
+  } catch (error) {
+    console.error("Nao foi possivel carregar os patrocinadores.", error);
+    container.innerHTML = '<div class="sponsor-placeholder">Logos em breve</div>';
+  }
+}
+
 function normalizeTeam(team) {
   const stage = Number.isFinite(Number(team.stage)) ? Number(team.stage) : Number(team.level || 0);
 
@@ -407,7 +433,7 @@ async function bootDisplay() {
   startCountdown();
 
   try {
-    await syncDisplay();
+    await Promise.all([syncDisplay(), renderSponsors()]);
     connectRealtime();
   } catch (error) {
     console.error(error);

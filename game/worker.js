@@ -1,6 +1,7 @@
 /*
 Rotas principais:
 - GET  /api/teams      busca todas as equipes e suas etapas atuais no Durable Object.
+- GET  /api/sponsors   lista as logos em patrocinadores/geral/ no R2.
 - GET  /api/session    verifica se o Admin tem uma sessao valida.
 - POST /api/login      autentica o Admin com ADMIN_PASSWORD.
 - POST /api/logout     encerra a sessao do Admin.
@@ -18,8 +19,12 @@ const TEAMS_KEY = "placar-game:teams";
 const SESSION_COOKIE = "placar_admin_session";
 const SESSION_TTL_SECONDS = 60 * 60 * 8;
 const MAX_STAGE = 5;
+const SPONSORS_PREFIX = "patrocinadores/geral/";
+const SPONSORS_PUBLIC_BASE = "https://r2.tswrecife.com.br/";
+const IMAGE_FILE_PATTERN = /\.(avif|gif|jpe?g|png|svg|webp)$/i;
 const PUBLIC_API_ROUTES = new Set([
   "GET /api/teams",
+  "GET /api/sponsors",
   "GET /api/session",
   "POST /api/login",
   "POST /api/logout",
@@ -319,6 +324,30 @@ async function handleApi(request, env) {
 
   if (path === "/api/logout" && request.method === "POST") {
     return json(request, { success: true }, 200, { "Set-Cookie": clearSessionCookie() });
+  }
+
+  if (path === "/api/sponsors" && request.method === "GET") {
+    if (!env.SPONSORS_BUCKET) {
+      return json(request, { error: "Binding SPONSORS_BUCKET nao configurado no Worker." }, 500);
+    }
+
+    const logos = [];
+    let cursor;
+
+    do {
+      const page = await env.SPONSORS_BUCKET.list({ prefix: SPONSORS_PREFIX, cursor });
+      logos.push(...page.objects
+        .map((object) => object.key)
+        .filter((key) => IMAGE_FILE_PATTERN.test(key)));
+      cursor = page.truncated ? page.cursor : undefined;
+    } while (cursor);
+
+    return json(request, {
+      logos: logos.sort((first, second) => first.localeCompare(second)).map((key) => ({
+        key,
+        url: `${SPONSORS_PUBLIC_BASE}${key.split("/").map(encodeURIComponent).join("/")}`,
+      })),
+    }, 200, { "Cache-Control": "public, max-age=300" });
   }
 
   if (requiresAdminSession(path, request.method) && !(await isAuthenticated(request, env))) {
