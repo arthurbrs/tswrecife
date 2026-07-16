@@ -69,8 +69,9 @@ function startCountdown() {
 }
 
 async function requestJson(path, options = {}) {
+  const isFormData = options.body instanceof FormData;
   const response = await fetch(apiUrl(path), {
-    headers: { "Content-Type": "application/json", ...(options.headers || {}) },
+    headers: { ...(isFormData ? {} : { "Content-Type": "application/json" }), ...(options.headers || {}) },
     credentials: "include",
     ...options,
   });
@@ -525,7 +526,11 @@ async function loginAdmin(event) {
     form.reset();
     setAuthMessage("");
     showAdminContent(true);
-    await renderAdmin();
+    if (document.body.id === "files-page") {
+      await renderStorageFiles();
+    } else {
+      await renderAdmin();
+    }
   } catch (error) {
     setAuthMessage(error.message, true);
   } finally {
@@ -658,6 +663,89 @@ async function removeTeam(teamId) {
   }
 }
 
+function setStorageMessage(message, isError = false) {
+  const node = document.getElementById("storage-message");
+  if (!node) return;
+  node.textContent = message;
+  node.style.color = isError ? "var(--pink)" : "var(--green)";
+}
+
+function storagePrefix() {
+  return document.getElementById("storage-prefix")?.value.trim() || "";
+}
+
+function formatFileSize(bytes) {
+  if (!Number.isFinite(Number(bytes))) return "";
+  const units = ["B", "KB", "MB", "GB"];
+  let size = Number(bytes);
+  let unit = 0;
+  while (size >= 1024 && unit < units.length - 1) {
+    size /= 1024;
+    unit += 1;
+  }
+  return `${size >= 10 || unit === 0 ? size.toFixed(0) : size.toFixed(1)} ${units[unit]}`;
+}
+
+async function renderStorageFiles() {
+  const list = document.getElementById("storage-files-list");
+  const prefix = storagePrefix();
+  if (!list || !prefix) return;
+
+  setStorageMessage("Carregando arquivos...");
+  try {
+    const data = await requestJson(`/api/storage?prefix=${encodeURIComponent(prefix)}`);
+    const files = Array.isArray(data.files) ? data.files : [];
+    list.innerHTML = files.length
+      ? files.map((file) => `
+          <li class="storage-item">
+            <a href="${sanitizeText(file.url)}" target="_blank" rel="noopener noreferrer">${sanitizeText(file.key)}</a>
+            <span>${formatFileSize(file.size)}</span>
+            <button class="danger-button" type="button" data-storage-delete="${sanitizeText(file.key)}">Remover</button>
+          </li>
+        `).join("")
+      : '<li class="admin-message">Nenhum arquivo nessa pasta.</li>';
+    setStorageMessage(files.length ? `${files.length} arquivo(s) encontrado(s).` : "Pasta vazia.");
+  } catch (error) {
+    list.innerHTML = "";
+    setStorageMessage(error.message, true);
+  }
+}
+
+async function uploadStorageFiles(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const button = form.querySelector("button");
+  const prefix = storagePrefix();
+  const files = document.getElementById("storage-files")?.files;
+  if (!prefix || !files?.length) return;
+
+  const data = new FormData();
+  data.set("prefix", prefix);
+  Array.from(files).forEach((file) => data.append("files", file));
+
+  button.disabled = true;
+  setStorageMessage("Enviando arquivos...");
+  try {
+    await requestJson("/api/storage/upload", { method: "POST", body: data });
+    form.reset();
+    await renderStorageFiles();
+  } catch (error) {
+    setStorageMessage(error.message, true);
+  } finally {
+    button.disabled = false;
+  }
+}
+
+async function deleteStorageFile(key) {
+  if (!window.confirm(`Remover o arquivo "${key}"?`)) return;
+  try {
+    await requestJson("/api/storage/delete", { method: "POST", body: JSON.stringify({ key }) });
+    await renderStorageFiles();
+  } catch (error) {
+    setStorageMessage(error.message, true);
+  }
+}
+
 async function bootAdmin() {
   const loginForm = document.getElementById("login-form");
   const form = document.getElementById("team-form");
@@ -703,10 +791,38 @@ async function bootAdmin() {
   }
 }
 
+async function bootFiles() {
+  const loginForm = document.getElementById("login-form");
+  const logout = document.getElementById("logout-admin");
+  const load = document.getElementById("load-storage");
+  const uploadForm = document.getElementById("upload-form");
+  const list = document.getElementById("storage-files-list");
+
+  loginForm?.addEventListener("submit", loginAdmin);
+  logout?.addEventListener("click", logoutAdmin);
+  load?.addEventListener("click", renderStorageFiles);
+  uploadForm?.addEventListener("submit", uploadStorageFiles);
+  list?.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-storage-delete]");
+    if (button) deleteStorageFile(button.dataset.storageDelete);
+  });
+
+  try {
+    if (await checkAdminSession()) await renderStorageFiles();
+  } catch (error) {
+    showAdminContent(false);
+    setAuthMessage(error.message, true);
+  }
+}
+
 if (document.body.id === "display-page") {
   bootDisplay();
 }
 
 if (document.body.id === "admin-page") {
   bootAdmin();
+}
+
+if (document.body.id === "files-page") {
+  bootFiles();
 }

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arquivos | Placar Game</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body id="files-page">
+  <main class="admin-shell">
+    <header class="admin-header">
+      <p class="eyebrow">Control Room</p>
+      <h1>Gerenciar <span>Arquivos</span></h1>
+    </header>
+
+    <form id="login-form" class="panel auth-panel">
+      <h2>Acesso restrito</h2>
+      <label class="field"><span>Senha do admin</span><input id="admin-password" type="password" autocomplete="current-password" required></label>
+      <button class="primary-button" type="submit">Entrar</button>
+      <p id="auth-message" class="admin-message" role="status"></p>
+    </form>
+
+    <section id="admin-content" class="storage-layout is-hidden">
+      <section class="panel storage-controls">
+        <div class="panel-heading">
+          <h2>Storage R2</h2>
+          <div class="panel-actions">
+            <a class="ghost-button button-link" href="./admin.html">Equipes</a>
+            <button id="logout-admin" class="danger-button" type="button">Sair</button>
+          </div>
+        </div>
+        <label class="field">
+          <span>Caminho da pasta</span>
+          <input id="storage-prefix" type="text" value="patrocinadores/geral" placeholder="Ex: patrocinadores/geral" required>
+        </label>
+        <div class="panel-actions">
+          <button id="load-storage" class="ghost-button" type="button">Abrir pasta</button>
+        </div>
+        <form id="upload-form" class="upload-form">
+          <label class="field"><span>Arquivos (até 25 MB cada)</span><input id="storage-files" type="file" multiple required></label>
+          <button class="primary-button" type="submit">Enviar arquivos</button>
+        </form>
+        <p id="storage-message" class="admin-message" role="status"></p>
+      </section>
+
+      <section class="panel">
+        <div class="panel-heading"><h2>Arquivos da pasta</h2></div>
+        <ul id="storage-files-list" class="storage-list"></ul>
+      </section>
+    </section>
+  </main>
+  <script src="./script.js"></script>
+</body>
+</html>

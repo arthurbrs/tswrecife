@@ -22,6 +22,7 @@ const MAX_STAGE = 5;
 const SPONSORS_PREFIX = "patrocinadores/geral/";
 const SPONSORS_PUBLIC_BASE = "https://r2.tswrecife.com.br/";
 const IMAGE_FILE_PATTERN = /\.(avif|gif|jpe?g|png|svg|webp)$/i;
+const MAX_UPLOAD_SIZE = 25 * 1024 * 1024;
 const PUBLIC_API_ROUTES = new Set([
   "GET /api/teams",
   "GET /api/sponsors",
@@ -288,6 +289,18 @@ function requiresAdminSession(path, method) {
   return !isPublicApiRoute(path, method);
 }
 
+function normalizeStoragePrefix(value) {
+  const prefix = String(value || "").trim().replace(/^\/+|\/+$/g, "").replace(/\/+/g, "/");
+  if (!prefix || prefix.split("/").some((part) => part === "." || part === "..")) {
+    throw new Error("Informe um caminho de pasta valido.");
+  }
+  return `${prefix}/`;
+}
+
+function publicObjectUrl(key) {
+  return `${SPONSORS_PUBLIC_BASE}${key.split("/").map(encodeURIComponent).join("/")}`;
+}
+
 async function handleApi(request, env) {
   const url = new URL(request.url);
   const path = url.pathname.replace(/\/$/, "");
@@ -352,6 +365,80 @@ async function handleApi(request, env) {
 
   if (requiresAdminSession(path, request.method) && !(await isAuthenticated(request, env))) {
     return json(request, { error: "Nao autorizado." }, 401);
+  }
+
+  if (path === "/api/storage" && request.method === "GET") {
+    if (!env.SPONSORS_BUCKET) {
+      return json(request, { error: "Binding SPONSORS_BUCKET nao configurado no Worker." }, 500);
+    }
+
+    try {
+      const prefix = normalizeStoragePrefix(url.searchParams.get("prefix"));
+      const files = [];
+      let cursor;
+
+      do {
+        const page = await env.SPONSORS_BUCKET.list({ prefix, cursor });
+        files.push(...page.objects.map((object) => ({
+          key: object.key,
+          size: object.size,
+          uploaded: object.uploaded,
+          url: publicObjectUrl(object.key),
+        })));
+        cursor = page.truncated ? page.cursor : undefined;
+      } while (cursor);
+
+      return json(request, { prefix, files: files.sort((first, second) => first.key.localeCompare(second.key)) });
+    } catch (error) {
+      return json(request, { error: error.message }, 400);
+    }
+  }
+
+  if (path === "/api/storage/upload" && request.method === "POST") {
+    if (!env.SPONSORS_BUCKET) {
+      return json(request, { error: "Binding SPONSORS_BUCKET nao configurado no Worker." }, 500);
+    }
+
+    try {
+      const form = await request.formData();
+      const prefix = normalizeStoragePrefix(form.get("prefix"));
+      const files = form.getAll("files").filter((file) => file && typeof file.name === "string");
+
+      if (!files.length) return json(request, { error: "Selecione ao menos um arquivo." }, 400);
+      if (files.some((file) => file.size > MAX_UPLOAD_SIZE)) {
+        return json(request, { error: "Cada arquivo pode ter no maximo 25 MB." }, 400);
+      }
+
+      const uploaded = [];
+      for (const file of files) {
+        const filename = file.name.split(/[\\/]/).pop().replace(/[\u0000-\u001f]/g, "_");
+        if (!filename) continue;
+        const key = `${prefix}${filename}`;
+        await env.SPONSORS_BUCKET.put(key, file, {
+          httpMetadata: { contentType: file.type || "application/octet-stream" },
+        });
+        uploaded.push({ key, url: publicObjectUrl(key) });
+      }
+
+      return json(request, { success: true, uploaded });
+    } catch (error) {
+      return json(request, { error: error.message || "Falha no envio dos arquivos." }, 400);
+    }
+  }
+
+  if (path === "/api/storage/delete" && request.method === "POST") {
+    if (!env.SPONSORS_BUCKET) {
+      return json(request, { error: "Binding SPONSORS_BUCKET nao configurado no Worker." }, 500);
+    }
+
+    const body = await request.json().catch(() => null);
+    const key = String(body?.key || "").trim().replace(/^\/+/, "");
+    if (!key || key.split("/").some((part) => part === "." || part === "..")) {
+      return json(request, { error: "Arquivo invalido." }, 400);
+    }
+
+    await env.SPONSORS_BUCKET.delete(key);
+    return json(request, { success: true });
   }
 
   if (path.startsWith("/api/")) {

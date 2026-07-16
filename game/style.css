@@ -644,6 +644,12 @@ h2 {
   background: transparent;
 }
 
+.button-link {
+  display: inline-grid;
+  place-items: center;
+  text-decoration: none;
+}
+
 .danger-button {
   padding: 0 14px;
   color: #fff;
@@ -656,6 +662,50 @@ h2 {
   margin: 14px 0 0;
   color: var(--green);
   font-size: 0.92rem;
+}
+
+.storage-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.75fr) minmax(360px, 1.25fr);
+  gap: 18px;
+}
+
+.upload-form {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(0, 229, 255, 0.14);
+}
+
+.storage-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.storage-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.24);
+}
+
+.storage-item a {
+  color: var(--text);
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.storage-item span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+  white-space: nowrap;
 }
 
 .admin-list {
@@ -776,6 +826,7 @@ h2 {
   }
 
   .admin-layout,
+  .storage-layout,
   .admin-item {
     grid-template-columns: 1fr;
   }
@@ -802,5 +853,9 @@ h2 {
 
   .admin-item-actions {
     width: 100%;
+  }
+
+  .storage-item {
+    grid-template-columns: 1fr;
   }
 }
