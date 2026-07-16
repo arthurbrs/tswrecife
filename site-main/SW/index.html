@@ -1281,6 +1281,36 @@
       font-weight: 950;
     }
 
+    .staff-callout {
+      padding: 72px 0;
+      color: var(--white);
+      text-align: center;
+      background: var(--ink);
+    }
+
+    .staff-callout .section-inner {
+      display: grid;
+      justify-items: center;
+      gap: 18px;
+    }
+
+    .staff-callout h2 {
+      margin: 0;
+      font-size: clamp(32px, 5vw, 56px);
+    }
+
+    .staff-callout p {
+      max-width: 620px;
+      margin: 0;
+      color: rgba(255, 255, 255, .76);
+    }
+
+    .staff-callout .btn[aria-disabled="true"] {
+      opacity: .58;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
     footer {
       padding: 44px 0;
       color: rgba(255, 255, 255, .58);
@@ -1875,6 +1905,15 @@
         </aside>
       </div>
     </section>
+
+    <section id="call-for-staff" class="staff-callout">
+      <div class="section-inner">
+        <span class="eyebrow">Call for Staff</span>
+        <h2>Faça parte da equipe do evento.</h2>
+        <p>Quer ajudar a construir esta edição do Startup Weekend Recife? Preencha o formulário para participar do staff.</p>
+        <a id="callForStaffLink" class="btn" href="#" target="_blank" rel="noopener noreferrer" aria-disabled="true">Formulário em breve</a>
+      </div>
+    </section>
   </main>
 
   <footer>
@@ -1910,6 +1949,15 @@
       Exemplo de preenchimento: AAAA-MM-DDTHH:mm:ss-03:00
     */
     const EVENT_DATE_ISO = "2026-11-27T18:00:00-03:00";
+
+    /* Cole aqui o link do formulário de inscrição para o Call for Staff. */
+    const CALL_FOR_STAFF_FORM_URL = "https://forms.gle/XpLk8VnfFVKYhV5W8";
+    const callForStaffLink = document.querySelector("#callForStaffLink");
+    if (CALL_FOR_STAFF_FORM_URL) {
+      callForStaffLink.href = CALL_FOR_STAFF_FORM_URL;
+      callForStaffLink.textContent = "Quero fazer parte do staff";
+      callForStaffLink.setAttribute("aria-disabled", "false");
+    }
 
     const header = document.querySelector(".site-header");
     const revealTargets = document.querySelectorAll(".section-title, .stat, .photo-tile, .track-card, .tabs, .gallery-shell, .cta, .sponsor-tier, .ticket-card, .included");

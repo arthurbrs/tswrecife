@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preview SW Chapecó - Branco</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #0f172a;
+      --primary: #f97316;
+      --accent: #10b981;
+      --secondary: #f1f5f9;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      color: var(--fg);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img,
+    svg {
+      display: block;
+      max-width: 100%;
+    }
+
+    .mono {
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    .container {
+      width: min(1240px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(145deg, #ff8a3d, var(--primary));
+      box-shadow: 0 14px 26px rgba(249, 115, 22, 0.24);
+      position: relative;
+      overflow: hidden;
+      flex: 0 0 auto;
+    }
+
+    .brand-mark::before {
+      content: "";
+      position: absolute;
+      inset: 9px 10px 9px 10px;
+      border-left: 3px solid rgba(15, 23, 42, 0.82);
+      border-bottom: 3px solid rgba(15, 23, 42, 0.82);
+      transform: skew(-12deg);
+    }
+
+    .brand-text strong {
+      display: block;
+      font-size: 1.1rem;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    .brand-text span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      padding: 0 26px;
+      border-radius: 999px;
+      font-weight: 800;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 24px rgba(15, 23, 42, 0.08);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-secondary {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--fg);
+    }
+
+    .hero {
+      padding: 84px 0 72px;
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+      color: var(--primary);
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero-kicker i {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 0 6px rgba(249, 115, 22, 0.12);
+    }
+
+    .hero h1 {
+      font-size: clamp(4rem, 8vw, 8.5rem);
+      line-height: 0.84;
+      letter-spacing: -0.06em;
+      font-weight: 900;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    .hero h1 .primary {
+      color: var(--primary);
+    }
+
+    .hero-copy {
+      color: var(--muted);
+      font-size: 1.08rem;
+      max-width: 40rem;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 44px;
+      margin-top: 40px;
+    }
+
+    .hero-meta .label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 0.76rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero-meta .value {
+      font-size: 1.15rem;
+      font-weight: 800;
+    }
+
+    .hero-illustration {
+      background:
+        radial-gradient(circle at 12% 14%, rgba(249, 115, 22, 0.14), transparent 24%),
+        radial-gradient(circle at 84% 18%, rgba(16, 185, 129, 0.14), transparent 22%),
+        linear-gradient(180deg, #fff8f3, #f5fbf9);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-note {
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 18px;
+      background: #fff;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .hero-note strong {
+      display: block;
+      color: var(--fg);
+      margin-bottom: 6px;
+    }
+
+    .section {
+      padding: 96px 0;
+    }
+
+    .section.secondary {
+      background: var(--secondary);
+    }
+
+    .eyebrow {
+      color: var(--primary);
+      font-size: 0.76rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(2.2rem, 4vw, 4rem);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+      font-weight: 900;
+      margin-bottom: 22px;
+    }
+
+    .section-description {
+      color: var(--muted);
+      max-width: 680px;
+    }
+
+    .about-grid,
+    .calls-grid,
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 36px;
+      align-items: center;
+    }
+
+    .about-visual {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .about-visual img {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      border-radius: 18px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .stat-card {
+      background: #fff;
+      border-left: 4px solid var(--primary);
+      padding: 18px;
+      border-radius: 4px;
+    }
+
+    .stat-card.accent {
+      border-left-color: var(--accent);
+    }
+
+    .stat-card b {
+      display: block;
+      font-size: 2rem;
+      margin-bottom: 4px;
+    }
+
+    .stat-card span {
+      font-size: 0.76rem;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .timeline {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      gap: 16px;
+    }
+
+    .timeline-row {
+      display: flex;
+      gap: 32px;
+    }
+
+    .timeline-date {
+      width: 64px;
+      color: var(--primary);
+      font-weight: 800;
+      padding-top: 4px;
+    }
+
+    .timeline-content {
+      position: relative;
+      padding: 0 0 44px 30px;
+      border-left: 1px solid var(--border);
+    }
+
+    .timeline-content.last {
+      padding-bottom: 0;
+    }
+
+    .timeline-content::before {
+      content: "";
+      position: absolute;
+      left: -5px;
+      top: 8px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--primary);
+    }
+
+    .timeline-content h3 {
+      margin-bottom: 8px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .timeline-content p {
+      color: var(--muted);
+    }
+
+    .calls-head {
+      margin-bottom: 56px;
+    }
+
+    .call-card {
+      min-height: 360px;
+      padding: 40px;
+      border-radius: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .call-card.dark {
+      background: var(--fg);
+      color: #fff;
+    }
+
+    .call-card.light {
+      background: var(--secondary);
+      border: 1px solid var(--border);
+    }
+
+    .call-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 28px;
+    }
+
+    .call-card h3 {
+      margin-bottom: 14px;
+      font-size: 2rem;
+      font-weight: 800;
+    }
+
+    .call-card p {
+      max-width: 32rem;
+    }
+
+    .call-card.dark p {
+      color: rgba(255, 255, 255, 0.66);
+    }
+
+    .call-card.light p {
+      color: var(--muted);
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      min-height: 60px;
+      border-radius: 16px;
+      padding: 0 22px;
+      border: 1px solid var(--border);
+      background: #fff;
+      font-weight: 600;
+    }
+
+    .sponsors-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 24px;
+      margin-bottom: 44px;
+    }
+
+    .sponsors-head a {
+      color: var(--primary);
+      border-bottom: 2px solid var(--primary);
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding-bottom: 4px;
+    }
+
+    .sponsors-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .sponsor {
+      height: 64px;
+      border-radius: 10px;
+      background: #fff;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .footer {
+      background: var(--fg);
+      color: #fff;
+      padding: 96px 0 46px;
+    }
+
+    .footer-eyebrow {
+      margin-bottom: 16px;
+      color: var(--primary);
+      font-size: 0.76rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .footer h2 {
+      font-size: clamp(3rem, 6vw, 4.6rem);
+      line-height: 1;
+      letter-spacing: -0.05em;
+      font-weight: 900;
+      text-transform: uppercase;
+      margin-bottom: 26px;
+    }
+
+    .footer p {
+      color: rgba(255, 255, 255, 0.66);
+      max-width: 30rem;
+    }
+
+    .signup-form {
+      display: grid;
+      gap: 22px;
+    }
+
+    .signup-form label {
+      display: block;
+      margin-bottom: 8px;
+      color: rgba(255, 255, 255, 0.42);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+    }
+
+    .signup-form input,
+    .signup-form select {
+      width: 100%;
+      padding: 14px 0;
+      border: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      background: transparent;
+      color: #fff;
+      outline: 0;
+    }
+
+    .signup-form option {
+      color: var(--fg);
+    }
+
+    .footer-submit {
+      width: 100%;
+      border: 0;
+      background: var(--primary);
+      color: #fff;
+      padding: 20px;
+      font-size: 1.18rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      margin-top: 48px;
+      padding-top: 42px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .about-grid,
+      .calls-grid,
+      .footer-grid,
+      .sponsors-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .sponsors-head,
+      .footer-bottom {
+        flex-direction: column;
+        align-items: start;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .container {
+        width: min(1240px, calc(100% - 24px));
+      }
+
+      .nav-inner {
+        min-height: 70px;
+        flex-wrap: wrap;
+        padding: 12px 0;
+      }
+
+      .nav-inner .btn-primary {
+        width: 100%;
+      }
+
+      .hero {
+        padding: 54px 0 58px;
+      }
+
+      .hero-meta,
+      .stats-grid {
+        gap: 22px;
+      }
+
+      .timeline-row {
+        gap: 18px;
+      }
+
+      .call-card {
+        padding: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="site-nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#sobre">
+        <span class="brand-mark"></span>
+        <span class="brand-text">
+          <strong>Startup Weekend Chapecó</strong>
+          <span>Smart Cities</span>
+        </span>
+      </a>
+      <div class="nav-links">
+        <a href="#sobre">Sobre</a>
+        <a href="#conteudo">Cronograma</a>
+        <a href="#chamadas">Chamadas</a>
+        <a href="#patrocinio">Patrocínio</a>
+      </div>
+      <a class="btn btn-primary" href="#inscreva">Inscreva-se</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="hero-kicker mono"><i></i>Ao vivo no Oeste Catarinense</div>
+        <h1>
+          Smart <span class="primary">Cities</span><br>
+          Chapecó
+        </h1>
+        <p class="hero-copy">
+          Um preview em visual branco para validar a landing antes de subir no Blogger, mantendo a base do layout antigo e trazendo a identidade local com uma leitura mais forte de Chapecó.
+        </p>
+
+        <div class="hero-meta">
+          <div>
+            <span class="label mono">Data</span>
+            <span class="value">18—20 Outubro, 2024</span>
+          </div>
+          <div>
+            <span class="label mono">Local</span>
+            <span class="value">Polo Tecnológico Chapecó</span>
+          </div>
+          <div>
+            <span class="label mono">Status</span>
+            <span class="value">Inscrições Abertas</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-illustration">
+        <svg viewBox="0 0 520 560" role="img" aria-label="Ilustração do Desbravador">
+          <rect x="0" y="0" width="520" height="560" rx="24" fill="#fffaf6"></rect>
+          <circle cx="402" cy="84" r="42" fill="rgba(249,115,22,.18)"></circle>
+          <path d="M0 411C86 383 148 375 215 391C275 405 312 434 371 438C420 441 457 422 520 381V560H0Z" fill="#dbf5e9"></path>
+          <path d="M0 470C63 442 124 439 185 455C250 472 305 513 373 513C424 513 464 496 520 462V560H0Z" fill="#f2f8f5"></path>
+          <g transform="translate(126 92)">
+            <path d="M150 28L178 50L207 103L209 145L186 161L179 233L235 346L201 360L160 283L140 230L122 356L88 356L100 218L82 164L45 189L28 165L80 129L89 89L122 54Z" fill="#f97316" stroke="#0f172a" stroke-width="6" stroke-linejoin="round"></path>
+            <circle cx="137" cy="31" r="30" fill="#10b981" stroke="#0f172a" stroke-width="6"></circle>
+            <path d="M108 54C124 43 145 43 168 49" stroke="#0f172a" stroke-width="6" stroke-linecap="round"></path>
+            <path d="M155 89L204 100" stroke="#0f172a" stroke-width="6" stroke-linecap="round"></path>
+            <path d="M111 90L87 131" stroke="#0f172a" stroke-width="6" stroke-linecap="round"></path>
+            <path d="M86 131L45 160" stroke="#0f172a" stroke-width="6" stroke-linecap="round"></path>
+            <path d="M178 234L196 288" stroke="#0f172a" stroke-width="6" stroke-linecap="round"></path>
+            <path d="M102 220L94 301" stroke="#0f172a" stroke-width="6" stroke-linecap="round"></path>
+          </g>
+          <g fill="#e2e8f0">
+            <rect x="58" y="314" width="52" height="104" rx="8"></rect>
+            <rect x="118" y="346" width="38" height="72" rx="8"></rect>
+            <rect x="164" y="328" width="54" height="90" rx="8"></rect>
+            <rect x="344" y="330" width="44" height="88" rx="8"></rect>
+            <rect x="396" y="294" width="64" height="124" rx="8"></rect>
+          </g>
+        </svg>
+        <div class="hero-note">
+          <strong>Direção visual do preview</strong>
+          Base branca como no layout antigo, com reforço visual da identidade de Chapecó via ilustração do Desbravador e acentos em laranja e verde.
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="section secondary" id="sobre">
+    <div class="container about-grid">
+      <div class="about-visual">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjkfwqMjhvSw87xDGRI8nhOtI1OMgZcKIt8weqJq0tR1lPqUSxLl3HMVGH8uhjc5vTsilZbZOQ2BY2pSzvNCxxAHHJzewXaQ2rgmKhs4GGxjVEOX3QaK8L-J6FHVZpNikQPheaqCkHG4u7fmkO1DDKEK2C-ePCxZDxPjl-SB4xs-RdamAk09rkaRBzGA3Ja/s2048/2017-4.jpg" alt="Vista aérea de Chapecó">
+      </div>
+      <div>
+        <p class="eyebrow mono">Sobre Nós</p>
+        <h2 class="section-title">54 Horas de Ação Pura</h2>
+        <p class="section-description">O Techstars Startup Weekend é o maior evento de empreendedorismo do mundo. Em Chapecó, focamos no desafio das <strong>Smart Cities</strong>: como integrar a força do agro catarinense e a modernidade urbana em soluções reais para a nossa gente.</p>
+        <div class="stats-grid">
+          <div class="stat-card accent">
+            <b>+50</b>
+            <span>Participantes</span>
+          </div>
+          <div class="stat-card">
+            <b>15+</b>
+            <span>Mentores</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="conteudo">
+    <div class="container">
+      <p class="eyebrow mono" style="text-align:center;">Conteúdo</p>
+      <h2 class="section-title" style="text-align:center; text-transform:uppercase; margin-bottom:64px;">Cronograma do Futuro</h2>
+      <div class="timeline">
+        <div class="timeline-row">
+          <div class="timeline-date mono">18/10</div>
+          <div class="timeline-content">
+            <h3>Pitch & Formação de Times</h3>
+            <p>Apresentação de ideias em 60 segundos, votação coletiva e o início oficial das 54 horas.</p>
+          </div>
+        </div>
+        <div class="timeline-row">
+          <div class="timeline-date mono">19/10</div>
+          <div class="timeline-content">
+            <h3>Mentoria & Desenvolvimento</h3>
+            <p>Validação de mercado com especialistas locais, prototipagem e construção da solução.</p>
+          </div>
+        </div>
+        <div class="timeline-row">
+          <div class="timeline-date mono">20/10</div>
+          <div class="timeline-content last">
+            <h3>Demos & Grande Final</h3>
+            <p>Pitch final para uma banca de jurados renomados e premiação das melhores ideias.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="chamadas">
+    <div class="container">
+      <div class="calls-head">
+        <p class="eyebrow mono">Chamadas</p>
+        <h2 class="section-title" style="text-transform:uppercase; margin-bottom:16px;">Faça parte</h2>
+        <p class="section-description">Quer construir o maior evento de startups do Oeste catarinense? Temos portas abertas para quem quer colaborar e para quem quer divulgar.</p>
+      </div>
+      <div class="calls-grid">
+        <div class="call-card dark">
+          <div>
+            <div class="call-icon" style="background:rgba(249,115,22,.2);">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m-7.5-2.72a3 3 0 01-4.681 2.72 9.094 9.094 0 003.74.478m6.68-6.68a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3>Call for Staff</h3>
+            <p>Quer fazer parte da equipe que organiza o maior evento de startups do oeste catarinense? Inscreva-se para ser voluntário e viva a experiência por dentro.</p>
+          </div>
+          <!-- Substitua a URL abaixo pelo link definitivo do formulário de staff. -->
+          <a class="btn btn-primary" href="https://forms.gle/COLE-O-LINK-DO-FORMULARIO-AQUI" target="_blank" rel="noopener noreferrer" aria-label="Abrir formulário de inscrição para o Call for Staff">Candidatar-se →</a>
+        </div>
+
+        <div class="call-card light">
+          <div>
+            <div class="call-icon" style="background:rgba(16,185,129,.2); color:var(--accent);">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3>Imprensa</h3>
+            <p>Para solicitações de imprensa, cobertura do evento ou entrevistas, entre em contato com nossa assessoria de comunicação.</p>
+          </div>
+          <div class="contact-list">
+            <a class="contact-link" href="mailto:contato@swchapeco.com.br">contato@swchapeco.com.br</a>
+            <a class="contact-link" href="tel:+5549988232112">(49) 98823-2112</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section secondary" id="patrocinio">
+    <div class="container">
+      <div class="sponsors-head">
+        <div>
+          <p class="eyebrow mono">Patrocínio</p>
+          <h2 class="section-title" style="font-size:1.6rem; margin-bottom:0;">Parceiros do Ecossistema</h2>
+        </div>
+        <a href="#inscreva">Seja um patrocinador →</a>
+      </div>
+      <div class="sponsors-grid">
+        <div class="sponsor mono">Techstars</div>
+        <div class="sponsor mono">ACIC</div>
+        <div class="sponsor mono">Unochapecó</div>
+        <div class="sponsor mono">Prefeitura</div>
+        <div class="sponsor mono">Aurora</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer" id="inscreva">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <p class="footer-eyebrow mono">Inscreva-se</p>
+          <h2>Pronto para o<br>Próximo Nível?</h2>
+          <p>Vagas limitadas por categoria para garantir times equilibrados. Garanta seu lugar agora e faça parte da próxima geração de fundadores do Oeste.</p>
+        </div>
+        <form class="signup-form" onsubmit="event.preventDefault(); alert('Inscrição recebida!');">
+          <div>
+            <label class="mono">Nome Completo</label>
+            <input type="text" placeholder="Digite seu nome" required>
+          </div>
+          <div>
+            <label class="mono">E-mail Profissional</label>
+            <input type="email" placeholder="seu@email.com" required>
+          </div>
+          <div>
+            <label class="mono">Categoria</label>
+            <select required>
+              <option value="" disabled selected>Selecione sua área</option>
+              <option value="dev">Programador / Engenheiro</option>
+              <option value="design">Designer</option>
+              <option value="business">Negócios / Marketing</option>
+              <option value="mentor">Mentor</option>
+            </select>
+          </div>
+          <button class="footer-submit" type="submit">Garantir Minha Vaga</button>
+        </form>
+      </div>
+      <div class="footer-bottom mono">
+        <div>© 2024 Techstars Startup Weekend Chapecó</div>
+        <div>Made for Smart Cities · Chapecó–SC</div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

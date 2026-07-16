@@ -9,6 +9,7 @@
   --green: #4dff88;
   --pink: #ff2d7a;
   --yellow: #ffd166;
+  --recife-orange: #ee6f2d;
   --shadow: 0 24px 80px rgba(0, 0, 0, 0.48);
 }
 
@@ -256,10 +257,10 @@ h2 {
   display: grid;
   place-items: center;
   color: var(--text);
-  border: 1px solid rgba(77, 255, 136, 0.3);
+  border: 1px solid rgba(238, 111, 45, 0.58);
   border-radius: 8px;
-  background: rgba(77, 255, 136, 0.12);
-  box-shadow: 0 0 18px rgba(77, 255, 136, 0.1);
+  background: rgba(238, 111, 45, 0.18);
+  box-shadow: 0 0 18px rgba(238, 111, 45, 0.18);
   font-size: 0.88rem;
   font-weight: 950;
   text-align: center;
