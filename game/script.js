@@ -1,5 +1,5 @@
 const WORKER_URL = "";
-const COUNTDOWN_TARGET = new Date("2026-10-18T18:00:00-03:00").getTime();
+const COUNTDOWN_TARGET = new Date("2026-11-29T16:00:00-03:00").getTime();
 
 const STAGES = [
   "Ideia",

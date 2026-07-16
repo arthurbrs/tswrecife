@@ -63,15 +63,6 @@ SESSION_SECRET
 `ADMIN_PASSWORD` e a senha do painel admin.  
 `SESSION_SECRET` assina o cookie de sessao.
 
-Os secrets antigos do Pusher nao sao mais necessarios:
-
-```txt
-PUSHER_APP_ID
-PUSHER_KEY
-PUSHER_SECRET
-PUSHER_CLUSTER
-```
-
 ## Rotas
 
 API REST:
