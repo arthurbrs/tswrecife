@@ -12,6 +12,7 @@ const STAGES = [
 
 const state = {
   teams: new Map(),
+  hasRenderedDisplay: false,
   fireworksInstance: null,
   fireworksTimer: null,
   realtimeSocket: null,
@@ -343,11 +344,12 @@ function renderDisplay(teams) {
     .map(({ label, index }) => stageColumnTemplate(label, index, teams))
     .join("");
   empty?.classList.toggle("is-visible", teams.length === 0);
+  state.hasRenderedDisplay = true;
 }
 
 async function syncDisplay() {
   const teams = (await fetchTeams()).map(normalizeTeam);
-  let needsRender = teams.length !== state.teams.size;
+  let needsRender = !state.hasRenderedDisplay || teams.length !== state.teams.size;
   const boostedTeams = [];
 
   for (const team of teams) {
