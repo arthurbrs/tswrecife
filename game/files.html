@@ -7,10 +7,13 @@
   <link rel="stylesheet" href="./style.css">
 </head>
 <body id="files-page">
-  <main class="admin-shell">
-    <header class="admin-header">
-      <p class="eyebrow">Control Room</p>
-      <h1>Gerenciar <span>Arquivos</span></h1>
+  <main class="admin-shell storage-shell">
+    <header class="admin-header storage-header">
+      <div>
+        <p class="eyebrow">Control Room</p>
+        <h1>Central de <span>Arquivos</span></h1>
+      </div>
+      <a class="ghost-button button-link" href="./admin.html">← Voltar às equipes</a>
     </header>
 
     <form id="login-form" class="panel auth-panel">
@@ -20,31 +23,44 @@
       <p id="auth-message" class="admin-message" role="status"></p>
     </form>
 
-    <section id="admin-content" class="storage-layout is-hidden">
-      <section class="panel storage-controls">
-        <div class="panel-heading">
-          <h2>Storage R2</h2>
-          <div class="panel-actions">
-            <a class="ghost-button button-link" href="./admin.html">Equipes</a>
-            <button id="logout-admin" class="danger-button" type="button">Sair</button>
-          </div>
+    <section id="admin-content" class="storage-workspace is-hidden">
+      <section class="storage-topbar">
+        <div class="storage-location">
+          <span>Você está em</span>
+          <nav id="storage-breadcrumbs" class="storage-breadcrumbs" aria-label="Caminho da pasta"></nav>
+          <a id="storage-url" class="storage-url" target="_blank" rel="noopener noreferrer"></a>
         </div>
-        <label class="field">
-          <span>Caminho da pasta</span>
-          <input id="storage-prefix" type="text" value="patrocinadores/geral" placeholder="Ex: patrocinadores/geral" required>
-        </label>
-        <div class="panel-actions">
-          <button id="load-storage" class="ghost-button" type="button">Abrir pasta</button>
+        <div class="storage-toolbar">
+          <button id="storage-up" class="ghost-button" type="button">↑ Subir</button>
+          <button id="storage-new-folder" class="ghost-button" type="button">+ Nova pasta</button>
+          <button id="logout-admin" class="danger-button" type="button">Sair</button>
         </div>
-        <form id="upload-form" class="upload-form">
-          <label class="field"><span>Arquivos (até 25 MB cada)</span><input id="storage-files" type="file" multiple required></label>
-          <button class="primary-button" type="submit">Enviar arquivos</button>
-        </form>
-        <p id="storage-message" class="admin-message" role="status"></p>
       </section>
 
-      <section class="panel">
-        <div class="panel-heading"><h2>Arquivos da pasta</h2></div>
+      <input id="storage-prefix" type="hidden" value="patrocinadores/geral">
+
+      <section class="storage-upload-card">
+        <div>
+          <p class="storage-upload-eyebrow">Destino do upload</p>
+          <strong id="storage-upload-target"></strong>
+          <p>Os arquivos enviados aparecerão nesta pasta.</p>
+        </div>
+        <form id="upload-form" class="storage-upload-form">
+          <label class="storage-file-picker" for="storage-files">
+            <span>Selecionar arquivos</span>
+            <small>Até 25 MB por arquivo</small>
+          </label>
+          <input id="storage-files" type="file" multiple required>
+          <button class="primary-button" type="submit">Enviar para esta pasta</button>
+        </form>
+      </section>
+
+      <p id="storage-message" class="admin-message" role="status"></p>
+
+      <section class="storage-browser">
+        <div class="storage-section-heading"><h2>Pastas</h2><span id="storage-folder-count"></span></div>
+        <div id="storage-folders-list" class="storage-folders"></div>
+        <div class="storage-section-heading"><h2>Arquivos</h2><span id="storage-file-count"></span></div>
         <ul id="storage-files-list" class="storage-list"></ul>
       </section>
     </section>

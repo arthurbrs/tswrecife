@@ -289,8 +289,9 @@ function requiresAdminSession(path, method) {
   return !isPublicApiRoute(path, method);
 }
 
-function normalizeStoragePrefix(value) {
+function normalizeStoragePrefix(value, allowEmpty = false) {
   const prefix = String(value || "").trim().replace(/^\/+|\/+$/g, "").replace(/\/+/g, "/");
+  if (!prefix && allowEmpty) return "";
   if (!prefix || prefix.split("/").some((part) => part === "." || part === "..")) {
     throw new Error("Informe um caminho de pasta valido.");
   }
@@ -373,12 +374,14 @@ async function handleApi(request, env) {
     }
 
     try {
-      const prefix = normalizeStoragePrefix(url.searchParams.get("prefix"));
+      const prefix = normalizeStoragePrefix(url.searchParams.get("prefix"), true);
       const files = [];
+      const folders = new Set();
       let cursor;
 
       do {
-        const page = await env.SPONSORS_BUCKET.list({ prefix, cursor });
+        const page = await env.SPONSORS_BUCKET.list({ prefix, delimiter: "/", cursor });
+        (page.delimitedPrefixes || []).forEach((folder) => folders.add(folder));
         files.push(...page.objects.map((object) => ({
           key: object.key,
           size: object.size,
@@ -388,7 +391,14 @@ async function handleApi(request, env) {
         cursor = page.truncated ? page.cursor : undefined;
       } while (cursor);
 
-      return json(request, { prefix, files: files.sort((first, second) => first.key.localeCompare(second.key)) });
+      return json(request, {
+        prefix,
+        folders: Array.from(folders).sort((first, second) => first.localeCompare(second)).map((folder) => ({
+          prefix: folder,
+          name: folder.slice(prefix.length).replace(/\/$/, ""),
+        })),
+        files: files.sort((first, second) => first.key.localeCompare(second.key)),
+      });
     } catch (error) {
       return json(request, { error: error.message }, 400);
     }

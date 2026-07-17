@@ -674,6 +674,42 @@ function storagePrefix() {
   return document.getElementById("storage-prefix")?.value.trim() || "";
 }
 
+function storagePublicUrl(prefix) {
+  const path = prefix ? `${prefix.replace(/\/$/, "")}/` : "";
+  return `https://r2.tswrecife.com.br/${path}`;
+}
+
+function setStoragePrefix(prefix) {
+  const input = document.getElementById("storage-prefix");
+  if (!input) return;
+  input.value = String(prefix || "").replace(/^\/+|\/+$/g, "");
+}
+
+function renderStorageLocation() {
+  const prefix = storagePrefix();
+  const breadcrumbs = document.getElementById("storage-breadcrumbs");
+  const url = document.getElementById("storage-url");
+  const target = document.getElementById("storage-upload-target");
+  const segments = prefix ? prefix.split("/") : [];
+
+  if (breadcrumbs) {
+    let accumulated = "";
+    breadcrumbs.innerHTML = ["Início", ...segments].map((segment, index) => {
+      const isRoot = index === 0;
+      if (!isRoot) accumulated = `${accumulated}${accumulated ? "/" : ""}${segment}`;
+      const targetPrefix = isRoot ? "" : accumulated;
+      return `<button type="button" data-storage-folder="${sanitizeText(targetPrefix)}">${sanitizeText(segment)}</button>`;
+    }).join('<span>/</span>');
+  }
+
+  const publicUrl = storagePublicUrl(prefix);
+  if (url) {
+    url.href = publicUrl;
+    url.textContent = publicUrl;
+  }
+  if (target) target.textContent = prefix ? `/${prefix}/` : "/";
+}
+
 function formatFileSize(bytes) {
   if (!Number.isFinite(Number(bytes))) return "";
   const units = ["B", "KB", "MB", "GB"];
@@ -688,17 +724,31 @@ function formatFileSize(bytes) {
 
 async function renderStorageFiles() {
   const list = document.getElementById("storage-files-list");
+  const foldersList = document.getElementById("storage-folders-list");
   const prefix = storagePrefix();
-  if (!list || !prefix) return;
+  if (!list || !foldersList) return;
 
+  renderStorageLocation();
   setStorageMessage("Carregando arquivos...");
   try {
-    const data = await requestJson(`/api/storage?prefix=${encodeURIComponent(prefix)}`);
+    const data = await requestJson(`/api/storage?prefix=${encodeURIComponent(prefix || "/")}`);
     const files = Array.isArray(data.files) ? data.files : [];
+    const folders = Array.isArray(data.folders) ? data.folders : [];
+    document.getElementById("storage-folder-count").textContent = `${folders.length} pasta(s)`;
+    document.getElementById("storage-file-count").textContent = `${files.length} arquivo(s)`;
+
+    foldersList.innerHTML = folders.length
+      ? folders.map((folder) => `
+          <button class="storage-folder" type="button" data-storage-folder="${sanitizeText(folder.prefix)}">
+            <span aria-hidden="true">⌁</span>${sanitizeText(folder.name)}
+          </button>
+        `).join("")
+      : '<p class="storage-empty">Nenhuma subpasta aqui.</p>';
+
     list.innerHTML = files.length
       ? files.map((file) => `
           <li class="storage-item">
-            <a href="${sanitizeText(file.url)}" target="_blank" rel="noopener noreferrer">${sanitizeText(file.key)}</a>
+            <a href="${sanitizeText(file.url)}" target="_blank" rel="noopener noreferrer">${sanitizeText(file.key.split("/").pop())}</a>
             <span>${formatFileSize(file.size)}</span>
             <button class="danger-button" type="button" data-storage-delete="${sanitizeText(file.key)}">Remover</button>
           </li>
@@ -709,6 +759,29 @@ async function renderStorageFiles() {
     list.innerHTML = "";
     setStorageMessage(error.message, true);
   }
+}
+
+function openStorageFolder(prefix) {
+  setStoragePrefix(prefix);
+  renderStorageFiles();
+}
+
+function openParentStorageFolder() {
+  const parts = storagePrefix().split("/").filter(Boolean);
+  parts.pop();
+  openStorageFolder(parts.join("/"));
+}
+
+function createStorageFolder() {
+  const name = window.prompt("Nome da nova pasta:");
+  if (!name?.trim()) return;
+  const cleanName = name.trim().replace(/^\/+|\/+$/g, "");
+  if (!cleanName || cleanName.includes("/") || cleanName === "." || cleanName === "..") {
+    setStorageMessage("Use um nome de pasta simples, sem barras.", true);
+    return;
+  }
+  openStorageFolder([storagePrefix(), cleanName].filter(Boolean).join("/"));
+  setStorageMessage("Pasta selecionada. Envie um arquivo para criá-la no storage.");
 }
 
 async function uploadStorageFiles(event) {
@@ -794,18 +867,31 @@ async function bootAdmin() {
 async function bootFiles() {
   const loginForm = document.getElementById("login-form");
   const logout = document.getElementById("logout-admin");
-  const load = document.getElementById("load-storage");
+  const up = document.getElementById("storage-up");
+  const newFolder = document.getElementById("storage-new-folder");
   const uploadForm = document.getElementById("upload-form");
   const list = document.getElementById("storage-files-list");
+  const folders = document.getElementById("storage-folders-list");
+  const breadcrumbs = document.getElementById("storage-breadcrumbs");
+  const fileInput = document.getElementById("storage-files");
 
   loginForm?.addEventListener("submit", loginAdmin);
   logout?.addEventListener("click", logoutAdmin);
-  load?.addEventListener("click", renderStorageFiles);
+  up?.addEventListener("click", openParentStorageFolder);
+  newFolder?.addEventListener("click", createStorageFolder);
   uploadForm?.addEventListener("submit", uploadStorageFiles);
+  fileInput?.addEventListener("change", () => {
+    const label = document.querySelector(".storage-file-picker span");
+    if (label) label.textContent = fileInput.files.length ? `${fileInput.files.length} arquivo(s) selecionado(s)` : "Selecionar arquivos";
+  });
   list?.addEventListener("click", (event) => {
     const button = event.target.closest("[data-storage-delete]");
     if (button) deleteStorageFile(button.dataset.storageDelete);
   });
+  [folders, breadcrumbs].forEach((container) => container?.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-storage-folder]");
+    if (button) openStorageFolder(button.dataset.storageFolder);
+  }));
 
   try {
     if (await checkAdminSession()) await renderStorageFiles();
