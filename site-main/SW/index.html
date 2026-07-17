@@ -49,10 +49,10 @@
         "name": "NERD (Núcleo de Empreendedorismo e Residência Digital)",
         "address": {
           "@type": "PostalAddress",
-          "streetAddress": "R. do Brum, 77",
+          "streetAddress": "R. Dona Maria César, 70",
           "addressLocality": "Recife",
           "addressRegion": "PE",
-          "postalCode": "50030-260",
+          "postalCode": "50030-140",
           "addressCountry": "BR"
         }
       },
@@ -1596,8 +1596,8 @@
                 </div>
                 <div>
                   <small>Localização</small>
-                  <a href="https://maps.app.goo.gl/J5TJS2xdPkfw6zsb9" target="_blank" rel="noopener noreferrer" aria-label="Abrir localização no Google Maps">
-                    <b>NERD (Núcleo de Empreendedorismo e Residência Digital), R. do Brum, 77, Bairro do Recife, Recife - PE</b>
+                  <a href="https://maps.app.goo.gl/PWZoBXBMmPPZbJP3A" target="_blank" rel="noopener noreferrer" aria-label="Abrir localização no Google Maps">
+                    <b>NERD (Núcleo de Empreendedorismo e Residência Digital), R. Dona Maria César, 70, Recife - PE, 50030-140</b>
                   </a>
                 </div>
                 <div>
@@ -1957,6 +1957,25 @@
       callForStaffLink.href = CALL_FOR_STAFF_FORM_URL;
       callForStaffLink.textContent = "Quero fazer parte do staff";
       callForStaffLink.setAttribute("aria-disabled", "false");
+    }
+
+    // Expõe os links oficiais para agentes em navegadores compatíveis com WebMCP.
+    if (document.modelContext && typeof document.modelContext.registerTool === "function") {
+      document.modelContext.registerTool({
+        name: "get_event_registration_links",
+        title: "Links de inscrição do evento",
+        description: "Retorna os links oficiais para inscrição no Startup Weekend Recife e para a candidatura ao staff.",
+        inputSchema: {
+          type: "object",
+          properties: {},
+          additionalProperties: false
+        },
+        annotations: { readOnlyHint: true },
+        execute: async () => ({
+          participantRegistrationUrl: "https://www.sympla.com.br/evento/techstars-startup-weekend-recife-2026-2/3458161",
+          staffApplicationUrl: CALL_FOR_STAFF_FORM_URL || null
+        })
+      }).catch(() => {});
     }
 
     const header = document.querySelector(".site-header");

@@ -723,6 +723,10 @@ function formatFileSize(bytes) {
   return `${size >= 10 || unit === 0 ? size.toFixed(0) : size.toFixed(1)} ${units[unit]}`;
 }
 
+function storageFileName(key) {
+  return String(key).split("/").pop().replace(/_/g, " ");
+}
+
 async function renderStorageFiles() {
   const list = document.getElementById("storage-files-list");
   const foldersList = document.getElementById("storage-folders-list");
@@ -750,7 +754,7 @@ async function renderStorageFiles() {
       ? files.map((file) => `
           <li class="storage-item">
             <div class="storage-file-meta">
-              <a class="storage-file-name" href="${sanitizeText(file.url)}" target="_blank" rel="noopener noreferrer">${sanitizeText(file.key.split("/").pop())}</a>
+              <a class="storage-file-name" href="${sanitizeText(file.url)}" target="_blank" rel="noopener noreferrer">${sanitizeText(storageFileName(file.key))}</a>
               <a class="storage-file-url" href="${sanitizeText(file.url)}" target="_blank" rel="noopener noreferrer">${sanitizeText(file.url)}</a>
             </div>
             <span>${formatFileSize(file.size)}</span>
