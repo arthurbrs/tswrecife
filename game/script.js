@@ -674,6 +674,11 @@ function storagePrefix() {
   return document.getElementById("storage-prefix")?.value.trim() || "";
 }
 
+function storagePublicUrl(prefix) {
+  const path = prefix ? `${prefix.replace(/\/$/, "")}/` : "";
+  return `https://r2.tswrecife.com.br/${path}`;
+}
+
 function setStoragePrefix(prefix) {
   const input = document.getElementById("storage-prefix");
   if (!input) return;
@@ -683,10 +688,11 @@ function setStoragePrefix(prefix) {
 function renderStorageLocation() {
   const prefix = storagePrefix();
   const breadcrumbs = document.getElementById("storage-breadcrumbs");
+  const url = document.getElementById("storage-url");
   const target = document.getElementById("storage-upload-target");
   const uploadButton = document.querySelector("#upload-form button[type='submit']");
-  const segments = prefix ? prefix.split("/") : [];
 
+  const segments = prefix ? prefix.split("/") : [];
   if (breadcrumbs) {
     let accumulated = "";
     breadcrumbs.innerHTML = ["Início", ...segments].map((segment, index) => {
@@ -698,6 +704,10 @@ function renderStorageLocation() {
   }
 
   if (target) target.textContent = prefix ? `/${prefix}/` : "Selecione ou crie uma pasta";
+  if (url) {
+    url.href = storagePublicUrl(prefix);
+    url.textContent = storagePublicUrl(prefix);
+  }
   if (uploadButton) uploadButton.disabled = !prefix;
 }
 
