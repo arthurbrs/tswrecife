@@ -382,12 +382,14 @@ async function handleApi(request, env) {
       do {
         const page = await env.SPONSORS_BUCKET.list({ prefix, delimiter: "/", cursor });
         (page.delimitedPrefixes || []).forEach((folder) => folders.add(folder));
-        files.push(...page.objects.map((object) => ({
-          key: object.key,
-          size: object.size,
-          uploaded: object.uploaded,
-          url: publicObjectUrl(object.key),
-        })));
+        files.push(...page.objects
+          .filter((object) => object.key !== prefix && !object.key.endsWith("/"))
+          .map((object) => ({
+            key: object.key,
+            size: object.size,
+            uploaded: object.uploaded,
+            url: publicObjectUrl(object.key),
+          })));
         cursor = page.truncated ? page.cursor : undefined;
       } while (cursor);
 
