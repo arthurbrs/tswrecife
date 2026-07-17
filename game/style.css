@@ -704,6 +704,7 @@ h2 {
 .storage-item a {
   color: var(--text);
   font-weight: 800;
+  text-decoration: none;
   overflow-wrap: anywhere;
 }
 

@@ -423,7 +423,7 @@ async function handleApi(request, env) {
 
       const uploaded = [];
       for (const file of files) {
-        const filename = file.name.split(/[\\/]/).pop().replace(/[\u0000-\u001f]/g, "_");
+        const filename = file.name.split(/[\\/]/).pop().replace(/[\u0000-\u001f]/g, "_").replace(/_/g, " ");
         if (!filename) continue;
         const key = `${prefix}${filename}`;
         await env.SPONSORS_BUCKET.put(key, file, {
