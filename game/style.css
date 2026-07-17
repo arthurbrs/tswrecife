@@ -802,21 +802,12 @@ h2 {
   font-weight: 900;
 }
 
-.storage-breadcrumbs button:hover,
-.storage-url:hover {
+.storage-breadcrumbs button:hover {
   color: var(--cyan);
 }
 
 .storage-breadcrumbs span {
   color: var(--muted);
-}
-
-.storage-url {
-  color: var(--recife-orange);
-  font-size: 0.78rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .storage-toolbar {

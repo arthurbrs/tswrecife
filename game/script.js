@@ -674,11 +674,6 @@ function storagePrefix() {
   return document.getElementById("storage-prefix")?.value.trim() || "";
 }
 
-function storagePublicUrl(prefix) {
-  const path = prefix ? `${prefix.replace(/\/$/, "")}/` : "";
-  return `https://r2.tswrecife.com.br/${path}`;
-}
-
 function setStoragePrefix(prefix) {
   const input = document.getElementById("storage-prefix");
   if (!input) return;
@@ -688,8 +683,8 @@ function setStoragePrefix(prefix) {
 function renderStorageLocation() {
   const prefix = storagePrefix();
   const breadcrumbs = document.getElementById("storage-breadcrumbs");
-  const url = document.getElementById("storage-url");
   const target = document.getElementById("storage-upload-target");
+  const uploadButton = document.querySelector("#upload-form button[type='submit']");
   const segments = prefix ? prefix.split("/") : [];
 
   if (breadcrumbs) {
@@ -702,12 +697,8 @@ function renderStorageLocation() {
     }).join('<span>/</span>');
   }
 
-  const publicUrl = storagePublicUrl(prefix);
-  if (url) {
-    url.href = publicUrl;
-    url.textContent = publicUrl;
-  }
-  if (target) target.textContent = prefix ? `/${prefix}/` : "/";
+  if (target) target.textContent = prefix ? `/${prefix}/` : "Selecione ou crie uma pasta";
+  if (uploadButton) uploadButton.disabled = !prefix;
 }
 
 function formatFileSize(bytes) {
@@ -796,7 +787,11 @@ async function uploadStorageFiles(event) {
   const button = form.querySelector("button");
   const prefix = storagePrefix();
   const files = document.getElementById("storage-files")?.files;
-  if (!prefix || !files?.length) return;
+  if (!prefix) {
+    setStorageMessage("Escolha ou crie uma pasta antes de enviar arquivos.", true);
+    return;
+  }
+  if (!files?.length) return;
 
   const data = new FormData();
   data.set("prefix", prefix);
