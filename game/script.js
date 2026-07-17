@@ -748,9 +748,15 @@ async function renderStorageFiles() {
     list.innerHTML = files.length
       ? files.map((file) => `
           <li class="storage-item">
-            <a href="${sanitizeText(file.url)}" target="_blank" rel="noopener noreferrer">${sanitizeText(file.key.split("/").pop())}</a>
+            <div class="storage-file-meta">
+              <a class="storage-file-name" href="${sanitizeText(file.url)}" target="_blank" rel="noopener noreferrer">${sanitizeText(file.key.split("/").pop())}</a>
+              <a class="storage-file-url" href="${sanitizeText(file.url)}" target="_blank" rel="noopener noreferrer">${sanitizeText(file.url)}</a>
+            </div>
             <span>${formatFileSize(file.size)}</span>
-            <button class="danger-button" type="button" data-storage-delete="${sanitizeText(file.key)}">Remover</button>
+            <div class="storage-file-actions">
+              <button class="ghost-button" type="button" data-storage-copy="${sanitizeText(file.url)}">Copiar link</button>
+              <button class="danger-button" type="button" data-storage-delete="${sanitizeText(file.key)}">Remover</button>
+            </div>
           </li>
         `).join("")
       : '<li class="admin-message">Nenhum arquivo nessa pasta.</li>';
@@ -816,6 +822,15 @@ async function deleteStorageFile(key) {
     await renderStorageFiles();
   } catch (error) {
     setStorageMessage(error.message, true);
+  }
+}
+
+async function copyStorageUrl(url) {
+  try {
+    await navigator.clipboard.writeText(url);
+    setStorageMessage("Link copiado.");
+  } catch {
+    window.prompt("Copie este link:", url);
   }
 }
 
@@ -887,6 +902,8 @@ async function bootFiles() {
   list?.addEventListener("click", (event) => {
     const button = event.target.closest("[data-storage-delete]");
     if (button) deleteStorageFile(button.dataset.storageDelete);
+    const copyButton = event.target.closest("[data-storage-copy]");
+    if (copyButton) copyStorageUrl(copyButton.dataset.storageCopy);
   });
   [folders, breadcrumbs].forEach((container) => container?.addEventListener("click", (event) => {
     const button = event.target.closest("[data-storage-folder]");

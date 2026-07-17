@@ -695,10 +695,35 @@ h2 {
   background: rgba(0, 0, 0, 0.24);
 }
 
+.storage-file-meta {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
 .storage-item a {
   color: var(--text);
   font-weight: 800;
   overflow-wrap: anywhere;
+}
+
+.storage-file-url {
+  color: var(--recife-orange) !important;
+  font-size: 0.75rem;
+  font-weight: 700 !important;
+}
+
+.storage-file-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.storage-file-actions .ghost-button,
+.storage-file-actions .danger-button {
+  width: auto;
+  min-height: 38px;
+  padding: 0 10px;
+  font-size: 0.72rem;
 }
 
 .storage-item span {
@@ -1048,6 +1073,12 @@ h2 {
 
   .storage-item {
     grid-template-columns: 1fr;
+  }
+
+  .storage-file-actions,
+  .storage-file-actions .ghost-button,
+  .storage-file-actions .danger-button {
+    width: 100%;
   }
 
   .storage-shell {
