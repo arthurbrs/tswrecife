@@ -93,7 +93,7 @@
       --white: #ffffff;
       --line: rgba(255, 255, 255, .16);
       --shadow: 0 26px 70px rgba(6, 22, 34, .28);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
     * {
@@ -151,11 +151,11 @@
 
     @keyframes waveMove {
       from {
-        transform: translateX(0);
+        background-position-x: 0;
       }
 
       to {
-        transform: translateX(-50%);
+        background-position-x: -1200px;
       }
     }
 
@@ -645,7 +645,7 @@
     .wave-strip span {
       position: absolute;
       inset: 0;
-      width: 200%;
+      width: 100%;
       background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='72' viewBox='0 0 1200 72'%3E%3Cpath d='M0 36c100-48 200-48 300 0s200 48 300 0 200-48 300 0 200 48 300 0v36H0z' fill='%23fffaf0'/%3E%3C/svg%3E") repeat-x bottom/1200px 72px;
       animation: waveMove 16s linear infinite;
     }
@@ -790,8 +790,8 @@
 
     .about-grid {
       display: grid;
-      grid-template-columns: .9fr 1.1fr;
-      gap: 54px;
+      grid-template-columns: 1fr;
+      gap: 42px;
       align-items: center;
     }
 
