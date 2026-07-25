@@ -26,6 +26,7 @@ const MAX_UPLOAD_SIZE = 25 * 1024 * 1024;
 const PUBLIC_API_ROUTES = new Set([
   "GET /api/teams",
   "GET /api/sponsors",
+  "GET /api/version",
   "GET /api/session",
   "POST /api/login",
   "POST /api/logout",
@@ -312,6 +313,13 @@ async function handleApi(request, env) {
 
   if (path === "/api/session" && request.method === "GET") {
     return json(request, { authenticated: await isAuthenticated(request, env) });
+  }
+
+  if (path === "/api/version" && request.method === "GET") {
+    return json(request, {
+      version: env.CF_VERSION_METADATA?.id || "development",
+      deployedAt: env.CF_VERSION_METADATA?.timestamp || null,
+    });
   }
 
   if (path === "/api/login" && request.method === "POST") {

@@ -69,6 +69,7 @@ API REST:
 
 ```txt
 GET  /api/teams
+GET  /api/version
 GET  /api/session
 POST /api/login
 POST /api/logout
@@ -165,3 +166,8 @@ wrangler deploy
 ```
 
 Depois do deploy, abra a tela publica e o admin em abas separadas para validar o realtime.
+
+A tela publica do placar consulta `/api/version` a cada 10 minutos. Quando o ID
+da versao do Worker muda depois de um deploy, somente o placar recarrega
+automaticamente. Ao voltar para a aba do placar depois de ela ficar em segundo
+plano, a verificacao tambem acontece imediatamente.

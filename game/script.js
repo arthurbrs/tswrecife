@@ -845,6 +845,47 @@ async function copyStorageUrl(url) {
   }
 }
 
+const DEPLOY_CHECK_INTERVAL_MS = 10 * 60 * 1000;
+let activeDeployVersion = null;
+let deployCheckRunning = false;
+
+async function checkForNewDeploy() {
+  if (deployCheckRunning) return;
+  deployCheckRunning = true;
+
+  try {
+    const response = await fetch(`/api/version?check=${Date.now()}`, {
+      cache: "no-store",
+      headers: { Accept: "application/json" },
+    });
+    if (!response.ok) return;
+
+    const { version } = await response.json();
+    if (!version || version === "development") return;
+
+    if (activeDeployVersion === null) {
+      activeDeployVersion = version;
+      return;
+    }
+
+    if (version !== activeDeployVersion) {
+      window.location.reload();
+    }
+  } catch {
+    // Uma falha temporaria de rede nao deve interromper o game.
+  } finally {
+    deployCheckRunning = false;
+  }
+}
+
+function watchForNewDeploy() {
+  checkForNewDeploy();
+  window.setInterval(checkForNewDeploy, DEPLOY_CHECK_INTERVAL_MS);
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") checkForNewDeploy();
+  });
+}
+
 async function bootAdmin() {
   const loginForm = document.getElementById("login-form");
   const form = document.getElementById("team-form");
@@ -930,6 +971,7 @@ async function bootFiles() {
 }
 
 if (document.body.id === "display-page") {
+  watchForNewDeploy();
   bootDisplay();
 }
 
