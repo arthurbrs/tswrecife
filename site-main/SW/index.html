@@ -790,15 +790,32 @@
 
     .about-grid {
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: .9fr 1.1fr;
+      grid-template-areas:
+        "title title"
+        "stats photos";
       gap: 42px;
       align-items: center;
     }
 
+    .about-grid > div:first-child {
+      display: contents;
+    }
+
+    .about-grid .section-title {
+      grid-area: title;
+      margin-bottom: 0;
+    }
+
     .stat-grid {
+      grid-area: stats;
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 14px;
+    }
+
+    .about-grid .photo-grid {
+      grid-area: photos;
     }
 
     .stat {
@@ -1409,6 +1426,13 @@
       .footer-inner,
       .cta {
         grid-template-columns: 1fr;
+      }
+
+      .about-grid {
+        grid-template-areas:
+          "title"
+          "stats"
+          "photos";
       }
 
       .event-card {
